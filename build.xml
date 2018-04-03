@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="IJA-ShemaEditor" default="compile" basedir=".">
   <description>Project for seminar of java. Schema block editor.</description>
+
   <property name="project_name" value="SchemaEditor"/>
   <property name="home_class" value="schemaeditor.app.SchemaEditor"/>
 
