@@ -8,7 +8,7 @@
   <property name="location_build" location="build"/>
   <property name="location_dist" location="dest-client"/>
   <property name="location_lib" location="lib"/>
-  <property name="location_doc" location="doc"/>
+  <property name="location_doc" location="doc/program_doc"/>
 
   <target name="clean">
     <delete dir="${location_build}"/>
@@ -16,7 +16,6 @@
     <delete dir="${location_doc}"/>
     <mkdir dir="${location_build}"/>
     <mkdir dir="${location_dist}"/>
-    <mkdir dir="${location_doc}"/>
   </target>
 
   <target name="compile" depends="clean, build, jar, doc" description=
@@ -35,6 +34,7 @@
   </target>
 
   <target name="doc" depends="clean">
+    <mkdir dir="${location_doc}"/>
     <javadoc sourcepath="${location_src}" destdir="${location_doc}"/>
   </target>
 

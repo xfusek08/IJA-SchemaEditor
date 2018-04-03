@@ -1,5 +1,5 @@
 /build/
 /dest-client/
-/doc/
+/doc/program_doc/
 /lib/*
 !/lib/get-libs.sh
