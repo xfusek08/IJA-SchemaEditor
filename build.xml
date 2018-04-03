@@ -29,9 +29,9 @@
   <target name="jar" depends="clean, build" description="Creates jar">
     <jar jarfile="${location_dist}/${project_name}.jar" basedir="${location_build}" >
 		  <manifest>
-			  <attribute name="Main-Class" value="${home_class}" />
+		    <attribute name="Main-Class" value="${home_class}" />
 		  </manifest>
-		</jar>
+	  </jar>
   </target>
 
   <target name="doc" depends="clean">
