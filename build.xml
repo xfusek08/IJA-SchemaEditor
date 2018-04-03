@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="IJA-ShemaEditor" default="compile" basedir=".">
+  <description>Project for seminar of java. Schema block editor.</description>
+  <property name="project_name" value="SchemaEditor"/>
+  <property name="home_class" value="schemaeditor.app.SchemaEditor"/>
+
+  <property name="location_src" location="src"/>
+  <property name="location_build" location="build"/>
+  <property name="location_dist" location="dest-client"/>
+  <property name="location_lib" location="lib"/>
+  <property name="location_doc" location="doc"/>
+
+  <target name="clean">
+    <delete dir="${location_build}"/>
+    <delete dir="${location_dist}"/>
+    <delete dir="${location_doc}"/>
+    <mkdir dir="${location_build}"/>
+    <mkdir dir="${location_dist}"/>
+    <mkdir dir="${location_doc}"/>
+  </target>
+
+  <target name="compile" depends="clean, build, jar, doc" description=
+    "Compiles project, creates jar distribution, and generates program documentation."/>
+
+  <target name="build" depends="clean" description="Compiles project into build">
+    <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}" />
+  </target>
+
+  <target name="jar" depends="clean, build" description="Creates jar">
+    <jar jarfile="${location_dist}/${project_name}.jar" basedir="${location_build}" >
+		  <manifest>
+			  <attribute name="Main-Class" value="${home_class}" />
+		  </manifest>
+		</jar>
+  </target>
+
+  <target name="doc" depends="clean">
+    <javadoc sourcepath="${location_src}" destdir="${location_doc}"/>
+  </target>
+
+  <target name="run" depends="compile">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
+
+</project>
