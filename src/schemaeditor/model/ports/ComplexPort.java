@@ -9,13 +9,14 @@ package schemaeditor.model.ports;
 import schemaeditor.model.base.Port;
 
 /**
- * Class representing one bool port
+ * Port carying complex value
  */
 public class ComplexPort extends Port
 {
-    /** Constructor */
-    public ComplexPort() 
-    {
-        super();
-    }
+  /** Constructor */
+  public ComplexPort()
+  {
+    DefineValue("real", 0.0);
+    DefineValue("imaginary", 0.0);
+  }
 }

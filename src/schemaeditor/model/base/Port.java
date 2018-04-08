@@ -6,64 +6,64 @@
  */
 package schemaeditor.model.base;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class representing one port
  */
 public abstract class Port
 {
-    protected HashMap data;
-    protected List<String> undefinedValues;
+  protected HashMap<String, Double> _data;
+  protected List<String> _undefinedValues;
 
-    /** Constructor */
-    public Port() 
-    {
-        this.data = new HashMap();
-        this.undefinedValues = new ArrayList<String>();
-    }
+  /** Constructor */
+  public Port()
+  {
+    _data = new HashMap<String, Double>();
+    _undefinedValues = new ArrayList<String>();
+  }
 
-    /** Define value of port */
-    protected void _DefineValue(String valueName, double defaultValue) 
-    {
+  /** Define value of port */
+  protected void DefineValue(String valueName, double defaultValue)
+  {
+    _data.put(valueName, defaultValue);
+  }
 
-    }
+  /** Check if ports are compative */
+  public boolean Compatible(HashMap data)
+  {
+    return true;
+  }
 
-    /** Check if ports are compative */
-    public boolean Compatipe(HashMap data)
-    {
-        return true;
-    }
+  /** Return list of value names */
+  public Iterable<String> GetValuesNames()
+  {
+    return _data.keySet();
+  }
 
-    /** Return list of value names */
-    public String[] GetValuesNames()
-    {
-        String[] values = new String[this.undefinedValues.size()];
-        values = this.undefinedValues.toArray(values);
-        return values;
-    }
+  /** Return value by name of type */
+  public double GetValueByName(String valueName)
+  {
+    return _data.get(valueName);
+  }
 
-    /** Return value by name of type */
-    public double GetValueByName(String valueName)
-    {
-        return 1.0;
-    }
+  /** Set value by name of type */
+  public void SetValueByName(String valueName, Double value)
+  {
+    _data.replace(valueName, value);
+  }
 
-    /** Set value by name of type */
-    public void SetValueByName(String valueName, double value)
-    {
+  /** Set value by connected port */
+  public void SetValueFromPort(Port otherPort)
+  {
 
-    }
+  }
 
-    /** Set value by connected port */
-    public void SetValueFromPort(Port otherPort)
-    {
-        
-    }
-
-    /** Check if value is defined */
-    public boolean hasDefinedValue()
-    {
-        return true;
-    }
+  /** Check if value is defined */
+  public boolean hasDefinedValue()
+  {
+    return true;
+  }
 }

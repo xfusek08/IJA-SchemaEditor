@@ -9,13 +9,13 @@ package schemaeditor.model.ports;
 import schemaeditor.model.base.Port;
 
 /**
- * Class representing one bool port
+ * Port carying boolean value
  */
 public class BoolPort extends Port
 {
-    /** Constructor */
-    public BoolPort() 
-    {
-        super();
-    }
+  /** Constructor */
+  public BoolPort()
+  {
+    DefineValue("bool", 0.0);
+  }
 }
