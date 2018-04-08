@@ -11,7 +11,7 @@ import schemaeditor.model.ports.*;
 import java.util.UUID;
 
 /**
- * Block providing division of two complex numbers
+ * Block calculating division of two complex numbers
  */
 public class CplexBlock_Div extends Block
 {

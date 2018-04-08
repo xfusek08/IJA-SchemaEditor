@@ -11,7 +11,7 @@ import schemaeditor.model.ports.*;
 import java.util.UUID;
 
 /**
- * Block providing multiplication of two complex numbers
+ * Block calculating multiplication of two complex numbers
  */
 public class CplexBlock_Mul extends Block
 {
