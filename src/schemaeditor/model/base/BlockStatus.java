@@ -21,9 +21,9 @@ public class BlockStatus
   public String Message;
 
   /** Constructor */
-  public BlockStatus() 
-    {
-        this.State = EState.Error;
-        this.Message = "";
-    }
+  public BlockStatus()
+  {
+    this.State = EState.Error;
+    this.Message = "";
+  }
 }

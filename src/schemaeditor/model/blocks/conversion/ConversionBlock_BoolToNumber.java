@@ -15,29 +15,29 @@ import java.util.*;
  */
 public class ConversionBlock_BoolToNumber extends Block
 {
-    public static final String NAME = "BoolToNumber";
+  public static final String NAME = "BoolToNumber";
 
-    /** Constructor */
-    public ConversionBlock_BoolToNumber(UUID ID) 
-    {
-        super(ID, NAME);
-    }
+  /** Constructor */
+  public ConversionBlock_BoolToNumber(UUID ID)
+  {
+    super(ID, NAME);
+  }
 
-    /** Constructor */
-    public ConversionBlock_BoolToNumber()
-    {
-        super(UUID.randomUUID(), NAME);
-    }
+  /** Constructor */
+  public ConversionBlock_BoolToNumber()
+  {
+    super(UUID.randomUUID(), NAME);
+  }
 
-    public void Calculate()
-    {
-        
-    }
+  public void Calculate()
+  {
 
-    protected void DefinePorts()
-    {
-        InputPorts.add(new BoolPort());
+  }
 
-        OutputPorts.add(new NumberPort());
-    }
+  protected void DefinePorts()
+  {
+    InputPorts.add(new BoolPort());
+
+    OutputPorts.add(new NumberPort());
+  }
 }

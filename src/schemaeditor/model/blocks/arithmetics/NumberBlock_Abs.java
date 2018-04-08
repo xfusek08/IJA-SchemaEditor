@@ -15,29 +15,29 @@ import java.util.*;
  */
 public class NumberBlock_Abs extends Block
 {
-    public static final String NAME = "Abs";
+  public static final String NAME = "Abs";
 
-    /** Constructor */
-    public NumberBlock_Abs(UUID ID) 
-    {
-        super(ID, NAME);
-    }
+  /** Constructor */
+  public NumberBlock_Abs(UUID ID)
+  {
+    super(ID, NAME);
+  }
 
-    /** Constructor */
-    public NumberBlock_Abs()
-    {
-        super(UUID.randomUUID(), NAME);
-    }
+  /** Constructor */
+  public NumberBlock_Abs()
+  {
+    super(UUID.randomUUID(), NAME);
+  }
 
-    public void Calculate()
-    {
+  public void Calculate()
+  {
 
-    }
+  }
 
-    protected void DefinePorts()
-    {
-        InputPorts.add(new NumberPort());
+  protected void DefinePorts()
+  {
+    InputPorts.add(new NumberPort());
 
-        OutputPorts.add(new NumberPort());
-    }
+    OutputPorts.add(new NumberPort());
+  }
 }

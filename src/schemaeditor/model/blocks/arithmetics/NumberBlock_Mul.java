@@ -15,30 +15,30 @@ import java.util.*;
  */
 public class NumberBlock_Mul extends Block
 {
-    public static final String NAME = "Mul";
+  public static final String NAME = "Mul";
 
-    /** Constructor */
-    public NumberBlock_Mul(UUID ID) 
-    {
-        super(ID, NAME);
-    }
+  /** Constructor */
+  public NumberBlock_Mul(UUID ID)
+  {
+    super(ID, NAME);
+  }
 
-    /** Constructor */
-    public NumberBlock_Mul()
-    {
-        super(UUID.randomUUID(), NAME);
-    }
+  /** Constructor */
+  public NumberBlock_Mul()
+  {
+    super(UUID.randomUUID(), NAME);
+  }
 
-    public void Calculate()
-    {
+  public void Calculate()
+  {
 
-    }
+  }
 
-    protected void DefinePorts()
-    {
-        InputPorts.add(new NumberPort());
-        InputPorts.add(new NumberPort());
+  protected void DefinePorts()
+  {
+    InputPorts.add(new NumberPort());
+    InputPorts.add(new NumberPort());
 
-        OutputPorts.add(new NumberPort());
-    }
+    OutputPorts.add(new NumberPort());
+  }
 }

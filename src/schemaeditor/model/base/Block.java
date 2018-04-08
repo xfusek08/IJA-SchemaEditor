@@ -14,45 +14,45 @@ import java.util.*;
  */
 public abstract class Block
 {
-    protected BlockStatus status;
-    public UUID ID;
-    public List<Port> InputPorts;
-    public List<Port> OutputPorts;
-    public String DisplayName;
-    public Point Position;
+  protected BlockStatus _status;
+  public UUID ID;
+  public List<Port> InputPorts;
+  public List<Port> OutputPorts;
+  public String DisplayName;
+  public Point Position;
 
-    /** Constructor */
-    public Block(UUID ID, String name) 
-    {
-        this.status = new BlockStatus();
-        this.ID = ID;
-        this.InputPorts = new ArrayList<>();
-        this.OutputPorts = new ArrayList<>();
-        this.DisplayName = name;
-        DefinePorts();
-    }
+  /** Constructor */
+  public Block(UUID ID, String name)
+  {
+    this.status = new BlockStatus();
+    this.ID = ID;
+    this.InputPorts = new ArrayList<>();
+    this.OutputPorts = new ArrayList<>();
+    this.DisplayName = name;
+    DefinePorts();
+  }
 
-    /** Calculated values in ports */
-    protected abstract void DefinePorts();
+  /** Calculated values in ports */
+  protected abstract void DefinePorts();
 
-    /** Calculated values in ports */
-    public abstract void Calculate();
+  /** Calculated values in ports */
+  public abstract void Calculate();
 
-    /** Check if all input ports are defined */
-    public boolean isAllInputsDefined()
-    {
-        return true;
-    }
+  /** Check if all input ports are defined */
+  public boolean isAllInputsDefined()
+  {
+    return true;
+  }
 
-    /** Return status of block */
-    public BlockStatus GetStatus()
-    {
-        return this.status;
-    }
+  /** Return status of block */
+  public BlockStatus GetStatus()
+  {
+    return this._status;
+  }
 
-    /** Reset */
-    public void Reset()
-    {
-        
-    }
+  /** Reset */
+  public void Reset()
+  {
+
+  }
 }

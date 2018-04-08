@@ -15,29 +15,29 @@ import java.util.*;
  */
 public class ConversionBlock_Greater extends Block
 {
-    public static final String NAME = "Greater";
+  public static final String NAME = "Greater";
 
-    /** Constructor */
-    public ConversionBlock_Greater(UUID ID) 
-    {
-        super(ID, NAME);
-    }
+  /** Constructor */
+  public ConversionBlock_Greater(UUID ID)
+  {
+    super(ID, NAME);
+  }
 
-    public ConversionBlock_Greater()
-    {
-        super(UUID.randomUUID(), NAME);
-    }
+  public ConversionBlock_Greater()
+  {
+    super(UUID.randomUUID(), NAME);
+  }
 
-    public void Calculate()
-    {
-        
-    }
+  public void Calculate()
+  {
 
-    protected void DefinePorts()
-    {
-        InputPorts.add(new NumberPort());
-        InputPorts.add(new NumberPort());
+  }
 
-        OutputPorts.add(new BoolPort());
-    }
+  protected void DefinePorts()
+  {
+    InputPorts.add(new NumberPort());
+    InputPorts.add(new NumberPort());
+
+    OutputPorts.add(new BoolPort());
+  }
 }
