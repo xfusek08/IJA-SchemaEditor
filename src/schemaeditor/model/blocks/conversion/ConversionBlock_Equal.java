@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.conversion;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
@@ -34,6 +35,9 @@ public class ConversionBlock_Equal extends Block
 
     protected void DefinePorts()
     {
+        InputPorts.add(new NumberPort());
+        InputPorts.add(new NumberPort());
 
+        OutputPorts.add(new BoolPort());
     }
 }

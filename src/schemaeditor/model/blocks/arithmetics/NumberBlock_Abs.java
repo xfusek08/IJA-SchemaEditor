@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.arithmetics;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
@@ -35,6 +36,8 @@ public class NumberBlock_Abs extends Block
 
     protected void DefinePorts()
     {
+        InputPorts.add(new NumberPort());
 
+        OutputPorts.add(new NumberPort());
     }
 }
