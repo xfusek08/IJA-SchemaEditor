@@ -7,6 +7,7 @@
 package safemanager.model.safemanager;
 
 import schemaeditor.model.safemanager.ISchemaLoader;
+import schemaeditor.model.base.Schema;
 
 /**
  * Loader saving and loading schemas as XML files.
@@ -18,9 +19,9 @@ public class SchemaXMLLoader implements ISchemaLoader
    *
    * @param filename Name of xml file where schema is stored
    */
-  public Schema LoadSchema(string fileName)
+  public Schema LoadSchema(String fileName)
   {
-
+    return new Schema();
   }
 
   /**
@@ -28,7 +29,7 @@ public class SchemaXMLLoader implements ISchemaLoader
    *
    * @param filename Name of xml file where schema will be stored
    */
-  public void SaveSchema(Schema schema, string fileName)
+  public void SaveSchema(Schema schema, String fileName)
   {
 
   }

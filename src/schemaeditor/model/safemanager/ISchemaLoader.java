@@ -6,7 +6,7 @@
  */
 package schemaeditor.model.safemanager;
 
-import schemaeditor.model.base;
+import schemaeditor.model.base.Schema;
 
 /**
  * Interface providing methods to load and store schema into a file
@@ -18,12 +18,12 @@ public interface ISchemaLoader
    *
    * @param filename Name of file where schema is stored
    */
-  public Schema LoadSchema(string fileName);
+  public Schema LoadSchema(String fileName);
 
   /**
    * Saves schema into a file.
    *
    * @param filename Name of file where schema will be stored
    */
-  public void SaveSchema(Schema schema, string fileName);
+  public void SaveSchema(Schema schema, String fileName);
 }

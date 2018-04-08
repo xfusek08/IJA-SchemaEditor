@@ -10,6 +10,7 @@
   <property name="location_dist" location="dest-client"/>
   <property name="location_lib" location="lib"/>
   <property name="location_doc" location="doc/program_doc"/>
+  <property name="location_test_pkg" location="src/schemaeditor/tests"/>
 
   <path id="classpath.test">
     <pathelement location="${location_lib}/junit-4.12.jar"/>
@@ -29,7 +30,9 @@
     "Compiles project, creates jar distribution, and generates program documentation."/>
 
   <target name="build" depends="clean" description="Compiles project into build">
-    <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}"/>
+    <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}">
+      <exclude name="**/Test*.java"/>
+    </javac>
   </target>
 
   <target name="build-test" depends="clean" description="Compiles project into build">
