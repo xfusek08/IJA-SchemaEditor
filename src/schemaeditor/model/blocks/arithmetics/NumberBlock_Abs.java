@@ -17,8 +17,13 @@ public class NumberBlock_Abs extends Block
     /** Constructor */
     public NumberBlock_Abs(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Abs");
+    }
+
+    /** Constructor */
+    public NumberBlock_Abs()
+    {
+        super(UUID.randomUUID(), "Abs");
     }
 
     public void Calculate()

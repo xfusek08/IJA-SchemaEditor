@@ -17,8 +17,7 @@ public class ConversionBlock_BoolOnNumber extends Block
     /** Constructor */
     public ConversionBlock_BoolOnNumber(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "BoolOnNumber");
     }
 
     public void Calculate()

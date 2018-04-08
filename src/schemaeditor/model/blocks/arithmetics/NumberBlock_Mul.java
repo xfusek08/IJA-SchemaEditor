@@ -17,8 +17,13 @@ public class NumberBlock_Mul extends Block
     /** Constructor */
     public NumberBlock_Mul(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Mul");
+    }
+
+    /** Constructor */
+    public NumberBlock_Mul()
+    {
+        super(UUID.randomUUID(), "Mul");
     }
 
     public void Calculate()

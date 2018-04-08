@@ -17,8 +17,13 @@ public class NumberBlock_Div extends Block
     /** Constructor */
     public NumberBlock_Div(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Div");
+    }
+
+    /** Constructor */
+    public NumberBlock_Div()
+    {
+        super(UUID.randomUUID(), "Div");
     }
 
     public void Calculate()
