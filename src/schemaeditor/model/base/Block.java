@@ -35,12 +35,6 @@ public abstract class Block
     /** Calculated values in ports */
     protected abstract void DefinePorts();
 
-    /** Clean calculated values in ports */
-    public void CleanValues()
-    {
-        
-    }
-
     /** Calculated values in ports */
     public abstract void Calculate();
 
