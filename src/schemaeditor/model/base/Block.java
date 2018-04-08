@@ -24,7 +24,7 @@ public abstract class Block
   /** Constructor */
   public Block(UUID ID, String name)
   {
-    this.status = new BlockStatus();
+    this._status = new BlockStatus();
     this.ID = ID;
     this.InputPorts = new ArrayList<>();
     this.OutputPorts = new ArrayList<>();
