@@ -14,15 +14,17 @@ import java.util.*;
  */
 public class ConversionBlock_Equal extends Block
 {
+    public static final String NAME = "Equal";
+
     /** Constructor */
     public ConversionBlock_Equal(UUID ID) 
     {
-        super(ID, "Equal");
+        super(ID, NAME);
     }
 
     public ConversionBlock_Equal()
     {
-        super(UUID.randomUUID(), "Equal");
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()

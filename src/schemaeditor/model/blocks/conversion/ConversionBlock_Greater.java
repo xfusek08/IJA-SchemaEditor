@@ -14,15 +14,17 @@ import java.util.*;
  */
 public class ConversionBlock_Greater extends Block
 {
+    public static final String NAME = "Greater";
+
     /** Constructor */
     public ConversionBlock_Greater(UUID ID) 
     {
-        super(ID, "Greater");
+        super(ID, NAME);
     }
 
     public ConversionBlock_Greater()
     {
-        super(UUID.randomUUID(), "Greater");
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()

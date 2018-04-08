@@ -14,16 +14,18 @@ import java.util.*;
  */
 public class NumberBlock_Sub extends Block
 {
+    public static final String NAME = "Sub";
+
     /** Constructor */
     public NumberBlock_Sub(UUID ID) 
     {
-        super(ID, "Sub");
+        super(ID, NAME);
     }
 
     /** Constructor */
     public NumberBlock_Sub()
     {
-        super(UUID.randomUUID(), "Sub");
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()
