@@ -1,17 +1,33 @@
+/**
+ * @file:     ConversionBlock_Equal.java
+ * @package:  schemaeditor.model.blocks.conversion
+ * @author    Jaromir Franek
+ * @date      08.04.2018
+ */
 package schemaeditor.model.blocks.conversion;
 
 import schemaeditor.model.base.Block;
 import java.util.*;
 
+/**
+ * Class reprezenting one block
+ */
 public class ConversionBlock_Equal extends Block
 {
-    public ConversionBlock_Equal(UUID ID, java.lang.String name) 
+    /** Constructor */
+    public ConversionBlock_Equal(UUID ID) 
     {
-        super(ID, name);
+        super(ID, "name");
+        DefinePorts();
     }
 
     public void Calculate()
     {
         
+    }
+
+    protected void DefinePorts()
+    {
+
     }
 }

@@ -1,5 +1,5 @@
 /**
- * @file:     NumberBlock_Add.java
+ * @file:     NumberBlock_Div.java
  * @package:  schemaeditor.model.blocks.arithmetics
  * @author    Jaromir Franek
  * @date      08.04.2018
@@ -12,10 +12,10 @@ import java.util.*;
 /**
  * Class reprezenting one block
  */
-public class NumberBlock_Add extends Block
+public class NumberBlock_Div extends Block
 {
     /** Constructor */
-    public NumberBlock_Add(UUID ID) 
+    public NumberBlock_Div(UUID ID) 
     {
         super(ID, "name");
         DefinePorts();
