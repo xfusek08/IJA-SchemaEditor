@@ -15,14 +15,16 @@ import java.util.UUID;
  */
 public class LogicBlock_And extends Block
 {
+  public static final String NAME = "And";
+
   public LogicBlock_And(UUID id)
   {
-    super(id, "And");
+    super(id, NAME);
   }
 
   public LogicBlock_And()
   {
-    super(UUID.randomUUID(), "And");
+    super(UUID.randomUUID(), NAME);
   }
 
   public void DefinePorts()

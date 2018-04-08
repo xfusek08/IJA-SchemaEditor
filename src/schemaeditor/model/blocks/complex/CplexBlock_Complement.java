@@ -1,5 +1,5 @@
 /**
- * @file:     CplexBlock_Sub.java
+ * @file:     CplexBlock_Complement.java
  * @package:  safemanager.model.blocks.complex
  * @author    Petr Fusek
  * @date      08.04.2018
@@ -11,18 +11,18 @@ import schemaeditor.model.ports.*;
 import java.util.UUID;
 
 /**
- * Block calculating substraction of two complex numbers
+ * Block calculation complementary value of complex number
  */
-public class CplexBlock_Sub extends Block
+public class CplexBlock_Complement extends Block
 {
-  public static final String NAME = "Complex substraction";
+  public static final String NAME = "Complementary value";
 
-  public CplexBlock_Sub(UUID id)
+  public CplexBlock_Complement(UUID id)
   {
     super(id, NAME);
   }
 
-  public CplexBlock_Sub()
+  public CplexBlock_Complement()
   {
     super(UUID.randomUUID(), NAME);
   }
@@ -30,8 +30,6 @@ public class CplexBlock_Sub extends Block
   public void DefinePorts()
   {
     InputPorts.add(new ComplexPort());
-    InputPorts.add(new ComplexPort());
-
     OutputPorts.add(new ComplexPort());
   }
 

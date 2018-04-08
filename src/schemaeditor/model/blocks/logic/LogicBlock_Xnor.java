@@ -15,14 +15,16 @@ import java.util.UUID;
  */
 public class LogicBlock_Xnor extends Block
 {
+  public static final String NAME = "Xnor";
+
   public LogicBlock_Xnor(UUID id)
   {
-    super(id, "Xnor");
+    super(id, NAME);
   }
 
   public LogicBlock_Xnor()
   {
-    super(UUID.randomUUID(), "Xnor");
+    super(UUID.randomUUID(), NAME);
   }
 
   public void DefinePorts()

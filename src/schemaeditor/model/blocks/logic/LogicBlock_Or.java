@@ -15,14 +15,16 @@ import java.util.UUID;
  */
 public class LogicBlock_Or extends Block
 {
+  public static final String NAME = "Or";
+
   public LogicBlock_Or(UUID id)
   {
-    super(id, "Or");
+    super(id, NAME);
   }
 
   public LogicBlock_Or()
   {
-    super(UUID.randomUUID(), "Or");
+    super(UUID.randomUUID(), NAME);
   }
 
   public void DefinePorts()
