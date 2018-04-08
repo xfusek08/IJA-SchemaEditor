@@ -14,16 +14,18 @@ import java.util.*;
  */
 public class NumberBlock_Div extends Block
 {
+    public static final String NAME = "Div";
+
     /** Constructor */
     public NumberBlock_Div(UUID ID) 
     {
-        super(ID, "Div");
+        super(ID, NAME);
     }
 
     /** Constructor */
     public NumberBlock_Div()
     {
-        super(UUID.randomUUID(), "Div");
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()

@@ -14,15 +14,17 @@ import java.util.*;
  */
 public class ConversionBlock_Less extends Block
 {
+    public static final String NAME = "Less";
+
     /** Constructor */
     public ConversionBlock_Less(UUID ID) 
     {
-        super(ID, "Less");
+        super(ID, NAME);
     }
 
     public ConversionBlock_Less()
     {
-        super(UUID.randomUUID(), "Less");
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()

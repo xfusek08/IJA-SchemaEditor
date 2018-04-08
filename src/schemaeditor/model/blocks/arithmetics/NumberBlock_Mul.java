@@ -14,16 +14,18 @@ import java.util.*;
  */
 public class NumberBlock_Mul extends Block
 {
+    public static final String NAME = "Mul";
+
     /** Constructor */
     public NumberBlock_Mul(UUID ID) 
     {
-        super(ID, "Mul");
+        super(ID, NAME);
     }
 
     /** Constructor */
     public NumberBlock_Mul()
     {
-        super(UUID.randomUUID(), "Mul");
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()

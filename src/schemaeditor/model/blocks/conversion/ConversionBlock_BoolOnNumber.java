@@ -14,10 +14,18 @@ import java.util.*;
  */
 public class ConversionBlock_BoolOnNumber extends Block
 {
+    public static final String NAME = "BoolOnNumber";
+
     /** Constructor */
     public ConversionBlock_BoolOnNumber(UUID ID) 
     {
-        super(ID, "BoolOnNumber");
+        super(ID, NAME);
+    }
+
+    /** Constructor */
+    public ConversionBlock_BoolOnNumber()
+    {
+        super(UUID.randomUUID(), NAME);
     }
 
     public void Calculate()
