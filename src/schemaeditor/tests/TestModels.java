@@ -9,16 +9,16 @@ import static org.junit.Assert.*;
 /**
  * @author Jaromir Franek
  */
-public class ModelTests
+public class TestModels
 {
-    
-      
+
+
     @Before
-    public void setUp() 
+    public void setUp()
     {
 
     }
-    
+
     /**
      * Zakladni test implementace.
      */
