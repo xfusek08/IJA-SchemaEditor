@@ -6,13 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- * @author Jaromir Franek
- */
-public class TestModels
+public class TestCplexBlocks
 {
-
-
     @Before
     public void setUp()
     {
