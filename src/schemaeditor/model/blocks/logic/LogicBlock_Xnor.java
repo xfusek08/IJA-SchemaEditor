@@ -1,5 +1,5 @@
 /**
- * @file:     LogicBlock_And.java
+ * @file:     LogicBlock_Xnor.java
  * @package:  safemanager.model.blocks.logic
  * @author    Petr Fusek
  * @date      08.04.2018
@@ -11,18 +11,18 @@ import schemaeditor.model.ports.*;
 import java.util.UUID;
 
 /**
- * Block providing logical operation AND
+ * Block providing logical operation XNOR
  */
-public class LogicBlock_And extends Block
+public class LogicBlock_Xnor extends Block
 {
-  public LogicBlock_And(UUID id)
+  public LogicBlock_Xnor(UUID id)
   {
-    super(id, "And");
+    super(id, "Xnor");
   }
 
-  public LogicBlock_And()
+  public LogicBlock_Xnor()
   {
-    super(UUID.randomUUID(), "And");
+    super(UUID.randomUUID(), "Xnor");
   }
 
   public void DefinePorts()

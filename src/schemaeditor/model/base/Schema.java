@@ -2,7 +2,7 @@
  * @file:     Schema.java
  * @package:  safemanager.model.base
  * @author    Petr Fusek
- * @date      04.04.2018
+ * @date      08.04.2018
  */
 package schemaeditor.model.base;
 
@@ -18,8 +18,8 @@ import java.util.Observable;
  */
 public class Schema // extends Observable
 {
-  private List<Block> _blocks;
-  private List<Connection> _connections;
+  protected List<Block> _blocks;
+  protected List<Connection> _connections;
 
   /** Constructor */
   public Schema()
@@ -37,7 +37,32 @@ public class Schema // extends Observable
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
+  }
 
+
+  /** Adds block instance into schema */
+  public Connection AddConnection(Connection connection)
+  {
+    return connection;
+  }
+
+  /** Removes block instance from schema */
+  public void RemoveConnection(Connection connection)
+  {
+  }
+
+  // Iterators of collections
+
+  /** Get Block list iterator */
+  public Iterable<Block> GetBlocks()
+  {
+    return _blocks;
+  }
+
+  /** Get Block list iterator */
+  public Iterable<Connection> GetConnections()
+  {
+    return _connections;
   }
 
   /** Gets list of input (unconnected) ports of schema. */
@@ -51,6 +76,8 @@ public class Schema // extends Observable
   {
     return new ArrayList<Port>();
   }
+
+  // Calculation controll
 
   /** Runs calculation */
   public boolean RunCalculation()
@@ -73,5 +100,4 @@ public class Schema // extends Observable
   public void StopCalculation()
   {
   }
-
 }

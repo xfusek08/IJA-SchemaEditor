@@ -1,5 +1,5 @@
 /**
- * @file:     LogicBlock_And.java
+ * @file:     LogicBlock_Xor.java
  * @package:  safemanager.model.blocks.logic
  * @author    Petr Fusek
  * @date      08.04.2018
@@ -11,18 +11,18 @@ import schemaeditor.model.ports.*;
 import java.util.UUID;
 
 /**
- * Block providing logical operation AND
+ * Block providing logical operation XOR
  */
-public class LogicBlock_And extends Block
+public class LogicBlock_Xor extends Block
 {
-  public LogicBlock_And(UUID id)
+  public LogicBlock_Xor(UUID id)
   {
-    super(id, "And");
+    super(id, "Xor");
   }
 
-  public LogicBlock_And()
+  public LogicBlock_Xor()
   {
-    super(UUID.randomUUID(), "And");
+    super(UUID.randomUUID(), "Xor");
   }
 
   public void DefinePorts()
