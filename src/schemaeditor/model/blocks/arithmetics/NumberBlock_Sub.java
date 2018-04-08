@@ -17,8 +17,13 @@ public class NumberBlock_Sub extends Block
     /** Constructor */
     public NumberBlock_Sub(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Sub");
+    }
+
+    /** Constructor */
+    public NumberBlock_Sub()
+    {
+        super(UUID.randomUUID(), "Sub");
     }
 
     public void Calculate()

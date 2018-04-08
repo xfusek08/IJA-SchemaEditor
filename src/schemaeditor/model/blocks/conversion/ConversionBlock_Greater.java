@@ -17,8 +17,12 @@ public class ConversionBlock_Greater extends Block
     /** Constructor */
     public ConversionBlock_Greater(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Greater");
+    }
+
+    public ConversionBlock_Greater()
+    {
+        super(UUID.randomUUID(), "Greater");
     }
 
     public void Calculate()

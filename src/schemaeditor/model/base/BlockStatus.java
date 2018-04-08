@@ -6,7 +6,7 @@
  */
 package schemaeditor.model.base;
 
-import java.util.*;
+import java.util.UUID;
 
 /**
  * Class representing status

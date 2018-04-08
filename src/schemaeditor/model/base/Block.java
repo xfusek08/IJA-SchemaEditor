@@ -18,17 +18,18 @@ public abstract class Block
     public UUID ID;
     public List<Port> InputPorts;
     public List<Port> OutputPorts;
-    public java.lang.String DisplayName;
+    public String DisplayName;
     public Point Position;
 
     /** Constructor */
-    public Block(UUID ID, java.lang.String name) 
+    public Block(UUID ID, String name) 
     {
         this.status = new BlockStatus();
         this.ID = ID;
         this.InputPorts = new ArrayList<>();
         this.OutputPorts = new ArrayList<>();
         this.DisplayName = name;
+        DefinePorts();
     }
 
     /** Calculated values in ports */

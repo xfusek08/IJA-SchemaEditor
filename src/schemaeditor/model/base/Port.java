@@ -14,17 +14,17 @@ import java.util.*;
 public abstract class Port
 {
     protected HashMap data;
-    protected List<java.lang.String> undefinedValues;
+    protected List<String> undefinedValues;
 
     /** Constructor */
     public Port() 
     {
         this.data = new HashMap();
-        this.undefinedValues = new ArrayList<>();
+        this.undefinedValues = new ArrayList<String>();
     }
 
     /** Define value of port */
-    protected void _DefineValue(java.lang.String valueName, double defaultValue) 
+    protected void _DefineValue(String valueName, double defaultValue) 
     {
 
     }
@@ -36,21 +36,21 @@ public abstract class Port
     }
 
     /** Return list of value names */
-    public java.lang.String[] GetValuesNames()
+    public String[] GetValuesNames()
     {
-        java.lang.String[] values = new java.lang.String[this.undefinedValues.size()];
+        String[] values = new String[this.undefinedValues.size()];
         values = this.undefinedValues.toArray(values);
         return values;
     }
 
     /** Return value by name of type */
-    public double GetValueByName(java.lang.String valueName)
+    public double GetValueByName(String valueName)
     {
         return 1.0;
     }
 
     /** Set value by name of type */
-    public void SetValueByName(java.lang.String valueName, double value)
+    public void SetValueByName(String valueName, double value)
     {
 
     }

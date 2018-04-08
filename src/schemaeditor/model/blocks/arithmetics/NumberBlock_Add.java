@@ -17,8 +17,13 @@ public class NumberBlock_Add extends Block
     /** Constructor */
     public NumberBlock_Add(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Add");
+    }
+
+    /** Constructor */
+    public NumberBlock_Add()
+    {
+        super(UUID.randomUUID(), "Add");
     }
 
     public void Calculate()

@@ -17,8 +17,12 @@ public class ConversionBlock_Equal extends Block
     /** Constructor */
     public ConversionBlock_Equal(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Equal");
+    }
+
+    public ConversionBlock_Equal()
+    {
+        super(UUID.randomUUID(), "Equal");
     }
 
     public void Calculate()

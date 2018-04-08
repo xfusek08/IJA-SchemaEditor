@@ -17,8 +17,12 @@ public class ConversionBlock_Less extends Block
     /** Constructor */
     public ConversionBlock_Less(UUID ID) 
     {
-        super(ID, "name");
-        DefinePorts();
+        super(ID, "Less");
+    }
+
+    public ConversionBlock_Less()
+    {
+        super(UUID.randomUUID(), "Less");
     }
 
     public void Calculate()
