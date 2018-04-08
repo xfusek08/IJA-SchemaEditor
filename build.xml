@@ -55,13 +55,13 @@
   </target>
 
   <target name="run" depends="build-test">
-    <junit printsummary="on" haltonfailure="yes" fork="true">
+    <junit printsummary="on" haltonfailure="no" fork="true">
         <classpath>
           <path refid="classpath.test"/>
         </classpath>
         <formatter type="brief" usefile="false" />
         <batchtest>
-            <fileset dir="${location_src}" includes="**/Test*.java" />
+            <fileset dir="${location_build}" includes="**/Test*.class" />
         </batchtest>
     </junit>
   </target>
