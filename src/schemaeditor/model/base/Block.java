@@ -41,6 +41,11 @@ public abstract class Block
   /** Check if all input ports are defined */
   public boolean isAllInputsDefined()
   {
+    for(int i = 0; i < InputPorts.size(); i++)
+    {
+      if(InputPorts.get(i).hasDefinedValue() == false)
+        return false;
+    }
     return true;
   }
 
@@ -53,6 +58,11 @@ public abstract class Block
   /** Reset */
   public void Reset()
   {
-
+    for(int i = 0; i < OutputPorts.size(); i++)
+    {
+      Iterable<String> names = OutputPorts.get(i).GetValuesNames();
+      for(String s : names)
+        OutputPorts.get(i).SetValueByName(s, null);
+    }
   }
 }

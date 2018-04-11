@@ -104,8 +104,8 @@ public class TestBlockAritm
         add.Calculate();
         assertEquals(0.0, add.OutputPorts.get(0).GetValueByName("number"), 0.0);
 
-        add.InputPorts.get(0).SetValueByName("number", 2.15);
-        add.InputPorts.get(1).SetValueByName("number", 2.15);
+        add.InputPorts.get(0).SetValueByName("number", 2.25);
+        add.InputPorts.get(1).SetValueByName("number", 2.25);
         add.Calculate();
         assertEquals(4.5, add.OutputPorts.get(0).GetValueByName("number"), 0.0);
         add.InputPorts.get(0).SetValueByName("number", -7.01);
@@ -144,7 +144,7 @@ public class TestBlockAritm
         div.InputPorts.get(0).SetValueByName("number", -4.2);
         div.InputPorts.get(1).SetValueByName("number", 0.20);
         div.Calculate();
-        assertEquals(-2.1, div.OutputPorts.get(0).GetValueByName("number"), 0.0);
+        assertEquals(-21, div.OutputPorts.get(0).GetValueByName("number"), 0.0);
     }
 
     /**
