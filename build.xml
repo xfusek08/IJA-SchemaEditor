@@ -2,8 +2,8 @@
 <project name="IJA-ShemaEditor" default="compile" basedir=".">
   <description>Project for seminar of java. Schema block editor.</description>
 
-  <property name="project_name" value="ModelTests"/>
-  <property name="home_class" value="schemaeditor.tests.ModelTests"/>
+  <property name="project_name" value="SchemaEditor"/>
+  <property name="home_class" value="schemaeditor.app.SchemaEditor"/>
 
   <property name="location_src" location="src"/>
   <property name="location_build" location="build"/>
@@ -66,4 +66,7 @@
     </junit>
   </target>
 
+  <target name="start">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
 </project>

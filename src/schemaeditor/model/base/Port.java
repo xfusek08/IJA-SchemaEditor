@@ -9,6 +9,7 @@ package schemaeditor.model.base;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class representing one port
@@ -36,7 +37,7 @@ public abstract class Port
   {
     List dataKeys = new ArrayList(data.keySet());
     List _dataKeys = new ArrayList(_data.keySet());
-    if(dataKeys.size() != _dataKeys.size()) 
+    if(dataKeys.size() != _dataKeys.size())
       return false;
     for(int i = 0; i < dataKeys.size(); i++)
       if(dataKeys.get(i) != _dataKeys.get(i))
@@ -45,7 +46,7 @@ public abstract class Port
   }
 
   /** Return list of value names */
-  public Iterable<String> GetValuesNames()
+  public Set<String> GetValuesNames()
   {
     return _data.keySet();
   }

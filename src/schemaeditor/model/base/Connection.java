@@ -11,14 +11,14 @@ import java.util.UUID;
 /**
  * Class reprezenting one connection between output and input port of two blocks
  */
-class Connection
+public class Connection
 {
   public int DestPortNumber;
   public int SourcePortNumber;
   public UUID DestBlockID;
   public UUID SourceBlockID;
 
-  public Connection(int dest, int source, UUID destBlockID, UUID sourceBlockID)
+  public Connection(UUID sourceBlockID, int source,  UUID destBlockID, int dest)
   {
     DestPortNumber = dest;
     SourcePortNumber = source;
