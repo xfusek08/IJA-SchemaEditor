@@ -6,6 +6,7 @@
  */
 package schemaeditor.model.base;
 
+import schemaeditor.model.base.enums.EAddStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,17 +20,6 @@ public class Schema // extends Observable
 {
   protected List<SchemaBlock> _blocks;
   protected List<Connection> _connections;
-
-  public enum EAddStatus
-  {
-    Ok,
-    OutSourcePortNotFound,
-    InDestPortNotfoud,
-    SourcePortIncopatible,
-    DestPortIncopatible,
-    ConnectionCuseesCycles,
-    OtherError;
-  }
 
   /** Constructor */
   public Schema()
@@ -48,7 +38,7 @@ public class Schema // extends Observable
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
-    _blocks.remove(block);
+    //_blocks.remove(block);
   }
 
 
@@ -74,7 +64,23 @@ public class Schema // extends Observable
    */
   public EAddStatus TryValidateConnection(Connection connection)
   {
-    //upravit
+    Port in = null;
+    Port out = null;
+    if(connection == null)
+      return EAddStatus.OtherError;
+    if(connection.SourceBlockID == null)
+      return EAddStatus.OutSourcePortNotFound;
+    if(connection.DestBlockID == null)
+      return EAddStatus.InDestPortNotfoud;
+    for (SchemaBlock schemaBlock : _blocks)
+    {
+      if(schemaBlock._block.ID == connection.SourceBlockID)
+        in = schemaBlock._block.OutputPorts.get(connection.SourcePortNumber);
+      else if(schemaBlock._block.ID == connection.DestBlockID)
+        out = schemaBlock._block.InputPorts.get(connection.SourcePortNumber);
+    }
+    if(!in.Compatible(out._data))
+      return EAddStatus.DestPortIncopatible;
     return EAddStatus.Ok;
   }
 

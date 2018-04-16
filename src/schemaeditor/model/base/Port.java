@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public abstract class Port
 {
-  protected HashMap<String, Double> _data;
+  public HashMap<String, Double> _data;
   protected List<String> _undefinedValues;
 
   /** Constructor */

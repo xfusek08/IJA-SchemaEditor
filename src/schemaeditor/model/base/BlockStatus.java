@@ -7,16 +7,13 @@
 package schemaeditor.model.base;
 
 import java.util.UUID;
+import schemaeditor.model.base.enums.EState;
 
 /**
  * Class representing status
  */
 public class BlockStatus
 {
-  public enum EState
-  {
-    Error, Ready, Finished;
-  }
   public EState State;
   public String Message;
 

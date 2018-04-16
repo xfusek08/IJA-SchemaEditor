@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.complex;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.UUID;
 
@@ -39,5 +40,6 @@ public class CplexBlock_Abs extends Block
     double value2 = InputPorts.get(0).GetValueByName("imaginary");
     double result = Math.sqrt((value1 * value1) + (value2 * value2));
     OutputPorts.get(0).SetValueByName("number", result);
+    _status.State = EState.Finished;
   }
 }

@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.arithmetics;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.*;
 
@@ -35,12 +36,13 @@ public class NumberBlock_Div extends Block
     double value2 = InputPorts.get(1).GetValueByName("number");
     if(value2 == 0)
     {
-      //upraveni statusu
+      _status.State = EState.Error;
     }
     else
     {
       double result = value1 / value2;
       OutputPorts.get(0).SetValueByName("number", result);
+      _status.State = EState.Finished;
     }
   }
 

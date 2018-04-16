@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.logic;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.UUID;
 
@@ -43,5 +44,6 @@ public class LogicBlock_And extends Block
       OutputPorts.get(0).SetValueByName("bool", 1.0);
     else
       OutputPorts.get(0).SetValueByName("bool", 0.0);
+    _status.State = EState.Finished;
   }
 }

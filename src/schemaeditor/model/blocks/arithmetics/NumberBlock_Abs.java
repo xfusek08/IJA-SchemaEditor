@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.arithmetics;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.*;
 
@@ -35,6 +36,7 @@ public class NumberBlock_Abs extends Block
     if(value < 0)
       value = -value;
     OutputPorts.get(0).SetValueByName("number", value);
+    _status.State = EState.Finished;
   }
 
   protected void DefinePorts()

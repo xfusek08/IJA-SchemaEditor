@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.conversion;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.*;
 
@@ -33,6 +34,7 @@ public class ConversionBlock_BoolToNumber extends Block
   {
     double value = InputPorts.get(0).GetValueByName("bool");
     OutputPorts.get(0).SetValueByName("number", value);
+    _status.State = EState.Finished;
   }
 
   protected void DefinePorts()
