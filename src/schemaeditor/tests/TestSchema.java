@@ -61,4 +61,28 @@ public class TestSchema
     for (Port port : bl2.OutputPorts)
       assertTrue(outPorts.contains(port));
   }
+
+  @Test
+  public void Test_RemoveBlock_and_GetBlocks()
+  {
+    int i = 0;
+    List<Block> bList = null;
+    _schema.RemoveBlock(bl3);
+    bList = _schema.GetBlocks();
+    for (Block sBlock : bList)
+      i++;
+      assertEquals(2, i);
+    i = 0;
+    _schema.RemoveBlock(bl2);
+    bList = _schema.GetBlocks();
+    for (Block sBlock : bList)
+      i++;
+      assertEquals(1, i);
+    i = 0;
+    _schema.RemoveBlock(bl2);
+    bList = _schema.GetBlocks();
+    for (Block sBlock : bList)
+      i++;
+      assertEquals(1, i);
+  }
 }

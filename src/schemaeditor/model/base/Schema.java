@@ -38,7 +38,11 @@ public class Schema // extends Observable
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
-    //_blocks.remove(block);
+    SchemaBlock toRem = null;
+    for (SchemaBlock schemaBlock : _blocks)
+      if(schemaBlock._block.ID == block.ID)
+        toRem = schemaBlock;
+    _blocks.remove(toRem);
   }
 
 
