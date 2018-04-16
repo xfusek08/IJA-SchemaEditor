@@ -31,7 +31,10 @@ public class NumberBlock_Abs extends Block
 
   public void Calculate()
   {
-
+    double value = InputPorts.get(0).GetValueByName("number");
+    if(value < 0)
+      value = -value;
+    OutputPorts.get(0).SetValueByName("number", value);
   }
 
   protected void DefinePorts()

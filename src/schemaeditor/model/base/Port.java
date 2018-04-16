@@ -34,6 +34,13 @@ public abstract class Port
   /** Check if ports are compative */
   public boolean Compatible(HashMap data)
   {
+    List dataKeys = new ArrayList(data.keySet());
+    List _dataKeys = new ArrayList(_data.keySet());
+    if(dataKeys.size() != _dataKeys.size()) 
+      return false;
+    for(int i = 0; i < dataKeys.size(); i++)
+      if(dataKeys.get(i) != _dataKeys.get(i))
+        return false;
     return true;
   }
 
@@ -58,12 +65,16 @@ public abstract class Port
   /** Set value by connected port */
   public void SetValueFromPort(Port otherPort)
   {
-
+    Iterable<String> names = otherPort.GetValuesNames();
+    for(String s : names)
+      _data.replace(s, otherPort.GetValueByName(s));
   }
 
   /** Check if value is defined */
   public boolean hasDefinedValue()
   {
+    if(_undefinedValues.size() > 0 || _data.size() == 0)
+      return false;
     return true;
   }
 }

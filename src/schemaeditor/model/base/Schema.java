@@ -31,24 +31,28 @@ public class Schema // extends Observable
   /** Adds block instance into schema */
   public Block AddBlock(Block block)
   {
+    _blocks.add(block);
     return block;
   }
 
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
+    _blocks.remove(block);
   }
 
 
   /** Adds block instance into schema */
   public Connection AddConnection(Connection connection)
   {
+    _connections.add(connection);
     return connection;
   }
 
   /** Removes block instance from schema */
   public void RemoveConnection(Connection connection)
   {
+    _connections.remove(connection);
   }
 
   // Iterators of collections
@@ -68,13 +72,23 @@ public class Schema // extends Observable
   /** Gets list of input (unconnected) ports of schema. */
   public Iterable<Port> GetInputPorts()
   {
-    return new ArrayList<Port>();
+    List<Port> inPortList = new ArrayList<Port>();
+    for(int i = 0; i < _blocks.size(); i++)
+    {
+      inPortList.addAll(_blocks.get(i).InputPorts);
+    }
+    return inPortList;
   }
 
   /** Gets list of output (unconnected) ports of schema. */
   public Iterable<Port> GetOutPorts()
   {
-    return new ArrayList<Port>();
+    List<Port> inPortList = new ArrayList<Port>();
+    for(int i = 0; i < _blocks.size(); i++)
+    {
+      inPortList.addAll(_blocks.get(i).OutputPorts);
+    }
+    return inPortList;
   }
 
   // Calculation controll
