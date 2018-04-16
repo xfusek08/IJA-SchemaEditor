@@ -30,7 +30,12 @@ public class ConversionBlock_Greater extends Block
 
   public void Calculate()
   {
-
+    double value1 = InputPorts.get(0).GetValueByName("number");
+    double value2 = InputPorts.get(1).GetValueByName("number");
+    if(value1 > value2)
+      OutputPorts.get(0).SetValueByName("bool", 1.0);
+    else
+      OutputPorts.get(0).SetValueByName("bool", 0.0);
   }
 
   protected void DefinePorts()

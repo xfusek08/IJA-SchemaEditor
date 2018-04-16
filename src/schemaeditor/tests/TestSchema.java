@@ -50,4 +50,15 @@ public class TestSchema
     for (Port port : bl2.InputPorts)
       assertTrue(inPorts.contains(port));
   }
+
+  @Test
+  public void Test_GetOutputPorts()
+  {
+    assertTrue("Invalid schema setup.", _schemaOk);
+    List<Port> outPorts = new ArrayList<Port>(_schema.GetOutPorts());
+    assertEquals(outPorts.size(), 1);
+    assertTrue(outPorts.contains(bl2.OutputPorts.get(0)));
+    for (Port port : bl2.OutputPorts)
+      assertTrue(outPorts.contains(port));
+  }
 }

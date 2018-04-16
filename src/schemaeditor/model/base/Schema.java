@@ -48,7 +48,7 @@ public class Schema // extends Observable
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
-    // _blocks.remove(block);
+    _blocks.remove(block);
   }
 
 
@@ -62,7 +62,7 @@ public class Schema // extends Observable
     Connection newConn = null;
     if (TryValidateConnection(connection) == EAddStatus.Ok)
       if (_connections.add(connection))
-        newConn =  connection;
+        newConn = connection;
     return newConn;
   }
 
@@ -74,7 +74,8 @@ public class Schema // extends Observable
    */
   public EAddStatus TryValidateConnection(Connection connection)
   {
-    return EAddStatus.OtherError;
+    //upravit
+    return EAddStatus.Ok;
   }
 
   /** Removes block instance from schema */
@@ -124,12 +125,22 @@ public class Schema // extends Observable
   /** Gets list of output (unconnected) ports of schema. */
   public List<Port> GetOutPorts()
   {
-    List<Port> inPortList = new ArrayList<Port>();
-    // for(int i = 0; i < _blocks.size(); i++)
-    // {
-    //   inPortList.addAll(_blocks.get(i).OutputPorts);
-    // }
-    return inPortList;
+    List<Port> outPortList = new ArrayList<Port>();
+    for (Block block : GetBlocks())
+    {
+      int portnum = 0;
+      for (Port port : block.OutputPorts)
+      {
+        boolean connected = false;
+        for (Connection conn : _connections)
+          if (connected = (conn.DestBlockID == block.ID && conn.DestPortNumber == portnum))
+            break;
+        if (!connected)
+          outPortList.add(port);
+        portnum++;
+      }
+    }
+    return outPortList;
   }
 
   // Calculation controll

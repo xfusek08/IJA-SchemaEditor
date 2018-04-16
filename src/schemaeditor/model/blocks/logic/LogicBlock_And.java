@@ -37,6 +37,11 @@ public class LogicBlock_And extends Block
 
   public void Calculate()
   {
-    // TODO: do stuff
+    double value1 = InputPorts.get(0).GetValueByName("bool");
+    double value2 = InputPorts.get(1).GetValueByName("bool");
+    if(value1 == 1.0 && value2 == 1.0)
+      OutputPorts.get(0).SetValueByName("bool", 1.0);
+    else
+      OutputPorts.get(0).SetValueByName("bool", 0.0);
   }
 }

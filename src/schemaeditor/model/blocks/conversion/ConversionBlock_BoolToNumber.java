@@ -31,7 +31,8 @@ public class ConversionBlock_BoolToNumber extends Block
 
   public void Calculate()
   {
-
+    double value = InputPorts.get(0).GetValueByName("bool");
+    OutputPorts.get(0).SetValueByName("number", value);
   }
 
   protected void DefinePorts()

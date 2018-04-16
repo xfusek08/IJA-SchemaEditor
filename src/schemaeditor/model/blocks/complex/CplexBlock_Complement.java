@@ -35,6 +35,9 @@ public class CplexBlock_Complement extends Block
 
   public void Calculate()
   {
-    // TODO: do stuff
+    double valueR = InputPorts.get(0).GetValueByName("real");
+    double valueI = InputPorts.get(0).GetValueByName("imaginary");
+    OutputPorts.get(0).SetValueByName("real", valueR);
+    OutputPorts.get(0).SetValueByName("imaginary", -valueI);
   }
 }

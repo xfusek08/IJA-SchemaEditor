@@ -37,6 +37,13 @@ public class CplexBlock_Div extends Block
 
   public void Calculate()
   {
-    // TODO: do stuff
+    double valueR1 = InputPorts.get(0).GetValueByName("real");
+    double valueI1 = InputPorts.get(0).GetValueByName("imaginary");
+    double valueR2 = InputPorts.get(1).GetValueByName("real");
+    double valueI2 = InputPorts.get(1).GetValueByName("imaginary");
+    double resultR = (valueR1 * valueR2 + valueI1 * valueI2) / (valueR2 * valueR2 + valueI2 * valueI2);
+    double resultI = (-valueR1 * valueI2 + valueR1 * valueI1) / (valueR2 * valueR2 + valueI2 * valueI2);
+    OutputPorts.get(0).SetValueByName("real", resultR);
+    OutputPorts.get(0).SetValueByName("imaginary", resultI);
   }
 }

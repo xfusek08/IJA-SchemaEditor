@@ -34,9 +34,14 @@ public class NumberBlock_Div extends Block
     double value1 = InputPorts.get(0).GetValueByName("number");
     double value2 = InputPorts.get(1).GetValueByName("number");
     if(value2 == 0)
-      throw new IllegalArgumentException("Argument 'divisor' is 0");
-    double result = value1 / value2;
-    OutputPorts.get(0).SetValueByName("number", result);
+    {
+      //upraveni statusu
+    }
+    else
+    {
+      double result = value1 / value2;
+      OutputPorts.get(0).SetValueByName("number", result);
+    }
   }
 
   protected void DefinePorts()
