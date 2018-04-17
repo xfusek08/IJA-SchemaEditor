@@ -9,6 +9,7 @@ package schemaeditor.model.base;
 import schemaeditor.model.base.enums.EAddStatus;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Class for object reprezenting one Schema
@@ -54,9 +55,21 @@ public class Schema // extends Observable
   public Connection AddConnection(Connection connection)
   {
     Connection newConn = null;
+    SchemaBlock ans = null;
     if (TryValidateConnection(connection) == EAddStatus.Ok)
       if (_connections.add(connection))
-        newConn = connection;
+        {
+          for (SchemaBlock schemaBlock : _blocks)
+            if(schemaBlock._block.ID == connection.SourceBlockID)
+              ans = schemaBlock;
+          for (SchemaBlock schemaBlock : _blocks)
+            if(schemaBlock._block.ID == connection.DestBlockID)
+            {
+              schemaBlock._precedestors = ans._precedestors;
+              schemaBlock._precedestors.add(ans._block.ID);
+            }
+          newConn = connection;
+        }
     return newConn;
   }
 
@@ -68,6 +81,7 @@ public class Schema // extends Observable
    */
   public EAddStatus TryValidateConnection(Connection connection)
   {
+    SchemaBlock ans = null;
     Port in = null;
     Port out = null;
     if(connection == null)
@@ -81,10 +95,17 @@ public class Schema // extends Observable
       if(schemaBlock._block.ID == connection.SourceBlockID)
         in = schemaBlock._block.OutputPorts.get(connection.SourcePortNumber);
       else if(schemaBlock._block.ID == connection.DestBlockID)
-        out = schemaBlock._block.InputPorts.get(connection.SourcePortNumber);
+        out = schemaBlock._block.InputPorts.get(connection.DestPortNumber);
     }
     if(!in.Compatible(out._data))
       return EAddStatus.DestPortIncopatible;
+    // to do detekce cyklu
+    for (SchemaBlock schemaBlock : _blocks)
+      if(schemaBlock._block.ID == connection.SourceBlockID)
+        ans = schemaBlock;
+    for (UUID ID : ans._precedestors)
+      if(ID == connection.DestBlockID)
+      return EAddStatus.ConnectionCuseesCycles;
     return EAddStatus.Ok;
   }
 

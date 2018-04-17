@@ -17,9 +17,9 @@ import schemaeditor.model.blocks.arithmetics.*;
 
 public class TestSchema
 {
-  private Schema _schema;
-  private boolean _schemaOk;
-  private Block bl1, bl2, bl3;
+  private Schema _schema, _notSchema;
+  private boolean _schemaOk, _notSchemaOk;
+  private Block bl1, bl2, bl3, bl4, bl5, bl6;
 
   @Before
   public void setUp()
@@ -27,17 +27,32 @@ public class TestSchema
     bl1 = new NumberBlock_Abs();
     bl2 = new NumberBlock_Add();
     bl3 = new NumberBlock_Sub();
+    
+    bl4 = new NumberBlock_Abs();
+    bl5 = new NumberBlock_Abs();
+    bl6 = new NumberBlock_Abs();
 
     Connection conn1 = new Connection(bl2.ID, 0, bl3.ID, 0);
     Connection conn2 = new Connection(bl3.ID, 0, bl1.ID, 0);
+    
+    Connection conn3 = new Connection(bl4.ID, 0, bl5.ID, 0); 
+    Connection conn4 = new Connection(bl5.ID, 0, bl4.ID, 0);
 
     _schema = new Schema();
     _schema.AddBlock(bl1);
     _schema.AddBlock(bl2);
     _schema.AddBlock(bl3);
+    
+    _notSchema = new Schema();
+    _notSchema.AddBlock(bl4);
+    _notSchema.AddBlock(bl5);
+    _notSchema.AddBlock(bl6);
 
     _schemaOk = _schema.AddConnection(conn1) != null;
     _schemaOk = _schemaOk && _schema.AddConnection(conn2) != null;
+
+    _notSchemaOk = _notSchema.AddConnection(conn3) != null;
+    _notSchemaOk = _notSchemaOk && _notSchema.AddConnection(conn4) != null;
   }
 
   @Test
@@ -85,4 +100,13 @@ public class TestSchema
       i++;
       assertEquals(1, i);
   }
+
+  @Test
+  public void Test_Cycles()
+  {
+    assertFalse("Valid schema setup.", _notSchemaOk);
+    List<Port> outPorts = new ArrayList<Port>(_notSchema.GetOutPorts());
+    assertEquals(outPorts.size(), 2);
+  }
+
 }
