@@ -7,9 +7,9 @@
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.enums.EAddStatus;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Class for object reprezenting one Schema
@@ -19,14 +19,14 @@ import java.util.UUID;
  */
 public class Schema // extends Observable
 {
-  protected List<SchemaBlock> _blocks;
-  protected List<Connection> _connections;
+  protected Set<SchemaBlock> _blocks;
+  protected Set<Connection> _connections;
 
   /** Constructor */
   public Schema()
   {
-    _blocks = new ArrayList<SchemaBlock>();
-    _connections = new ArrayList<Connection>();
+    _blocks = new HashSet<SchemaBlock>();
+    _connections = new HashSet<Connection>();
   }
 
   /** Adds block instance into schema */
@@ -39,13 +39,15 @@ public class Schema // extends Observable
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
-    SchemaBlock toRem = null;
-    for (SchemaBlock schemaBlock : _blocks)
-      if(schemaBlock._block.ID == block.ID)
-        toRem = schemaBlock;
-    _blocks.remove(toRem);
+    _blocks.remove(GetSchemaBlockById(block.ID));
+    List<Connection> toRemove = new ArrayList<Connection>();
+    for (Connection conn : GetConnections())
+      if (conn.DestBlockID == block.ID || conn.SourceBlockID == block.ID)
+        toRemove.add(conn);
+    for (Connection conn : toRemove)
+      RemoveConnection(conn);
+    CalculateSchemaConnections();
   }
-
 
   /**
    * Adds block instance into schema, checks if connection does not broke any schema rule
@@ -54,23 +56,7 @@ public class Schema // extends Observable
    */
   public Connection AddConnection(Connection connection)
   {
-    Connection newConn = null;
-    SchemaBlock ans = null;
-    if (TryValidateConnection(connection) == EAddStatus.Ok)
-      if (_connections.add(connection))
-        {
-          for (SchemaBlock schemaBlock : _blocks)
-            if(schemaBlock._block.ID == connection.SourceBlockID)
-              ans = schemaBlock;
-          for (SchemaBlock schemaBlock : _blocks)
-            if(schemaBlock._block.ID == connection.DestBlockID)
-            {
-              schemaBlock._precedestors = ans._precedestors;
-              schemaBlock._precedestors.add(ans._block.ID);
-            }
-          newConn = connection;
-        }
-    return newConn;
+    return AddConnection(connection, true, false);
   }
 
   /**
@@ -127,7 +113,7 @@ public class Schema // extends Observable
   }
 
   /** Get Block list iterator */
-  public List<Connection> GetConnections()
+  public Set<Connection> GetConnections()
   {
     return _connections;
   }
@@ -135,46 +121,34 @@ public class Schema // extends Observable
   /** Gets list of input (unconnected) ports of schema. */
   public List<Port> GetInputPorts()
   {
+    Dictionary<SchemaBlock, List<Port>> inputdict = GetInputSchemaBlocksWithInputPorts();
     List<Port> inPortList = new ArrayList<Port>();
-    for (Block block : GetBlocks())
-    {
-      int portnum = 0;
-      for (Port port : block.InputPorts)
-      {
-        boolean connected = false;
-        for (Connection conn : _connections)
-          if (connected = (conn.DestBlockID == block.ID && conn.DestPortNumber == portnum))
-            break;
-        if (!connected)
-          inPortList.add(port);
-        portnum++;
-      }
-    }
+    Enumeration<List<Port>> values = inputdict.elements();
+    while(values.hasMoreElements())
+      inPortList.addAll(values.nextElement());
     return inPortList;
   }
 
   /** Gets list of output (unconnected) ports of schema. */
   public List<Port> GetOutPorts()
   {
+    Dictionary<SchemaBlock, List<Port>> outputdict = GetOutpuSchemaBlocksWithOutpuPorts();
     List<Port> outPortList = new ArrayList<Port>();
-    for (Block block : GetBlocks())
-    {
-      int portnum = 0;
-      for (Port port : block.OutputPorts)
-      {
-        boolean connected = false;
-        for (Connection conn : _connections)
-          if (connected = (conn.DestBlockID == block.ID && conn.DestPortNumber == portnum))
-            break;
-        if (!connected)
-          outPortList.add(port);
-        portnum++;
-      }
-    }
+    Enumeration<List<Port>> values = outputdict.elements();
+    while(values.hasMoreElements())
+      outPortList.addAll(values.nextElement());
     return outPortList;
   }
 
-  // Calculation controll
+  public Set<Block> GetInBlocks()
+  {
+    Dictionary<SchemaBlock, List<Port>> inputdict = GetInputSchemaBlocksWithInputPorts();
+    Set<Block> res = new HashSet<Block>();
+    Enumeration<SchemaBlock> keys = inputdict.keys();
+    while(keys.hasMoreElements())
+      res.add(keys.nextElement().GetBlock());
+    return res;
+  }
 
   /** Runs calculation */
   public boolean RunCalculation()
@@ -196,5 +170,107 @@ public class Schema // extends Observable
   /** Resets all blocks into initial state before calculation */
   public void StopCalculation()
   {
+  }
+
+  /************************************************ PROTECTED ***************************************************/
+
+  /**
+   * Cleans all informations from all schemablocks and use bfs to fill new precedestors to blocks and check validity of connections.
+   * If some invalid connection occures then such a connection is thrown away. By invalid is considered connection causing loops.
+   * It uses AddConnection method without adding to collection (doNotAdd = false) for update state of scheamblocks.
+   */
+  protected void CalculateSchemaConnections()
+  {
+    _blocks.stream().forEach(sb -> sb.Clean());
+    Queue<SchemaBlock> openQueue = new ArrayDeque<SchemaBlock>();
+    Dictionary<SchemaBlock, List<Port>> inputDict = GetInputSchemaBlocksWithInputPorts();
+  }
+
+  protected SchemaBlock GetSchemaBlockById(UUID id)
+  {
+    Optional<SchemaBlock> opt  = _blocks.stream().filter(sb -> sb.GetBlock().ID == id).findFirst();
+    if (opt.isPresent())
+      return opt.get();
+    return null;
+  }
+
+  protected Dictionary<SchemaBlock, List<Port>> GetInputSchemaBlocksWithInputPorts()
+  {
+    Dictionary<SchemaBlock, List<Port>> result = new Hashtable<SchemaBlock, List<Port>>();
+    for (SchemaBlock block : _blocks)
+    {
+      List<Port> inPortList = new ArrayList<Port>();
+      int portnum = 0;
+      for (Port port : block.GetBlock().InputPorts)
+      {
+        boolean connected = false;
+        for (Connection conn : _connections)
+          if (connected = (conn.DestBlockID == block.GetBlock().ID && conn.DestPortNumber == portnum))
+            break;
+        if (!connected)
+          inPortList.add(port);
+        portnum++;
+      }
+      if (inPortList.size() > 0)
+        result.put(block, inPortList);
+    }
+    return result;
+  }
+
+  protected Dictionary<SchemaBlock, List<Port>> GetOutpuSchemaBlocksWithOutpuPorts()
+  {
+    Dictionary<SchemaBlock, List<Port>> result = new Hashtable<SchemaBlock, List<Port>>();
+    for (SchemaBlock block : _blocks)
+    {
+      List<Port> outPortList = new ArrayList<Port>();
+      int portnum = 0;
+      for (Port port : block.GetBlock().OutputPorts)
+      {
+        boolean connected = false;
+        for (Connection conn : _connections)
+          if (connected = (conn.SourceBlockID == block.GetBlock().ID && conn.SourcePortNumber == portnum))
+            break;
+        if (!connected)
+          outPortList.add(port);
+        portnum++;
+      }
+      if (outPortList.size() > 0)
+        result.put(block, outPortList);
+    }
+    return result;
+  }
+
+  protected Connection AddConnection(Connection connection, boolean recalculate, boolean doNotAdd)
+  {
+    if (TryValidateConnection(connection) != EAddStatus.Ok)
+      return null;
+
+    if (!doNotAdd)
+      if (!_connections.add(connection))
+        return null;
+
+    SchemaBlock source = GetSchemaBlockById(connection.SourceBlockID);
+    SchemaBlock dest = GetSchemaBlockById(connection.DestBlockID);
+    boolean isRemoved = false;
+    if (!source.ConnectOutPort(connection.SourcePortNumber))
+    {
+      // remove old obstructed connection leading from source output
+      GetConnections().stream()
+        .filter(c -> c.SourceBlockID == connection.SourceBlockID && c.SourcePortNumber == connection.SourcePortNumber)
+        .forEach(c -> RemoveConnection(c));
+      isRemoved = true;
+    }
+    if (!dest.ConnectInPort(connection.DestPortNumber, source.GetPrecedestors()))
+    {
+      // remove old obstructed connection leading to destination input
+      GetConnections().stream()
+        .filter(c -> c.DestBlockID == connection.DestBlockID && c.DestPortNumber == connection.DestPortNumber)
+        .forEach(c -> RemoveConnection(c));
+      isRemoved = true;
+    }
+
+    if (isRemoved && recalculate)
+      CalculateSchemaConnections();
+    return connection;
   }
 }

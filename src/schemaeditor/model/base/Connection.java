@@ -6,6 +6,7 @@
  */
 package schemaeditor.model.base;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -24,5 +25,24 @@ public class Connection
     SourcePortNumber = source;
     DestBlockID = destBlockID;
     SourceBlockID = sourceBlockID;
+  }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof Connection)
+    {
+      Connection other = (Connection) obj;
+      return
+        DestBlockID.equals(other.DestBlockID) &&
+        SourceBlockID.equals(other.SourceBlockID) &&
+        DestPortNumber == other.DestPortNumber &&
+        SourcePortNumber == other.SourcePortNumber;
+    }
+    return false;
+  }
+
+  public int hashCode()
+  {
+    return Arrays.hashCode(new Object[] {DestBlockID, SourceBlockID, DestPortNumber, SourcePortNumber});
   }
 }

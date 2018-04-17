@@ -27,22 +27,22 @@ public class TestSchema
     bl1 = new NumberBlock_Abs();
     bl2 = new NumberBlock_Add();
     bl3 = new NumberBlock_Sub();
-    
+
     bl4 = new NumberBlock_Abs();
     bl5 = new NumberBlock_Abs();
     bl6 = new NumberBlock_Abs();
 
     Connection conn1 = new Connection(bl2.ID, 0, bl3.ID, 0);
     Connection conn2 = new Connection(bl3.ID, 0, bl1.ID, 0);
-    
-    Connection conn3 = new Connection(bl4.ID, 0, bl5.ID, 0); 
+
+    Connection conn3 = new Connection(bl4.ID, 0, bl5.ID, 0);
     Connection conn4 = new Connection(bl5.ID, 0, bl4.ID, 0);
 
     _schema = new Schema();
     _schema.AddBlock(bl1);
     _schema.AddBlock(bl2);
     _schema.AddBlock(bl3);
-    
+
     _notSchema = new Schema();
     _notSchema.AddBlock(bl4);
     _notSchema.AddBlock(bl5);
@@ -72,33 +72,29 @@ public class TestSchema
     assertTrue("Invalid schema setup.", _schemaOk);
     List<Port> outPorts = new ArrayList<Port>(_schema.GetOutPorts());
     assertEquals(outPorts.size(), 1);
-    assertTrue(outPorts.contains(bl2.OutputPorts.get(0)));
-    for (Port port : bl2.OutputPorts)
-      assertTrue(outPorts.contains(port));
+    assertEquals(outPorts.get(0), bl1.OutputPorts.get(0));
   }
+
+
+  @Test
+  public void Test_GetInBlocks()
+  {
+    assertTrue("Invalid schema setup.", _schemaOk);
+    List<Block> inBlocks = new ArrayList<Block>(_schema.GetInBlocks());
+    assertEquals(inBlocks.size(), 2);
+    assertTrue(inBlocks.contains(bl3));
+    assertTrue(inBlocks.contains(bl2));
+  }
+
 
   @Test
   public void Test_RemoveBlock_and_GetBlocks()
   {
-    int i = 0;
     List<Block> bList = null;
-    _schema.RemoveBlock(bl3);
+    _schema.RemoveBlock(bl1);
     bList = _schema.GetBlocks();
-    for (Block sBlock : bList)
-      i++;
-      assertEquals(2, i);
-    i = 0;
-    _schema.RemoveBlock(bl2);
-    bList = _schema.GetBlocks();
-    for (Block sBlock : bList)
-      i++;
-      assertEquals(1, i);
-    i = 0;
-    _schema.RemoveBlock(bl2);
-    bList = _schema.GetBlocks();
-    for (Block sBlock : bList)
-      i++;
-      assertEquals(1, i);
+    assertEquals(2, _schema.GetBlocks().size());
+    assertEquals(1, _schema.GetConnections().size());
   }
 
   @Test

@@ -65,4 +65,16 @@ public abstract class Block
         OutputPorts.get(i).SetValueByName(s, null);
     }
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof Block)
+      return ID.equals(((Block)obj).ID);
+    return false;
+  }
+
+  public int hashCode()
+  {
+    return ID.hashCode();
+  }
 }
