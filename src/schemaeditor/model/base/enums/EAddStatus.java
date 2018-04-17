@@ -12,8 +12,7 @@ public enum EAddStatus
   Ok,
   OutSourcePortNotFound,
   InDestPortNotfoud,
-  SourcePortIncopatible,
-  DestPortIncopatible,
+  PortsIncopatible,
   ConnectionCuseesCycles,
   OtherError;
 }
