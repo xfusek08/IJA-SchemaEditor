@@ -12,7 +12,7 @@ import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Class reprezenting one block
+ * Block providing operation equal
  */
 public class ConversionBlock_Equal extends Block
 {
@@ -24,11 +24,22 @@ public class ConversionBlock_Equal extends Block
     super(ID, NAME);
   }
 
+  /** Constructor */
   public ConversionBlock_Equal()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
+  protected void DefinePorts()
+  {
+    InputPorts.add(new NumberPort());
+    InputPorts.add(new NumberPort());
+
+    OutputPorts.add(new BoolPort());
+  }
+
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value1 = InputPorts.get(0).GetValueByName("number");
@@ -38,13 +49,5 @@ public class ConversionBlock_Equal extends Block
     else
       OutputPorts.get(0).SetValueByName("bool", 0.0);
     _status.State = EState.Finished;
-  }
-
-  protected void DefinePorts()
-  {
-    InputPorts.add(new NumberPort());
-    InputPorts.add(new NumberPort());
-
-    OutputPorts.add(new BoolPort());
   }
 }

@@ -18,16 +18,19 @@ public class CplexBlock_Mul extends Block
 {
   public static final String NAME = "Complex multiplication";
 
+  /** Constructor */
   public CplexBlock_Mul(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public CplexBlock_Mul()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new ComplexPort());
@@ -36,6 +39,7 @@ public class CplexBlock_Mul extends Block
     OutputPorts.add(new ComplexPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
     double valueR1 = InputPorts.get(0).GetValueByName("real");

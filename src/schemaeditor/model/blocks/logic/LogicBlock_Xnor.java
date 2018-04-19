@@ -18,16 +18,19 @@ public class LogicBlock_Xnor extends Block
 {
   public static final String NAME = "Xnor";
 
+  /** Constructor */
   public LogicBlock_Xnor(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public LogicBlock_Xnor()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new BoolPort());
@@ -36,6 +39,7 @@ public class LogicBlock_Xnor extends Block
     OutputPorts.add(new BoolPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value1 = InputPorts.get(0).GetValueByName("bool");

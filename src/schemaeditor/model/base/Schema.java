@@ -84,7 +84,7 @@ public class Schema // extends Observable
         out = schemaBlock._block.InputPorts.get(connection.DestPortNumber);
     }
     if(!in.Compatible(out._data))
-      return EAddStatus.DestPortIncopatible;
+      return EAddStatus.PortsIncopatible;
     // to do detekce cyklu
     for (SchemaBlock schemaBlock : _blocks)
       if(schemaBlock._block.ID == connection.SourceBlockID)

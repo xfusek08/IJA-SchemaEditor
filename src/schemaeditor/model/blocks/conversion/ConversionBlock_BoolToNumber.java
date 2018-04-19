@@ -12,7 +12,7 @@ import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Class reprezenting one block
+ * Block providing conversion bool to number
  */
 public class ConversionBlock_BoolToNumber extends Block
 {
@@ -30,17 +30,19 @@ public class ConversionBlock_BoolToNumber extends Block
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
+  protected void DefinePorts()
+  {
+    InputPorts.add(new BoolPort());
+  
+    OutputPorts.add(new NumberPort());
+  }
+
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value = InputPorts.get(0).GetValueByName("bool");
     OutputPorts.get(0).SetValueByName("number", value);
     _status.State = EState.Finished;
-  }
-
-  protected void DefinePorts()
-  {
-    InputPorts.add(new BoolPort());
-
-    OutputPorts.add(new NumberPort());
   }
 }

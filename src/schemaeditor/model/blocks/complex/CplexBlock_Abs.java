@@ -18,22 +18,26 @@ public class CplexBlock_Abs extends Block
 {
   public static final String NAME = "Absolute value";
 
+  /** Constructor */
   public CplexBlock_Abs(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public CplexBlock_Abs()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new ComplexPort());
     OutputPorts.add(new NumberPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value1 = InputPorts.get(0).GetValueByName("real");

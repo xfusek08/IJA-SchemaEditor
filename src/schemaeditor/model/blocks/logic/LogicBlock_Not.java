@@ -18,22 +18,26 @@ public class LogicBlock_Not extends Block
 {
   public static final String NAME = "Not";
 
+  /** Constructor */
   public LogicBlock_Not(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public LogicBlock_Not()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new BoolPort());
     OutputPorts.add(new BoolPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value = InputPorts.get(0).GetValueByName("bool");

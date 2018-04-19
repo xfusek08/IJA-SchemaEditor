@@ -12,7 +12,7 @@ import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Class reprezenting one block
+ * Block calculating Absolute value of number
  */
 public class NumberBlock_Abs extends Block
 {
@@ -30,6 +30,15 @@ public class NumberBlock_Abs extends Block
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
+  protected void DefinePorts()
+  {
+    InputPorts.add(new NumberPort());
+
+    OutputPorts.add(new NumberPort());
+  }
+
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value = InputPorts.get(0).GetValueByName("number");
@@ -37,12 +46,5 @@ public class NumberBlock_Abs extends Block
       value = -value;
     OutputPorts.get(0).SetValueByName("number", value);
     _status.State = EState.Finished;
-  }
-
-  protected void DefinePorts()
-  {
-    InputPorts.add(new NumberPort());
-
-    OutputPorts.add(new NumberPort());
   }
 }

@@ -19,6 +19,7 @@ public class Connection
   public UUID DestBlockID;
   public UUID SourceBlockID;
 
+  /** Constructor */
   public Connection(UUID sourceBlockID, int source,  UUID destBlockID, int dest)
   {
     DestPortNumber = dest;
@@ -27,6 +28,11 @@ public class Connection
     SourceBlockID = sourceBlockID;
   }
 
+  /**
+   * Check if all atributes of connection are equals 
+   * @param obj another connection
+   * @return true if are equal 
+   */
   public boolean equals(Object obj)
   {
     if (obj instanceof Connection)
@@ -41,6 +47,10 @@ public class Connection
     return false;
   }
 
+  /**
+   * Return hash code of connection
+   * @return hashCode  
+   */
   public int hashCode()
   {
     return Arrays.hashCode(new Object[] {DestBlockID, SourceBlockID, DestPortNumber, SourcePortNumber});

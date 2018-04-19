@@ -18,22 +18,26 @@ public class CplexBlock_Complement extends Block
 {
   public static final String NAME = "Complementary value";
 
+  /** Constructor */
   public CplexBlock_Complement(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public CplexBlock_Complement()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new ComplexPort());
     OutputPorts.add(new ComplexPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
     double valueR = InputPorts.get(0).GetValueByName("real");

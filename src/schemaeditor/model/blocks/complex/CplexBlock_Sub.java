@@ -18,16 +18,19 @@ public class CplexBlock_Sub extends Block
 {
   public static final String NAME = "Complex substraction";
 
+  /** Constructor */
   public CplexBlock_Sub(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public CplexBlock_Sub()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new ComplexPort());
@@ -36,6 +39,7 @@ public class CplexBlock_Sub extends Block
     OutputPorts.add(new ComplexPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
     double valueR1 = InputPorts.get(0).GetValueByName("real");

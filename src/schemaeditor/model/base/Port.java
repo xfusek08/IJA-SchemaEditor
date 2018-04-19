@@ -2,7 +2,7 @@
  * @file:     Port.java
  * @package:  schemaeditor.model.base
  * @author    Jaromir Franek
- * @date      08.04.2018
+ * @date      19.04.2018
  */
 package schemaeditor.model.base;
 
@@ -32,7 +32,11 @@ public abstract class Port
     _data.put(valueName, defaultValue);
   }
 
-  /** Check if ports are compative */
+  /**
+   * Check if ports are compative 
+   * @param data Data from another port
+   * @return true if the data are of same type 
+   */
   public boolean Compatible(HashMap data)
   {
     List dataKeys = new ArrayList(data.keySet());
@@ -45,25 +49,39 @@ public abstract class Port
     return true;
   }
 
-  /** Return list of value names */
+  /**
+   * Return list of value names 
+   * @return Set of names
+   */
   public Set<String> GetValuesNames()
   {
     return _data.keySet();
   }
 
-  /** Return value by name of type */
+  /**
+   * Return value by name of type 
+   * @param valueName name of searched value
+   * @return value selected by name of type 
+   */
   public double GetValueByName(String valueName)
   {
     return _data.get(valueName);
   }
 
-  /** Set value by name of type */
+  /**
+   * Set value by name of type 
+   * @param valueName name of searched value
+   * @param value value to be set 
+   */
   public void SetValueByName(String valueName, Double value)
   {
     _data.replace(valueName, value);
   }
 
-  /** Set value by connected port */
+  /**
+   * Set value by connected port
+   * @param otherPort input port
+   */
   public void SetValueFromPort(Port otherPort)
   {
     Iterable<String> names = otherPort.GetValuesNames();
@@ -71,7 +89,10 @@ public abstract class Port
       _data.replace(s, otherPort.GetValueByName(s));
   }
 
-  /** Check if value is defined */
+  /**
+   * Check if value is defined
+   * @return true if all value are defined
+   */
   public boolean hasDefinedValue()
   {
     if(_undefinedValues.size() > 0 || _data.size() == 0)

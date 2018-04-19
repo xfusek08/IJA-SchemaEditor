@@ -12,7 +12,7 @@ import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Class reprezenting one block
+ * Block calculating multiplication of two numbers
  */
 public class NumberBlock_Mul extends Block
 {
@@ -30,6 +30,16 @@ public class NumberBlock_Mul extends Block
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
+  protected void DefinePorts()
+  {
+    InputPorts.add(new NumberPort());
+    InputPorts.add(new NumberPort());
+
+    OutputPorts.add(new NumberPort());
+  }
+
+  /** Calculated values in ports */
   public void Calculate()
   {
     double value1 = InputPorts.get(0).GetValueByName("number");
@@ -37,13 +47,5 @@ public class NumberBlock_Mul extends Block
     double result = value1 * value2;
     OutputPorts.get(0).SetValueByName("number", result);
     _status.State = EState.Finished;
-  }
-
-  protected void DefinePorts()
-  {
-    InputPorts.add(new NumberPort());
-    InputPorts.add(new NumberPort());
-
-    OutputPorts.add(new NumberPort());
   }
 }
