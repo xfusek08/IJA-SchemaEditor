@@ -1,5 +1,5 @@
 /**
- * @file:     NumberBlock_Add.java
+ * @file:     NumberBlock_Mul.java
  * @package:  schemaeditor.model.blocks.arithmetics
  * @author    Jaromir Franek
  * @date      08.04.2018
@@ -12,20 +12,20 @@ import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Block providing addition of two numbers
+ * Block calculating multiplication of two numbers
  */
-public class NumberBlock_Add extends Block
+public class NumberBlock_Mul extends Block
 {
-  public static final String NAME = "Add";
+  public static final String NAME = "Mul";
 
   /** Constructor */
-  public NumberBlock_Add(UUID ID)
+  public NumberBlock_Mul(UUID ID)
   {
     super(ID, NAME);
   }
 
   /** Constructor */
-  public NumberBlock_Add()
+  public NumberBlock_Mul()
   {
     super(UUID.randomUUID(), NAME);
   }
@@ -44,7 +44,7 @@ public class NumberBlock_Add extends Block
   {
     double value1 = InputPorts.get(0).GetValueByName("number");
     double value2 = InputPorts.get(1).GetValueByName("number");
-    double result = value1 + value2;
+    double result = value1 * value2;
     OutputPorts.get(0).SetValueByName("number", result);
     _status.State = EState.Finished;
   }

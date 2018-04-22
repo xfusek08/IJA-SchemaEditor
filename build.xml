@@ -2,14 +2,15 @@
 <project name="IJA-ShemaEditor" default="compile" basedir=".">
   <description>Project for seminar of java. Schema block editor.</description>
 
-  <property name="project_name" value="ModelTests"/>
-  <property name="home_class" value="schemaeditor.tests.ModelTests"/>
+  <property name="project_name" value="SchemaEditor"/>
+  <property name="home_class" value="schemaeditor.app.SchemaEditor"/>
 
   <property name="location_src" location="src"/>
   <property name="location_build" location="build"/>
   <property name="location_dist" location="dest-client"/>
   <property name="location_lib" location="lib"/>
   <property name="location_doc" location="doc/program_doc"/>
+  <property name="location_test_pkg" location="src/schemaeditor/tests"/>
 
   <path id="classpath.test">
     <pathelement location="${location_lib}/junit-4.12.jar"/>
@@ -29,7 +30,9 @@
     "Compiles project, creates jar distribution, and generates program documentation."/>
 
   <target name="build" depends="clean" description="Compiles project into build">
-    <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}"/>
+    <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}">
+      <exclude name="**/Test*.java"/>
+    </javac>
   </target>
 
   <target name="build-test" depends="clean" description="Compiles project into build">
@@ -52,15 +55,18 @@
   </target>
 
   <target name="run" depends="build-test">
-    <junit printsummary="on" haltonfailure="yes" fork="true">
+    <junit printsummary="on" haltonfailure="no" fork="true">
         <classpath>
           <path refid="classpath.test"/>
         </classpath>
         <formatter type="brief" usefile="false" />
         <batchtest>
-            <fileset dir="${location_src}" includes="**/*ModelTests.java" />
+            <fileset dir="${location_build}" includes="**/Test*.class" />
         </batchtest>
     </junit>
   </target>
 
+  <target name="start">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
 </project>

@@ -1,5 +1,5 @@
 /**
- * @file:     NumberBlock_Add.java
+ * @file:     NumberBlock_Abs.java
  * @package:  schemaeditor.model.blocks.arithmetics
  * @author    Jaromir Franek
  * @date      08.04.2018
@@ -12,20 +12,20 @@ import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Block providing addition of two numbers
+ * Block calculating Absolute value of number
  */
-public class NumberBlock_Add extends Block
+public class NumberBlock_Abs extends Block
 {
-  public static final String NAME = "Add";
+  public static final String NAME = "Abs";
 
   /** Constructor */
-  public NumberBlock_Add(UUID ID)
+  public NumberBlock_Abs(UUID ID)
   {
     super(ID, NAME);
   }
 
   /** Constructor */
-  public NumberBlock_Add()
+  public NumberBlock_Abs()
   {
     super(UUID.randomUUID(), NAME);
   }
@@ -34,7 +34,6 @@ public class NumberBlock_Add extends Block
   protected void DefinePorts()
   {
     InputPorts.add(new NumberPort());
-    InputPorts.add(new NumberPort());
 
     OutputPorts.add(new NumberPort());
   }
@@ -42,10 +41,10 @@ public class NumberBlock_Add extends Block
   /** Calculated values in ports */
   public void Calculate()
   {
-    double value1 = InputPorts.get(0).GetValueByName("number");
-    double value2 = InputPorts.get(1).GetValueByName("number");
-    double result = value1 + value2;
-    OutputPorts.get(0).SetValueByName("number", result);
+    double value = InputPorts.get(0).GetValueByName("number");
+    if(value < 0)
+      value = -value;
+    OutputPorts.get(0).SetValueByName("number", value);
     _status.State = EState.Finished;
   }
 }
