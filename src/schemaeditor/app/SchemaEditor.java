@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -31,9 +32,10 @@ public class SchemaEditor extends Application
   @Override
   public void start(Stage primaryStage)
   {
+    BorderPane root = new BorderPane();
     try
     {
-      Parent root = FXMLLoader.load(getClass().getResource("resources/MainDocument.fxml"));
+      // Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();
@@ -42,6 +44,7 @@ public class SchemaEditor extends Application
     {
       e.printStackTrace();
     }
+    root.setCenter(new MainView());
   }
 
   /**

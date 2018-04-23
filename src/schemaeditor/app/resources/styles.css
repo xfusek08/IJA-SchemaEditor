@@ -1,0 +1,17 @@
+.BlockSelectItem
+{
+  -fx-border-color: transparent transparent rgba(0,0,0,0.2) transparent;
+  -fx-pref-height: 30px;
+  -fx-background-color: white;
+  -fx-cursor: HAND;
+}
+.BlockSelectItem:hover
+{
+  -fx-pref-height: 30px;
+  -fx-background-color: rgb(203, 236, 255);
+}
+.BlockSelectItem .label
+{
+  -fx-pref-height: 30px;
+  -fx-font-size: 15px;
+}

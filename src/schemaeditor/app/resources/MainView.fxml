@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root fx:id="root_pane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutY="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar VBox.vgrow="ALWAYS">
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Edit">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <BorderPane VBox.vgrow="ALWAYS">
+               <center>
+                  <AnchorPane fx:id="SchemaPane" maxHeight="-1.0" maxWidth="-1.0" BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <Accordion fx:id="BlockSelectMenu" prefWidth="150.0" style="-fx-border-color: transparent rgba(0,0,0,0.2) transparent transparent; -fx-border-width: 0 2px 0 0; -fx-background-color: rgba(0,0,0,0.03);" BorderPane.alignment="CENTER">
+                     <panes>
+                        <TitledPane text="Arithmetic blocks">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <VBox layoutX="-0.40000000000000036" prefHeight="180.0" prefWidth="157.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                       <children>
+                                          <HBox fx:id="AddBlockBt_add" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                             <children>
+                                                <Label text="Add" />
+                                             </children>
+                                          </HBox>
+                                          <HBox fx:id="AddBlockBt_sub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                             <children>
+                                                <Label text="Substract" />
+                                             </children>
+                                          </HBox>
+                                          <HBox fx:id="AddBlockBt_mul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                             <children>
+                                                <Label text="Multiply" />
+                                             </children>
+                                          </HBox>
+                                          <HBox fx:id="AddBlockBt_div" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                             <children>
+                                                <Label text="Divide" />
+                                             </children>
+                                          </HBox>
+                                          <HBox fx:id="AddBlockBt_abs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                             <children>
+                                                <Label text="Absolute" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                        <TitledPane text="Complex blocks">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </TitledPane>
+                        <TitledPane text="Logic blocks">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </TitledPane>
+                        <TitledPane text="Conversion blocks">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </TitledPane>
+                     </panes>
+                  </Accordion>
+               </left>
+            </BorderPane>
+         </children>
+      </VBox>
+   </children>
+</fx:root>
