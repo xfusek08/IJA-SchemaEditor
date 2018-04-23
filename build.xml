@@ -2,8 +2,8 @@
 <project name="IJA-ShemaEditor" default="compile" basedir=".">
   <description>Project for seminar of java. Schema block editor.</description>
 
-  <property name="project_name" value="ModelTests"/>
-  <property name="home_class" value="schemaeditor.tests.ModelTests"/>
+  <property name="project_name" value="IJASchemaEditor"/>
+  <property name="home_class" value="schemaeditor.app.SchemaEditor"/>
 
   <property name="location_src" location="src"/>
   <property name="location_build" location="build"/>
@@ -36,6 +36,7 @@
   </target>
 
   <target name="build-test" depends="clean" description="Compiles project into build">
+    <fxml-compiler sourcedir="src" destdir="${location_src}/genetaged"/>
     <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}">
       <classpath refid="classpath.test"/>
     </javac>
@@ -64,6 +65,10 @@
             <fileset dir="${location_build}" includes="**/Test*.class" />
         </batchtest>
     </junit>
+  </target>
+
+  <target name="start" depends="build, jar">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
   </target>
 
 </project>
