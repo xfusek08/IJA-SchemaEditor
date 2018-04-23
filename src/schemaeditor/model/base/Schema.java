@@ -31,7 +31,8 @@ public class Schema // extends Observable
   /** Adds block instance into schema */
   public Block AddBlock(Block block)
   {
-    _blocks.add(block);
+    if (!_blocks.contains(block))
+      _blocks.add(block);
     return block;
   }
 

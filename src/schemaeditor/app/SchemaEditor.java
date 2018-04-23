@@ -14,10 +14,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import safemanager.model.safemanager.SchemaXMLLoader;
-import schemaeditor.app.scenecomposite.DisplaySchema;
 import schemaeditor.model.base.Schema;
-import schemaeditor.model.blocks.arithmetics.NumberBlock_Abs;
-import schemaeditor.model.blocks.arithmetics.NumberBlock_Add;
+import schemaeditor.model.blocks.arithmetics.*;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -35,20 +33,10 @@ public class SchemaEditor extends Application
   {
     try
     {
-      Schema schema = new Schema();
-      schema.AddBlock(new NumberBlock_Add());
-
-      DisplaySchema displSchema = new DisplaySchema(schema);
-      // displSchema.AddBlock(new NumberBlock_Add());
-
-      Group root = new Group();
-      displSchema.RegistrerToGroup(root);
-      Scene scene = new Scene(root, 800, 600);
-      primaryStage.setTitle("Hello World!");
+      Parent root = FXMLLoader.load(getClass().getResource("resources/MainDocument.fxml"));
+      Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();
-
-      // schema.AddBlock(new NumberBlock_Abs());
     }
     catch(Exception e)
     {

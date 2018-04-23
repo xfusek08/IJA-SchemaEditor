@@ -28,10 +28,14 @@ public class DisplaySchema extends SceneItem
   @Override
   public void SetEvents() { }
 
+  @Override
+  public void CreateGeometry() { }
+
   public void AddBlock(Block block)
   {
     DisplayBlock newBlock = new DisplayBlock(this, block);
     AddChild(newBlock);
+    _schema.AddBlock(block);
     if (_group != null)
       newBlock.RegistrerToGroup(_group);
   }

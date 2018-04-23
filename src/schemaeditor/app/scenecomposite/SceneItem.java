@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.shape.Shape;
 
 public abstract class SceneItem
 {
@@ -19,6 +20,7 @@ public abstract class SceneItem
   {
     _parent = parent;
     _childs = new ArrayList<SceneItem>();
+    CreateGeometry();
   }
 
   public void SetOffset(double xOffset, double yOffset)
@@ -52,4 +54,5 @@ public abstract class SceneItem
   public abstract void SetEvents();
   public abstract void Draw();
   protected abstract void RegistrerThisToGroup(Group group);
+  protected abstract void CreateGeometry();
 }

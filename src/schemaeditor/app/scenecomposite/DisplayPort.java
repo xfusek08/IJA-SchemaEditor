@@ -1,13 +1,17 @@
 package schemaeditor.app.scenecomposite;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.input.MouseEvent;
 import schemaeditor.model.base.Port;
 
 class DisplayPort extends SceneItem
 {
   public static final double LENGHT = 20;
+  public static final double AURA_RADIUS = 10;
 
   public Port Port;
   protected Line _portLine;
@@ -46,8 +50,8 @@ class DisplayPort extends SceneItem
       _portLine.setStartY(_yPos);
       _portLine.setEndX(_xPos + LENGHT);
       _portLine.setEndY(_yPos);
-      // aura.setCenterX(this.getEndX());
-      // aura.setCenterY(this.getEndY());
+      _aura.setCenterX(_portLine.getEndX());
+      _aura.setCenterY(_portLine.getEndY());
     }
     else
     {
@@ -55,20 +59,35 @@ class DisplayPort extends SceneItem
       _portLine.setStartY(_yPos);
       _portLine.setEndX(_xPos);
       _portLine.setEndY(_yPos);
-      // aura.setCenterX(this.getStartX());
-      // aura.setCenterY(this.getStartY());
+      _aura.setCenterX(_portLine.getStartX());
+      _aura.setCenterY(_portLine.getStartY());
     }
   }
 
   @Override
   protected void RegistrerThisToGroup(Group group)
   {
-    group.getChildren().add(_portLine);
+    if (_portLine != null)
+      group.getChildren().add(_portLine);
+    if (_aura != null)
+      group.getChildren().add(_aura);
   }
 
   @Override
   public void SetEvents()
   {
+    _aura.setOnMouseEntered(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent t) {
+        _aura.setStroke(Color.SKYBLUE);
+      }
+    });
+    _aura.setOnMouseExited(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent t) {
+        _aura.setStroke(Color.TRANSPARENT);
+      }
+    });
   }
 
   protected void CreateGeometry()
@@ -77,8 +96,13 @@ class DisplayPort extends SceneItem
     _portLine.setStroke(DisplayBlock.BORDER_COLOR);
     _portLine.setStrokeWidth(DisplayBlock.BORDER_WIDTH);
 
-    DisplayBlock parentBlock = (DisplayBlock)_parent;
+
+    _aura = new Circle(0, 0, AURA_RADIUS);
+    _aura.setFill(Color.TRANSPARENT);
+    _aura.setStroke(Color.TRANSPARENT);
+    _aura.setStrokeWidth(2);
+
+    DisplayBlock parentBlock = (DisplayBlock) _parent;
     SetPosition(parentBlock.Block.X, parentBlock.Block.Y);
-    // create aura
   }
 }
