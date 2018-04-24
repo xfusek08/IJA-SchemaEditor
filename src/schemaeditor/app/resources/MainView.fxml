@@ -14,9 +14,70 @@
 
 <fx:root fx:id="root_pane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox layoutY="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <MenuBar VBox.vgrow="ALWAYS">
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <AnchorPane fx:id="SchemaPane" maxHeight="-1.0" maxWidth="-1.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <Accordion fx:id="BlockSelectMenu" prefWidth="150.0" style="-fx-border-color: transparent rgba(0,0,0,0.2) transparent transparent; -fx-border-width: 0 2px 0 0; -fx-background-color: rgba(0,0,0,0.03);" BorderPane.alignment="CENTER">
+               <panes>
+                  <TitledPane text="Arithmetic blocks">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <VBox layoutX="-0.4" prefHeight="180.0" prefWidth="157.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_add" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Add" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_sub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Substract" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_mul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Multiply" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_div" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Divide" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_abs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Absolute" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane text="Complex blocks">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </content>
+                  </TitledPane>
+                  <TitledPane text="Logic blocks">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </content>
+                  </TitledPane>
+                  <TitledPane text="Conversion blocks">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </content>
+                  </TitledPane>
+               </panes>
+            </Accordion>
+         </left>
+         <top>
+            <MenuBar fx:id="MainMenuBar" BorderPane.alignment="CENTER">
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
@@ -39,70 +100,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <BorderPane VBox.vgrow="ALWAYS">
-               <center>
-                  <AnchorPane fx:id="SchemaPane" maxHeight="-1.0" maxWidth="-1.0" BorderPane.alignment="CENTER" />
-               </center>
-               <left>
-                  <Accordion fx:id="BlockSelectMenu" prefWidth="150.0" style="-fx-border-color: transparent rgba(0,0,0,0.2) transparent transparent; -fx-border-width: 0 2px 0 0; -fx-background-color: rgba(0,0,0,0.03);" BorderPane.alignment="CENTER">
-                     <panes>
-                        <TitledPane text="Arithmetic blocks">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0">
-                                 <children>
-                                    <VBox layoutX="-0.40000000000000036" prefHeight="180.0" prefWidth="157.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
-                                       <children>
-                                          <HBox fx:id="AddBlockBt_add" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
-                                             <children>
-                                                <Label text="Add" />
-                                             </children>
-                                          </HBox>
-                                          <HBox fx:id="AddBlockBt_sub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
-                                             <children>
-                                                <Label text="Substract" />
-                                             </children>
-                                          </HBox>
-                                          <HBox fx:id="AddBlockBt_mul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
-                                             <children>
-                                                <Label text="Multiply" />
-                                             </children>
-                                          </HBox>
-                                          <HBox fx:id="AddBlockBt_div" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
-                                             <children>
-                                                <Label text="Divide" />
-                                             </children>
-                                          </HBox>
-                                          <HBox fx:id="AddBlockBt_abs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
-                                             <children>
-                                                <Label text="Absolute" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </TitledPane>
-                        <TitledPane text="Complex blocks">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </TitledPane>
-                        <TitledPane text="Logic blocks">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </TitledPane>
-                        <TitledPane text="Conversion blocks">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </TitledPane>
-                     </panes>
-                  </Accordion>
-               </left>
-            </BorderPane>
-         </children>
-      </VBox>
+         </top>
+      </BorderPane>
    </children>
 </fx:root>

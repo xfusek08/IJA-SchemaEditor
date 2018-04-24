@@ -15,3 +15,7 @@
   -fx-pref-height: 30px;
   -fx-font-size: 15px;
 }
+.Aura
+{
+  -fx-cursor: HAND;
+}

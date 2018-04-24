@@ -5,13 +5,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,6 +28,7 @@ public class MainView extends AnchorPane
   @FXML AnchorPane root_pane;
   @FXML AnchorPane SchemaPane;
   @FXML Accordion BlockSelectMenu;
+  @FXML MenuBar MainMenuBar;
 
   public MainView()
   {
@@ -63,7 +68,14 @@ public class MainView extends AnchorPane
     {
       newBlock.X = 100;
       newBlock.Y = 100;
-      SchemaPane.getChildren().add(new BlockView(newBlock));
+      BlockView newBlockView = new BlockView(newBlock);
+      SchemaPane.getChildren().add(newBlockView);
+      MakeDraggableBlock(newBlockView);
     }
+  }
+
+  protected void MakeDraggableBlock(BlockView blockView)
+  {
+
   }
 }
