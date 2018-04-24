@@ -122,7 +122,6 @@ public class TestBlockConv
         gre.InputPorts.get(1).SetValueByName("number", 2.4);
         gre.Calculate();
         assertEquals(0.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-
     }
 
     /**
@@ -131,29 +130,29 @@ public class TestBlockConv
     @Test
     public void Less()
     {
-        gre.InputPorts.get(0).SetValueByName("number", 2.0);
-        gre.InputPorts.get(1).SetValueByName("number", 2.0);
-        gre.Calculate();
-        assertEquals(0.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-        gre.InputPorts.get(0).SetValueByName("number", 2.0);
-        gre.InputPorts.get(1).SetValueByName("number", -2.0);
-        gre.Calculate();
-        assertEquals(0.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-        gre.InputPorts.get(0).SetValueByName("number", 2.5);
-        gre.InputPorts.get(1).SetValueByName("number", 2.0);
-        gre.Calculate();
-        assertEquals(0.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-        gre.InputPorts.get(0).SetValueByName("number", 2.0);
-        gre.InputPorts.get(1).SetValueByName("number", 2.0);
-        gre.Calculate();
-        assertEquals(1.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-        gre.InputPorts.get(0).SetValueByName("number", 2.0);
-        gre.InputPorts.get(1).SetValueByName("number", 3.0);
-        gre.Calculate();
-        assertEquals(1.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-        gre.InputPorts.get(0).SetValueByName("number", -2.3);
-        gre.InputPorts.get(1).SetValueByName("number", 2.4);
-        gre.Calculate();
-        assertEquals(1.0, gre.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+        les.InputPorts.get(0).SetValueByName("number", 2.0);
+        les.InputPorts.get(1).SetValueByName("number", 2.0);
+        les.Calculate();
+        assertEquals(0.0, les.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+        les.InputPorts.get(0).SetValueByName("number", 2.0);
+        les.InputPorts.get(1).SetValueByName("number", -2.0);
+        les.Calculate();
+        assertEquals(0.0, les.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+        les.InputPorts.get(0).SetValueByName("number", 2.5);
+        les.InputPorts.get(1).SetValueByName("number", 2.0);
+        les.Calculate();
+        assertEquals(0.0, les.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+        les.InputPorts.get(0).SetValueByName("number", -1.0);
+        les.InputPorts.get(1).SetValueByName("number", 2.0);
+        les.Calculate();
+        assertEquals(1.0, les.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+        les.InputPorts.get(0).SetValueByName("number", 2.0);
+        les.InputPorts.get(1).SetValueByName("number", 3.0);
+        les.Calculate();
+        assertEquals(1.0, les.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+        les.InputPorts.get(0).SetValueByName("number", -2.3);
+        les.InputPorts.get(1).SetValueByName("number", 2.4);
+        les.Calculate();
+        assertEquals(1.0, les.OutputPorts.get(0).GetValueByName("bool"), 0.0);
     }
 }

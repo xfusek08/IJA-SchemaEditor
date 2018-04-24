@@ -7,11 +7,12 @@
 package schemaeditor.model.blocks.conversion;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.*;
 
 /**
- * Class reprezenting one block
+ * Block providing operation greater
  */
 public class ConversionBlock_Greater extends Block
 {
@@ -23,21 +24,30 @@ public class ConversionBlock_Greater extends Block
     super(ID, NAME);
   }
 
+  /** Constructor */
   public ConversionBlock_Greater()
   {
     super(UUID.randomUUID(), NAME);
   }
 
-  public void Calculate()
-  {
-
-  }
-
+  /** Define ports of block */
   protected void DefinePorts()
   {
     InputPorts.add(new NumberPort());
     InputPorts.add(new NumberPort());
-
+  
     OutputPorts.add(new BoolPort());
+  }
+
+  /** Calculated values in ports */
+  public void Calculate()
+  {
+    double value1 = InputPorts.get(0).GetValueByName("number");
+    double value2 = InputPorts.get(1).GetValueByName("number");
+    if(value1 > value2)
+      OutputPorts.get(0).SetValueByName("bool", 1.0);
+    else
+      OutputPorts.get(0).SetValueByName("bool", 0.0);
+    _status.State = EState.Finished;
   }
 }

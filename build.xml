@@ -89,5 +89,4 @@
   <target name="start" depends="build, jar">
     <java jar="${location_dist}/${project_name}.jar" fork="true"/>
   </target>
-
 </project>

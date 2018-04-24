@@ -7,6 +7,7 @@
 package schemaeditor.model.blocks.complex;
 
 import schemaeditor.model.base.Block;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.ports.*;
 import java.util.UUID;
 
@@ -17,24 +18,32 @@ public class CplexBlock_Abs extends Block
 {
   public static final String NAME = "Absolute value";
 
+  /** Constructor */
   public CplexBlock_Abs(UUID id)
   {
     super(id, NAME);
   }
 
+  /** Constructor */
   public CplexBlock_Abs()
   {
     super(UUID.randomUUID(), NAME);
   }
 
+  /** Define ports of block */
   public void DefinePorts()
   {
     InputPorts.add(new ComplexPort());
     OutputPorts.add(new NumberPort());
   }
 
+  /** Calculated values in ports */
   public void Calculate()
   {
-    // TODO: do stuff
+    double value1 = InputPorts.get(0).GetValueByName("real");
+    double value2 = InputPorts.get(0).GetValueByName("imaginary");
+    double result = Math.sqrt((value1 * value1) + (value2 * value2));
+    OutputPorts.get(0).SetValueByName("number", result);
+    _status.State = EState.Finished;
   }
 }

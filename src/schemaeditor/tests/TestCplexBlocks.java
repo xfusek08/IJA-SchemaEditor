@@ -29,7 +29,7 @@ public class TestCplexBlocks
     block.InputPorts.get(0).SetValueByName("real", 3.0);
     block.InputPorts.get(0).SetValueByName("imaginary", 4.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("number"), 5.0);
+    assertEquals(5.0, block.OutputPorts.get(0).GetValueByName("number"), 0.0);
   }
 
   @Test
@@ -41,8 +41,8 @@ public class TestCplexBlocks
     block.InputPorts.get(1).SetValueByName("real", 2.0);
     block.InputPorts.get(1).SetValueByName("imaginary", -4.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("real"), 5.0);
-    assertEquals(block.OutputPorts.get(0).GetValueByName("imaginary"), 0.0);
+    assertEquals(5.0, block.OutputPorts.get(0).GetValueByName("real"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("imaginary"), 0.0);
   }
 
   @Test
@@ -52,8 +52,8 @@ public class TestCplexBlocks
     block.InputPorts.get(0).SetValueByName("real", 3.0);
     block.InputPorts.get(0).SetValueByName("imaginary", 4.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("real"), 3.0);
-    assertEquals(block.OutputPorts.get(0).GetValueByName("imaginary"), -4.0);
+    assertEquals(3.0, block.OutputPorts.get(0).GetValueByName("real"), 0.0);
+    assertEquals(-4.0, block.OutputPorts.get(0).GetValueByName("imaginary"), 0.0);
   }
 
   @Test
@@ -65,8 +65,8 @@ public class TestCplexBlocks
     block.InputPorts.get(1).SetValueByName("real", 1.0);
     block.InputPorts.get(1).SetValueByName("imaginary", 2.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("real"), -1.0);
-    assertEquals(block.OutputPorts.get(0).GetValueByName("imaginary"), -1.0);
+    assertEquals(-1.0, block.OutputPorts.get(0).GetValueByName("real"), 0.0);
+    assertEquals(-1.0, block.OutputPorts.get(0).GetValueByName("imaginary"), 0.0);
   }
 
   @Test
@@ -78,8 +78,8 @@ public class TestCplexBlocks
     block.InputPorts.get(1).SetValueByName("real", 5.0);
     block.InputPorts.get(1).SetValueByName("imaginary", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("real"), 1.0);
-    assertEquals(block.OutputPorts.get(0).GetValueByName("imaginary"), 21.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("real"), 0.0);
+    assertEquals(21.0, block.OutputPorts.get(0).GetValueByName("imaginary"), 0.0);
   }
 
   @Test
@@ -91,7 +91,7 @@ public class TestCplexBlocks
     block.InputPorts.get(1).SetValueByName("real", 5.0);
     block.InputPorts.get(1).SetValueByName("imaginary", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("real"), -4.0);
-    assertEquals(block.OutputPorts.get(0).GetValueByName("imaginary"), 3.0);
+    assertEquals(-4.0, block.OutputPorts.get(0).GetValueByName("real"), 0.0);
+    assertEquals(3.0, block.OutputPorts.get(0).GetValueByName("imaginary"), 0.0);
   }
 }

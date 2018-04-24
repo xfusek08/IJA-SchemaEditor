@@ -13,6 +13,7 @@ class Point {
   public int X;
   public int Y;
 
+  /** Constructor */
   public Point(int x, int y)
   {
     X = x;

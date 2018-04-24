@@ -28,22 +28,22 @@ public class TestLogicBlocks
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
   }
 
   @Test
@@ -53,22 +53,22 @@ public class TestLogicBlocks
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
   }
 
   @Test
@@ -78,47 +78,47 @@ public class TestLogicBlocks
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
   }
 
   @Test
   public void Test_LogicBlock_Xnor()
   {
-    LogicBlock_Xor block = new LogicBlock_Xor();
+    LogicBlock_Xnor block = new LogicBlock_Xnor();
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.InputPorts.get(1).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
   }
 
   @Test
@@ -127,10 +127,10 @@ public class TestLogicBlocks
     LogicBlock_Not block = new LogicBlock_Not();
     block.InputPorts.get(0).SetValueByName("bool", 0.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 1.0);
+    assertEquals(1.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
 
     block.InputPorts.get(0).SetValueByName("bool", 1.0);
     block.Calculate();
-    assertEquals(block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
+    assertEquals(0.0, block.OutputPorts.get(0).GetValueByName("bool"), 0.0);
   }
 }

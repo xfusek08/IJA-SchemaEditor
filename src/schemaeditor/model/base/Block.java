@@ -36,13 +36,16 @@ public abstract class Block
     DefinePorts();
   }
 
-  /** Calculated values in ports */
+  /** Define ports of block */
   protected abstract void DefinePorts();
 
   /** Calculated values in ports */
   public abstract void Calculate();
 
-  /** Check if all input ports are defined */
+  /**
+   * Check if all input ports are defined
+   * @return true if all ports are defined
+   */
   public boolean isAllInputsDefined()
   {
     for(int i = 0; i < InputPorts.size(); i++)
@@ -53,7 +56,10 @@ public abstract class Block
     return true;
   }
 
-  /** Return status of block */
+  /**
+   * Return status of block
+   * @return block status
+   */
   public BlockStatus GetStatus()
   {
     return this._status;
@@ -68,5 +74,26 @@ public abstract class Block
       for(String s : names)
         OutputPorts.get(i).SetValueByName(s, null);
     }
+  }
+
+  /**
+   * Check if blocks are equal
+   * @param obj object to be compared to
+   * @return true if are equal
+   */
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof Block)
+      return ID.equals(((Block)obj).ID);
+    return false;
+  }
+
+  /**
+   * Return block hash code
+   * @return hashCode of block
+   */
+  public int hashCode()
+  {
+    return ID.hashCode();
   }
 }
