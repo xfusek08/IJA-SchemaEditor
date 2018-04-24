@@ -34,24 +34,24 @@ public abstract class Port
   }
 
   /**
-   * Check if ports are compative 
+   * Check if ports are compative
    * @param data Data from another port
-   * @return true if the data are of same type 
+   * @return true if the data are of same type
    */
-  public boolean Compatible(HashMap data)
+  public boolean Compatible(Port other)
   {
-    List dataKeys = new ArrayList(data.keySet());
-    List _dataKeys = new ArrayList(_data.keySet());
+    List dataKeys = new ArrayList(_data.keySet());
+    List _dataKeys = new ArrayList(other._data.keySet());
     if(dataKeys.size() != _dataKeys.size())
       return false;
     for(int i = 0; i < dataKeys.size(); i++)
-      if(dataKeys.get(i) != _dataKeys.get(i))
+      if(!dataKeys.get(i).equals(_dataKeys.get(i)))
         return false;
     return true;
   }
 
   /**
-   * Return list of value names 
+   * Return list of value names
    * @return Set of names
    */
   public Set<String> GetValuesNames()
@@ -60,7 +60,7 @@ public abstract class Port
   }
 
   /**
-   * Return list of undefined values 
+   * Return list of undefined values
    * @return List of undefinedValues
    */
   public List<String> GetUndefinedValues()
@@ -69,7 +69,7 @@ public abstract class Port
   }
 
   /**
-   * Set list of undefined values 
+   * Set list of undefined values
    */
   public void SetUndefinedValues(List<String> _undefinedValues)
   {
@@ -77,9 +77,9 @@ public abstract class Port
   }
 
   /**
-   * Return value by name of type 
+   * Return value by name of type
    * @param valueName name of searched value
-   * @return value selected by name of type 
+   * @return value selected by name of type
    */
   public double GetValueByName(String valueName)
   {
@@ -87,9 +87,9 @@ public abstract class Port
   }
 
   /**
-   * Set value by name of type 
+   * Set value by name of type
    * @param valueName name of searched value
-   * @param value value to be set 
+   * @param value value to be set
    */
   public void SetValueByName(String valueName, Double value)
   {

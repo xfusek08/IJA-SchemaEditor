@@ -19,7 +19,7 @@
             <AnchorPane fx:id="SchemaPane" maxHeight="-1.0" maxWidth="-1.0" BorderPane.alignment="CENTER" />
          </center>
          <left>
-            <Accordion fx:id="BlockSelectMenu" prefWidth="150.0" style="-fx-border-color: transparent rgba(0,0,0,0.2) transparent transparent; -fx-border-width: 0 2px 0 0; -fx-background-color: rgba(0,0,0,0.03);" BorderPane.alignment="CENTER">
+            <Accordion fx:id="BlockSelectMenu" prefWidth="170.0" style="-fx-border-color: transparent rgba(0,0,0,0.2) transparent transparent; -fx-border-width: 0 2px 0 0; -fx-background-color: rgba(0,0,0,0.03);" BorderPane.alignment="CENTER">
                <panes>
                   <TitledPane text="Arithmetic blocks">
                     <content>
@@ -29,22 +29,22 @@
                                  <children>
                                     <HBox fx:id="AddBlockBt_add" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
                                        <children>
-                                          <Label text="Add" />
+                                          <Label text="Addition" />
                                        </children>
                                     </HBox>
                                     <HBox fx:id="AddBlockBt_sub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
                                        <children>
-                                          <Label text="Substract" />
+                                          <Label text="Substraction" />
                                        </children>
                                     </HBox>
                                     <HBox fx:id="AddBlockBt_mul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
                                        <children>
-                                          <Label text="Multiply" />
+                                          <Label text="Multiplication" />
                                        </children>
                                     </HBox>
                                     <HBox fx:id="AddBlockBt_div" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
                                        <children>
-                                          <Label text="Divide" />
+                                          <Label text="Division" />
                                        </children>
                                     </HBox>
                                     <HBox fx:id="AddBlockBt_abs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
@@ -60,7 +60,43 @@
                   </TitledPane>
                   <TitledPane text="Complex blocks">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="180.0" prefWidth="157.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_CplAdd" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex addition" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplSub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex substraction" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplMul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex multiplication" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplDiv" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex division" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplAbs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex absolute" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplCom" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complementary value" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                      </content>
                   </TitledPane>
                   <TitledPane text="Logic blocks">

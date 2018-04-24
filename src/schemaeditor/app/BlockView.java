@@ -2,12 +2,15 @@ package schemaeditor.app;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -72,7 +75,8 @@ public class BlockView extends AnchorPane
       RowConstraints row = new RowConstraints();
       row.setPercentHeight(100.0 / _block.InputPorts.size());
       InputPortGrid.getRowConstraints().add(row);
-      InputPortGrid.add(new PortView(port, false), 0, cnt++);
+      InputPortGrid.add(new PortView(port, false, cnt), 0, cnt);
+      cnt++;
     }
     cnt = 0;
     for (Port port : _block.OutputPorts)
@@ -80,9 +84,46 @@ public class BlockView extends AnchorPane
       RowConstraints row = new RowConstraints();
       row.setPercentHeight(100 / _block.OutputPorts.size());
       OutputPortGrid.getRowConstraints().add(row);
-      OutputPortGrid.add(new PortView(port, true), 0, cnt++);
+      OutputPortGrid.add(new PortView(port, true, cnt), 0, cnt);
+      cnt++;
     }
     MakeDragEvents();
+  }
+
+  public Block GetBlock()
+  {
+    return _block;
+  }
+
+  public void MoveToPoint(Point2D point)
+  {
+    Point2D localCoords = getParent().sceneToLocal(point).subtract(_dragOffset);
+    relocate (
+      (int) (localCoords.getX()),
+      (int) (localCoords.getY())
+    );
+    for (PortView port : GetAllPorts())
+      port.MoveConnection(getParent());
+  }
+
+  public List<PortView> GetAllPorts()
+  {
+    List<PortView> res = new ArrayList<PortView>();
+    for (Node child : OutputPortGrid.getChildren())
+    {
+      Integer column = GridPane.getColumnIndex(child);
+      Integer row = GridPane.getRowIndex(child);
+      if (column != null && row != null)
+        res.add((PortView)child);
+    }
+    for (Node child : InputPortGrid.getChildren())
+    {
+      Integer column = GridPane.getColumnIndex(child);
+      Integer row = GridPane.getRowIndex(child);
+      if (column != null && row != null)
+        res.add((PortView)child);
+    }
+    return res;
   }
 
   protected void MakeDragEvents()
@@ -107,7 +148,7 @@ public class BlockView extends AnchorPane
 
     DragDroppedHandler = new EventHandler<DragEvent>() {
       @Override public void handle(DragEvent event) {
-        System.out.printf("dropped: [%f, %f]\n",
+        System.out.printf(" --> [%f, %f]\n",
           event.getX(),
           event.getY()
         );
@@ -121,10 +162,11 @@ public class BlockView extends AnchorPane
 
     DragExitedHandler = new EventHandler<DragEvent>() {
       @Override public void handle(DragEvent event) {
-        System.out.printf("exited: [%f, %f]\n",
+        System.out.printf(" --> [%f, %f] (exited)\n",
           event.getX(),
           event.getY()
         );
+        event.setDropCompleted(false);
         event.consume();
       }
     };
@@ -132,7 +174,7 @@ public class BlockView extends AnchorPane
     BlockBody.setOnDragDetected(new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent event) {
         Point2D schemaCoords = getParent().sceneToLocal(event.getSceneX(), event.getSceneY());
-        System.out.printf("drag %s (%s): [%f, %f]\n",
+        System.out.printf("drag %s (%s): [%f, %f]",
           _block.ID.toString(),
           _block.DisplayName,
           schemaCoords.getX(),
@@ -154,14 +196,5 @@ public class BlockView extends AnchorPane
         event.consume();
       }
     });
-  }
-
-  public void MoveToPoint(Point2D point)
-  {
-    Point2D localCoords = getParent().sceneToLocal(point).subtract(_dragOffset);
-    relocate (
-      (int) (localCoords.getX()),
-      (int) (localCoords.getY())
-    );
   }
 }

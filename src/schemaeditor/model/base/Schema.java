@@ -7,6 +7,7 @@
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.*;
+import schemaeditor.model.base.enums.EAddStatus;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -108,7 +109,7 @@ public class Schema // extends Observable
       return EAddStatus.OutSourcePortNotFound;
     if(in == null)
       return EAddStatus.InDestPortNotfoud;
-    if(!in.Compatible(out._data) || !out.Compatible(out._data))
+    if(!in.Compatible(out) || !out.Compatible(out))
       return EAddStatus.PortsIncopatible;
     for (SchemaBlock schemaBlock : _blocks)
       if(schemaBlock._block.ID == connection.SourceBlockID)
