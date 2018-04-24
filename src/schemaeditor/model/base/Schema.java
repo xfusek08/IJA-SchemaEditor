@@ -8,6 +8,7 @@ package schemaeditor.model.base;
 
 import schemaeditor.model.base.enums.EAddStatus;
 import schemaeditor.model.base.*;
+import schemaeditor.model.safemanager.*;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -28,25 +29,6 @@ public class Schema // extends Observable
   {
     _blocks = new HashSet<SchemaBlock>();
     _connections = new HashSet<Connection>();
-  }
-
-  /** Constructor to load from save */
-  public Schema(SaveSchema save)
-  {
-    _blocks = new HashSet<SchemaBlock>();
-    _connections = new HashSet<Connection>();
-    for(SaveSchemaBlock block : save.getBlock())
-    {
-      SchemaBlock saveBlock = new SchemaBlock();
-      saveBlock = block.getFromSave();
-      _blocks.add(saveBlock);
-    }
-    for(SaveConnection conn : save.getConn())
-    {
-      Connection saveConn = new Connection();
-      saveConn = conn.getFromSave();
-      _connections.add(saveConn);
-    }
   }
 
   /** Adds block instance into schema */

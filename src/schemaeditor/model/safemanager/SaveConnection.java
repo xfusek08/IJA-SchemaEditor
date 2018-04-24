@@ -1,13 +1,14 @@
 /**
  * @file:     SaveConnection.java
- * @package:  safemanager.model.base
+ * @package:  safemanager.model.safemanager
  * @author    Jaromir Franek
  * @date      24.04.2018
  */
-package schemaeditor.model.base;
+package schemaeditor.model.safemanager;
 
 import java.util.Arrays;
 import java.util.UUID;
+import schemaeditor.model.base.*;
 
 /**
  * Class reprezenting one connection between output and input port of two blocks

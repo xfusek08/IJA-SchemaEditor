@@ -1,15 +1,15 @@
 /**
  * @file:     SaveSchema.java
- * @package:  safemanager.model.base
+ * @package:  safemanager.model.safemanager
  * @author    Jaromír Franěk
  * @date      23.04.2018
  */
-package schemaeditor.model.base;
+package schemaeditor.model.safemanager;
 
 import schemaeditor.model.base.enums.EAddStatus;
 
 import java.util.*;
-import schemaeditor.model.base.SchemaBlock;
+import schemaeditor.model.base.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -27,18 +27,18 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class SaveSchema
 {
   @XmlElementWrapper(name = "_blocks")
-  @XmlElement(name = "SchemaBlock")
-  private Set<SaveSchemaBlock> blocks = null;
+  @XmlElement(name = "Block")
+  private List<SaveBlock> blocks = null;
   @XmlElementWrapper(name = "_connections")
   @XmlElement(name = "connection")
   private Set<SaveConnection> connection = null;
 
-  public void setBlock(Set<SaveSchemaBlock> blocks) 
+  public void setBlock(List<SaveBlock> blocks) 
   {
     this.blocks = blocks;
   }
 
-  public Set<SaveSchemaBlock> getBlock() 
+  public List<SaveBlock> getBlock() 
   {
     return blocks;
   }

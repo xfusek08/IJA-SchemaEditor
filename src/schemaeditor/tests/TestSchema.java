@@ -13,16 +13,9 @@ import static org.junit.Assert.*;
 import java.util.*;
 import schemaeditor.model.base.*;
 import schemaeditor.model.blocks.arithmetics.*;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.xml.bind.JAXBContext;
+import schemaeditor.model.safemanager.*;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import java.io.IOException;
 
 public class TestSchema
 {
@@ -107,34 +100,10 @@ public class TestSchema
   @Test
   public void Test_SaveAndLoad() throws JAXBException, IOException
   {
-    Set<SaveSchemaBlock> blocks = new HashSet<SaveSchemaBlock>();
-    for(SchemaBlock block : _schema._blocks)
-    {
-      SaveSchemaBlock saveBlock = new SaveSchemaBlock();
-      saveBlock.setFromSchema(block);
-      blocks.add(saveBlock);
-    }
-    Set<SaveConnection> conns = new HashSet<SaveConnection>();
-    for(Connection conn : _schema._connections)
-    {
-      SaveConnection saveConn = new SaveConnection();
-      saveConn.setFromSchema(conn);
-      conns.add(saveConn);
-    }
-    SaveSchema sSchema = new SaveSchema();
-    sSchema.setBlock(blocks);
-    sSchema.setConn(conns);
-    JAXBContext context = JAXBContext.newInstance(SaveSchema.class);
-    Marshaller m = context.createMarshaller();
-    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    m.marshal(sSchema, new File("./Save.xml"));
+    SchemaXMLLoader loader = new SchemaXMLLoader();
+    loader.SaveSchema(_schema, "./save.xml");
 
-    Unmarshaller read = context.createUnmarshaller();
-    SaveSchema rSchema = (SaveSchema) read.unmarshal(new FileReader("./Save.xml"));
-    assertEquals(3, rSchema.getBlock().size());
-    assertEquals(2, rSchema.getConn().size());
-
-    Schema lSchema = new Schema(rSchema);
+    Schema lSchema = loader.LoadSchema("./save.xml");
     assertEquals(3, lSchema._blocks.size());
     assertEquals(2, lSchema._connections.size());
   }

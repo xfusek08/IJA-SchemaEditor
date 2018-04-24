@@ -1,18 +1,19 @@
 /**
  * @file:     SaveBlock.java
- * @package:  schemaeditor.model.base
+ * @package:  schemaeditor.model.safemanager
  * @author    Jaromir Franek
  * @date      23.04.2018
  */
-package schemaeditor.model.base;
+package schemaeditor.model.safemanager;
 
-import schemaeditor.model.base.Port;
-import schemaeditor.model.base.SavePort;
+import schemaeditor.model.safemanager.SavePort;
 import schemaeditor.model.blocks.arithmetics.*;
 import schemaeditor.model.blocks.complex.*;
 import schemaeditor.model.blocks.conversion.*;
 import schemaeditor.model.blocks.logic.*;
 import schemaeditor.model.ports.*;
+import schemaeditor.model.base.*;
+import schemaeditor.model.base.enums.*;
 import java.util.*;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -224,7 +225,6 @@ public class SaveBlock
       sPort = port.getFromSave();
       block.OutputPorts.add(sPort);
     }
-    block._status = new BlockStatus();
     block.DisplayName = this.DisplayName;
     block.Position = this.Position;
     return block;

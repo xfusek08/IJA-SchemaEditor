@@ -4,10 +4,20 @@
  * @author    Petr Fusek
  * @date      04.04.2018
  */
-package safemanager.model.safemanager;
+package schemaeditor.model.safemanager;
 
-import schemaeditor.model.safemanager.ISchemaLoader;
-import schemaeditor.model.base.Schema;
+import schemaeditor.model.safemanager.*;
+import schemaeditor.model.base.*;
+import java.util.*;
+import static org.junit.Assert.*;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Loader saving and loading schemas as XML files.
@@ -19,9 +29,30 @@ public class SchemaXMLLoader implements ISchemaLoader
    *
    * @param filename Name of xml file where schema is stored
    */
-  public Schema LoadSchema(String fileName)
+  public Schema LoadSchema(String fileName) throws JAXBException, IOException
   {
-    return new Schema();
+    JAXBContext context = JAXBContext.newInstance(SaveSchema.class);
+    Unmarshaller read = context.createUnmarshaller();
+    SaveSchema rSchema = (SaveSchema) read.unmarshal(new FileReader(fileName));
+    Set<Connection> cons = new HashSet<Connection>();
+    Set<Block> _blocks = new HashSet<Block>();
+    Schema _schema = new Schema();
+    for(SaveBlock block : rSchema.getBlock())
+    {
+      Block saveBlock;
+      saveBlock = block.getFromSave();
+      _blocks.add(saveBlock);
+    }
+    for(Block block : _blocks)
+      _schema.AddBlock(block);
+    for(SaveConnection conn : rSchema.getConn())
+    {
+      Connection saveConn;
+      saveConn = conn.getFromSave();
+      cons.add(saveConn);
+    }
+    _schema._connections = cons;
+    return _schema;
   }
 
   /**
@@ -29,8 +60,28 @@ public class SchemaXMLLoader implements ISchemaLoader
    *
    * @param filename Name of xml file where schema will be stored
    */
-  public void SaveSchema(Schema schema, String fileName)
+  public void SaveSchema(Schema schema, String fileName) throws JAXBException, IOException
   {
-
+    List<SaveBlock> blocks = new ArrayList<>();
+    for(Block block :  schema.GetBlocks())
+    {
+      SaveBlock saveBlock = new SaveBlock();
+      saveBlock.setFromSchema(block);
+      blocks.add(saveBlock);
+    }
+    Set<SaveConnection> conns = new HashSet<SaveConnection>();
+    for(Connection conn : schema._connections)
+    {
+      SaveConnection saveConn = new SaveConnection();
+      saveConn.setFromSchema(conn);
+      conns.add(saveConn);
+    }
+    SaveSchema sSchema = new SaveSchema();
+    sSchema.setBlock(blocks);
+    sSchema.setConn(conns);
+    JAXBContext context = JAXBContext.newInstance(SaveSchema.class);
+    Marshaller m = context.createMarshaller();
+    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    m.marshal(sSchema, new File(fileName));
   }
 }

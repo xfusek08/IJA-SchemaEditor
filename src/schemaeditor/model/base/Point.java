@@ -9,7 +9,7 @@ package schemaeditor.model.base;
 /**
  * Simple datastructure of new point on the schema grid (board).
  */
-class Point {
+public class Point {
   public int X;
   public int Y;
 

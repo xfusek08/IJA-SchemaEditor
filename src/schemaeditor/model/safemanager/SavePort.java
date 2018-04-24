@@ -1,16 +1,17 @@
 /**
  * @file:     Port.java
- * @package:  schemaeditor.model.base
+ * @package:  schemaeditor.model.safemanager
  * @author    Jaromir Franek
  * @date      19.04.2018
  */
-package schemaeditor.model.base;
+package schemaeditor.model.safemanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import schemaeditor.model.ports.*;
+import schemaeditor.model.base.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
