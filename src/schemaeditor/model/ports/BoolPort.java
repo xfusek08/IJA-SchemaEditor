@@ -16,6 +16,7 @@ public class BoolPort extends Port
   /** Constructor */
   public BoolPort()
   {
+    type = "bool";
     DefineValue("bool", 0.0);
   }
 }

@@ -10,16 +10,25 @@ import java.lang.reflect.Modifier;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import schemaeditor.model.base.*;
 import schemaeditor.model.blocks.arithmetics.*;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 public class TestSchema
 {
-  private Schema _schema, _notSchema;
-  private boolean _schemaOk, _notSchemaOk;
-  private Block bl1, bl2, bl3, bl4, bl5, bl6;
+  private Schema _schema;
+  private boolean _schemaOk;
+  private Block bl1, bl2, bl3;
 
   @Before
   public void setUp()
@@ -28,31 +37,16 @@ public class TestSchema
     bl2 = new NumberBlock_Add();
     bl3 = new NumberBlock_Sub();
 
-    bl4 = new NumberBlock_Abs();
-    bl5 = new NumberBlock_Abs();
-    bl6 = new NumberBlock_Abs();
-
     Connection conn1 = new Connection(bl2.ID, 0, bl3.ID, 0);
     Connection conn2 = new Connection(bl3.ID, 0, bl1.ID, 0);
-
-    Connection conn3 = new Connection(bl4.ID, 0, bl5.ID, 0);
-    Connection conn4 = new Connection(bl5.ID, 0, bl4.ID, 0);
 
     _schema = new Schema();
     _schema.AddBlock(bl1);
     _schema.AddBlock(bl2);
     _schema.AddBlock(bl3);
 
-    _notSchema = new Schema();
-    _notSchema.AddBlock(bl4);
-    _notSchema.AddBlock(bl5);
-    _notSchema.AddBlock(bl6);
-
     _schemaOk = _schema.AddConnection(conn1) != null;
     _schemaOk = _schemaOk && _schema.AddConnection(conn2) != null;
-
-    _notSchemaOk = _notSchema.AddConnection(conn3) != null;
-    _notSchemaOk = _notSchemaOk && _notSchema.AddConnection(conn4) != null;
   }
 
   @Test
@@ -100,9 +94,49 @@ public class TestSchema
   @Test
   public void Test_Cycles()
   {
-    assertFalse("Valid schema setup.", _notSchemaOk);
-    List<Port> outPorts = new ArrayList<Port>(_notSchema.GetOutPorts());
-    assertEquals(outPorts.size(), 2);
+    //change schema
+    Connection conn3 = new Connection(bl1.ID, 0, bl2.ID, 0);
+    _schemaOk = _schemaOk && _schema.AddConnection(conn3) != null;
+    assertEquals(3, _schema.GetConnections().size());
+    //test
+    assertFalse("Valid schema setup.", _schemaOk);
+    /*List<Port> outPorts = new ArrayList<Port>(_schema.GetOutPorts());
+    assertEquals(outPorts.size(), 2);*/
+  }
+
+  @Test
+  public void Test_SaveAndLoad() throws JAXBException, IOException
+  {
+    Set<SaveSchemaBlock> blocks = new HashSet<SaveSchemaBlock>();
+    for(SchemaBlock block : _schema._blocks)
+    {
+      SaveSchemaBlock saveBlock = new SaveSchemaBlock();
+      saveBlock.setFromSchema(block);
+      blocks.add(saveBlock);
+    }
+    Set<SaveConnection> conns = new HashSet<SaveConnection>();
+    for(Connection conn : _schema._connections)
+    {
+      SaveConnection saveConn = new SaveConnection();
+      saveConn.setFromSchema(conn);
+      conns.add(saveConn);
+    }
+    SaveSchema sSchema = new SaveSchema();
+    sSchema.setBlock(blocks);
+    sSchema.setConn(conns);
+    JAXBContext context = JAXBContext.newInstance(SaveSchema.class);
+    Marshaller m = context.createMarshaller();
+    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    m.marshal(sSchema, new File("./Save.xml"));
+
+    Unmarshaller read = context.createUnmarshaller();
+    SaveSchema rSchema = (SaveSchema) read.unmarshal(new FileReader("./Save.xml"));
+    assertEquals(3, rSchema.getBlock().size());
+    assertEquals(2, rSchema.getConn().size());
+
+    Schema lSchema = new Schema(rSchema);
+    assertEquals(3, lSchema._blocks.size());
+    assertEquals(2, lSchema._connections.size());
   }
 
 }

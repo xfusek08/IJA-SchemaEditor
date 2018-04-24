@@ -13,18 +13,26 @@ import java.util.UUID;
 /**
  * Class representing SchemaBlock
  */
-class SchemaBlock
+public class SchemaBlock
 {
   protected Set<UUID> _precedestors;
   protected Set<Integer> _freeInPorts;
   protected Set<Integer> _freeOutPorts;
-
   protected Block _block;
 
   /** Constructor */
   public SchemaBlock(Block block)
   {
     _block = block;
+    _precedestors = new HashSet<UUID>();
+    _freeInPorts = new HashSet<Integer>();
+    _freeOutPorts = new HashSet<Integer>();
+  }
+
+  /** Constructor */
+  public SchemaBlock()
+  {
+    _block = null;
     _precedestors = new HashSet<UUID>();
     _freeInPorts = new HashSet<Integer>();
     _freeOutPorts = new HashSet<Integer>();

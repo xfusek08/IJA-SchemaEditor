@@ -16,6 +16,7 @@ public class ComplexPort extends Port
   /** Constructor */
   public ComplexPort()
   {
+    type = "complex";
     DefineValue("real", 0.0);
     DefineValue("imaginary", 0.0);
   }

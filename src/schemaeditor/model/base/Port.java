@@ -16,6 +16,7 @@ import java.util.Set;
  */
 public abstract class Port
 {
+  public String type;
   public HashMap<String, Double> _data;
   protected List<String> _undefinedValues;
 
@@ -56,6 +57,23 @@ public abstract class Port
   public Set<String> GetValuesNames()
   {
     return _data.keySet();
+  }
+
+  /**
+   * Return list of undefined values 
+   * @return List of undefinedValues
+   */
+  public List<String> GetUndefinedValues()
+  {
+    return _undefinedValues;
+  }
+
+  /**
+   * Set list of undefined values 
+   */
+  public void SetUndefinedValues(List<String> _undefinedValues)
+  {
+    this._undefinedValues = _undefinedValues;
   }
 
   /**

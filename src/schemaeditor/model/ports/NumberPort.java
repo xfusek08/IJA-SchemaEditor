@@ -16,6 +16,7 @@ public class NumberPort extends Port
   /** Constructor */
   public NumberPort()
   {
+    type = "number";
     DefineValue("number", 0.0);
   }
 }

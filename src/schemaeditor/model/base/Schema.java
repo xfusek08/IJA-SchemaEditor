@@ -7,6 +7,7 @@
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.enums.EAddStatus;
+import schemaeditor.model.base.*;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -15,18 +16,37 @@ import java.util.stream.Stream;
  * Class for object reprezenting one Schema
  *
  * Schema is composed from Blocks and connections
- * @TODO: Schema shoul be implementing observable object to notify view of changes inside structure
+ * @TODO: Schema should be implementing observable object to notify view of changes inside structure
  */
 public class Schema // extends Observable
 {
-  protected Set<SchemaBlock> _blocks;
-  protected Set<Connection> _connections;
+  public Set<SchemaBlock> _blocks;
+  public Set<Connection> _connections;
 
   /** Constructor */
   public Schema()
   {
     _blocks = new HashSet<SchemaBlock>();
     _connections = new HashSet<Connection>();
+  }
+
+  /** Constructor to load from save */
+  public Schema(SaveSchema save)
+  {
+    _blocks = new HashSet<SchemaBlock>();
+    _connections = new HashSet<Connection>();
+    for(SaveSchemaBlock block : save.getBlock())
+    {
+      SchemaBlock saveBlock = new SchemaBlock();
+      saveBlock = block.getFromSave();
+      _blocks.add(saveBlock);
+    }
+    for(SaveConnection conn : save.getConn())
+    {
+      Connection saveConn = new Connection();
+      saveConn = conn.getFromSave();
+      _connections.add(saveConn);
+    }
   }
 
   /** Adds block instance into schema */
@@ -67,7 +87,7 @@ public class Schema // extends Observable
    */
   public EAddStatus TryValidateConnection(Connection connection)
   {
-    SchemaBlock ans = null;
+    SchemaBlock prec = null;
     Port in = null;
     Port out = null;
     if(connection == null)
@@ -79,19 +99,22 @@ public class Schema // extends Observable
     for (SchemaBlock schemaBlock : _blocks)
     {
       if(schemaBlock._block.ID == connection.SourceBlockID)
-        in = schemaBlock._block.OutputPorts.get(connection.SourcePortNumber);
+        out = schemaBlock._block.OutputPorts.get(connection.SourcePortNumber);
       else if(schemaBlock._block.ID == connection.DestBlockID)
-        out = schemaBlock._block.InputPorts.get(connection.DestPortNumber);
+        in = schemaBlock._block.InputPorts.get(connection.DestPortNumber);
     }
-    if(!in.Compatible(out._data))
+    if(out == null)
+      return EAddStatus.OutSourcePortNotFound;
+    if(in == null)
+      return EAddStatus.InDestPortNotfoud;
+    if(!in.Compatible(out._data) || !out.Compatible(out._data))
       return EAddStatus.PortsIncopatible;
-    // to do detekce cyklu
     for (SchemaBlock schemaBlock : _blocks)
       if(schemaBlock._block.ID == connection.SourceBlockID)
-        ans = schemaBlock;
-    for (UUID ID : ans._precedestors)
+        prec = schemaBlock;
+    for (UUID ID : prec.GetPrecedestors())
       if(ID == connection.DestBlockID)
-      return EAddStatus.ConnectionCuseesCycles;
+        return EAddStatus.ConnectionCuseesCycles;
     return EAddStatus.Ok;
   }
 
@@ -182,11 +205,50 @@ public class Schema // extends Observable
   protected void CalculateSchemaConnections()
   {
     _blocks.stream().forEach(sb -> sb.Clean());
-    Queue<SchemaBlock> openQueue = new ArrayDeque<SchemaBlock>();
+    List<SchemaBlock> openQueue = new ArrayList<SchemaBlock>();
     Dictionary<SchemaBlock, List<Port>> inputDict = GetInputSchemaBlocksWithInputPorts();
+    Set<Connection> connections = GetConnections();
+    //Nahrani prvnich blocku do fronty
+    for(Enumeration blocks = inputDict.keys(); blocks.hasMoreElements();)
+    {
+      openQueue.add((SchemaBlock)blocks.nextElement());
+    }
+    ListIterator<SchemaBlock> queue = openQueue.listIterator();
+    while(queue.hasNext())
+    {
+      SchemaBlock block = queue.next();
+      for(Connection connection : connections)
+      {
+        //Pro kazdy block najdu jeho konekci predchudce a ziskam predchudce
+        if(connection.DestBlockID == block.GetBlock().ID)
+        {
+          SchemaBlock preBlock = null;
+          for(SchemaBlock sBlock : openQueue)
+            if(connection.SourceBlockID == sBlock.GetBlock().ID)
+              preBlock = sBlock;
+          if(preBlock != null)
+          {
+            block._precedestors.addAll(preBlock.GetPrecedestors());
+            block._precedestors.add(preBlock.GetBlock().ID);
+            queue.set(block);
+          }
+          AddConnection(connection, true, false);
+        }
+        //Bloky na ktere vede nahraju do pole
+        if(connection.SourceBlockID == block.GetBlock().ID)
+        {
+          SchemaBlock afBlock = null;
+          for(SchemaBlock sBlock : _blocks)
+            if(connection.DestBlockID == sBlock.GetBlock().ID)
+              afBlock = sBlock;
+          if(afBlock != null)
+            queue.add(afBlock);
+        }
+      }
+    }
   }
 
-  protected SchemaBlock GetSchemaBlockById(UUID id)
+  private SchemaBlock GetSchemaBlockById(UUID id)
   {
     Optional<SchemaBlock> opt  = _blocks.stream().filter(sb -> sb.GetBlock().ID == id).findFirst();
     if (opt.isPresent())
