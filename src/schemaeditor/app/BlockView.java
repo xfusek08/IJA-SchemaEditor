@@ -32,6 +32,7 @@ public class BlockView extends AnchorPane
   @FXML GridPane OutputPortGrid;
   @FXML HBox BlockBody;
   @FXML Label label_DisplayName;
+  @FXML Label IDLabel;
 
   protected Block _block;
   protected Point2D _dragOffset;
@@ -64,6 +65,7 @@ public class BlockView extends AnchorPane
   private void initialize()
   {
     label_DisplayName.setText(_block.DisplayName);
+    IDLabel.setText(_block.ID.toString());
     this.setLayoutX(_block.X);
     this.setLayoutY(_block.Y);
 
@@ -194,6 +196,20 @@ public class BlockView extends AnchorPane
         content.putString(_block.ID.toString());
         startDragAndDrop(TransferMode.ANY).setContent(content);
         event.consume();
+      }
+    });
+
+    BlockBody.setOnMouseEntered(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        IDLabel.setVisible(true);
+      }
+    });
+
+    BlockBody.setOnMouseExited(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        IDLabel.setVisible(false);
       }
     });
   }

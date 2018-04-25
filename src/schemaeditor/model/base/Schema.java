@@ -37,7 +37,13 @@ public class Schema extends Observable
     SchemaBlock newSBlock = new SchemaBlock(block);
     if (!_blocks.contains(newSBlock))
       _blocks.add(newSBlock);
+    notifyObservers();
     return block;
+  }
+
+  @Override
+  public boolean hasChanged() {
+    return true;
   }
 
   /** Removes block instance from schema */
@@ -50,17 +56,20 @@ public class Schema extends Observable
         toRemove.add(conn);
     for (Connection conn : toRemove)
       RemoveConnection(conn);
+    notifyObservers();
     CalculateSchemaConnections();
   }
 
   /**
    * Adds block instance into schema, checks if connection does not broke any schema rule
    * @param connection new instance of connection to be added and to schema
-   * @return True if connection is valid, false otherwise
+   * @return EAddStatus result of attepmt
    */
-  public Connection AddConnection(Connection connection)
+  public EAddStatus AddConnection(Connection connection)
   {
-    return AddConnection(connection, true, false);
+    EAddStatus res = AddConnection(connection, true);
+    notifyObservers();
+    return res;
   }
 
   /**
@@ -106,6 +115,7 @@ public class Schema extends Observable
   public void RemoveConnection(Connection connection)
   {
     _connections.remove(connection);
+    notifyObservers();
   }
 
   // Iterators of collections
@@ -216,7 +226,7 @@ public class Schema extends Observable
             block._precedestors.add(preBlock.GetBlock().ID);
             queue.set(block);
           }
-          AddConnection(connection, true, false);
+          AddConnection(connection, true);
         }
         //Bloky na ktere vede nahraju do pole
         if(connection.SourceBlockID == block.GetBlock().ID)
@@ -286,37 +296,41 @@ public class Schema extends Observable
     return result;
   }
 
-  protected Connection AddConnection(Connection connection, boolean recalculate, boolean doNotAdd)
+  protected EAddStatus AddConnection(Connection connection, boolean recalculate)
   {
-    if (TryValidateConnection(connection) != EAddStatus.Ok)
-      return null;
-
-    if (!doNotAdd)
-      if (!_connections.add(connection))
-        return null;
+    EAddStatus res = TryValidateConnection(connection);
+    if (res != EAddStatus.Ok) return res;
 
     SchemaBlock source = GetSchemaBlockById(connection.SourceBlockID);
     SchemaBlock dest = GetSchemaBlockById(connection.DestBlockID);
     boolean isRemoved = false;
-    if (!source.ConnectOutPort(connection.SourcePortNumber))
+    List<Connection> toremove = new ArrayList<Connection>();
+    source.ConnectOutPort(connection.SourcePortNumber);
+    dest.ConnectInPort(connection.DestPortNumber, source.GetPrecedestors());
+
+    GetConnections().stream()
+      .filter(c ->
+        c.SourceBlockID.equals(connection.SourceBlockID) && c.SourcePortNumber == connection.SourcePortNumber ||
+        c.DestBlockID.equals(connection.DestBlockID) && c.DestPortNumber == connection.DestPortNumber
+      )
+      .forEach(c -> toremove.add(c));
+
+    for (Connection conn : toremove)
     {
-      // remove old obstructed connection leading from source output
-      GetConnections().stream()
-        .filter(c -> c.SourceBlockID == connection.SourceBlockID && c.SourcePortNumber == connection.SourcePortNumber)
-        .forEach(c -> RemoveConnection(c));
-      isRemoved = true;
-    }
-    if (!dest.ConnectInPort(connection.DestPortNumber, source.GetPrecedestors()))
-    {
-      // remove old obstructed connection leading to destination input
-      GetConnections().stream()
-        .filter(c -> c.DestBlockID == connection.DestBlockID && c.DestPortNumber == connection.DestPortNumber)
-        .forEach(c -> RemoveConnection(c));
+      RemoveConnection(conn);
       isRemoved = true;
     }
 
-    if (isRemoved && recalculate)
-      CalculateSchemaConnections();
-    return connection;
+    if (!_connections.add(connection))
+      return EAddStatus.OtherError;
+
+    // if (isRemoved && recalculate)
+    //   CalculateSchemaConnections();
+
+    System.err.printf("\n");
+    for (Connection conn : GetConnections())
+      System.err.printf("\t%s (%d) -> %s (%d)\n", conn.SourceBlockID.toString(), conn.SourcePortNumber, conn.DestBlockID.toString(), conn.DestPortNumber);
+    System.err.printf("\n");
+    return EAddStatus.Ok;
   }
 }

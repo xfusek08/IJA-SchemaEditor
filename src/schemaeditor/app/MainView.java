@@ -2,8 +2,12 @@ package schemaeditor.app;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,10 +42,13 @@ public class MainView extends AnchorPane
   @FXML AnchorPane SchemaPane;
   @FXML Accordion BlockSelectMenu;
   @FXML MenuBar MainMenuBar;
+  @FXML Label BlockNumber;
+  @FXML Label ConnNumber;
 
   protected ConnectionView draggConnection;
   protected Schema _schema;
   protected Label _errorMessage;
+  protected List<ConnectionView> displayConns;
 
   private EventHandler<DragEvent> connectionDragDroppedHandle;
   private EventHandler<DragEvent> connectionDragOverHandle;
@@ -51,6 +58,8 @@ public class MainView extends AnchorPane
   public MainView()
   {
     _schema = new Schema();
+    displayConns = new ArrayList<ConnectionView>();
+
     FXMLLoader fxmlLoader = new FXMLLoader(
       getClass().getResource("resources/MainView.fxml")
     );
@@ -99,6 +108,7 @@ public class MainView extends AnchorPane
       SchemaPane.getChildren().add(newBlockView);
       SetConnectionEvents(newBlockView);
     }
+    UpdateSchemaStats();
   }
 
   protected void CreateHandlers()
@@ -120,7 +130,7 @@ public class MainView extends AnchorPane
         setOnDragOver(null);
         setOnDragDropped(null);
         setOnDragExited(null);
-        SchemaPane.getChildren().remove(draggConnection);
+        RemoveDisplConn(draggConnection);
         draggConnection = null;
         event.setDropCompleted(false);
         event.consume();
@@ -134,7 +144,7 @@ public class MainView extends AnchorPane
         setOnDragOver(null);
         setOnDragDropped(null);
         setOnDragExited(null);
-        SchemaPane.getChildren().remove(draggConnection);
+        RemoveDisplConn(draggConnection);
         draggConnection = null;
         event.setDropCompleted(false);
         event.consume();
@@ -161,12 +171,12 @@ public class MainView extends AnchorPane
         @Override public void handle(DragEvent event) {
           if (draggConnection != null)
           {
+            DeleteErrorMessage();
             event.acceptTransferModes(TransferMode.ANY);
             if (pw.IsOutput() != draggConnection.isFromOut() &&
                 !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
             {
               pw.UnSetHover();
-              DeleteErrorMessage();
               draggConnection.SetPort(pw.IsOutput(), null, 0);
               event.consume();
             }
@@ -181,12 +191,12 @@ public class MainView extends AnchorPane
           if (pw.IsOutput() != draggConnection.isFromOut() &&
               !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
           {
+            pw.SetHover();
+            DeleteErrorMessage();
             draggConnection.SetEnd(SchemaPane.sceneToLocal(pw.GetTip()));
             draggConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
             String errorMsg = ConnectConnectionView(draggConnection, true);
-            if (errorMsg != "")
-              CreateErrorMessage(errorMsg, pw.GetTip());
-            pw.SetHover();
+            if (errorMsg != "") CreateErrorMessage(errorMsg, pw.GetTip());
             event.consume();
           }
         }
@@ -209,17 +219,18 @@ public class MainView extends AnchorPane
             if (ConnectConnectionView(draggConnection, false) == "")
             {
               System.err.printf("Drop on valid port\n");
-              event.setDropCompleted(true);
               RegisterConnOnPort(pw, draggConnection, false);
+              event.setDropCompleted(true);
             }
             else
             {
               System.err.printf("Drop on invalid port\n");
+              RemoveDisplConn(draggConnection);
               event.setDropCompleted(false);
-              SchemaPane.getChildren().remove(draggConnection);
             }
-            draggConnection = null;
             System.err.printf("draggConnection nulled\n");
+            DeleteErrorMessage();
+            draggConnection = null;
           }
         }
       });
@@ -240,18 +251,18 @@ public class MainView extends AnchorPane
           setOnDragDropped(connectionDragDroppedHandle);
           setOnDragExited(connectionDragExitedHandler);
 
-          SchemaPane.getChildren().remove(draggConnection);
-
           draggConnection = new ConnectionView(
             SchemaPane.sceneToLocal(pw.GetTip()),
             SchemaPane.sceneToLocal(event.getSceneX(), event.getSceneY()),
             pw.IsOutput()
           );
-
-          SchemaPane.getChildren().add(draggConnection);
-          RegisterConnOnPort(pw, draggConnection, true);
           draggConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
+          AddDisplConn(draggConnection);
 
+          Connection toremove = RegisterConnOnPort(pw, draggConnection, true);
+          if (toremove != null)
+            _schema.RemoveConnection(toremove);
+          UpdateSchemaStats();
           ClipboardContent content = new ClipboardContent();
           content.putString(blockView.GetBlock().ID.toString());
           startDragAndDrop(TransferMode.ANY).setContent(content);
@@ -260,35 +271,41 @@ public class MainView extends AnchorPane
       });
     }
   }
-  protected void RegisterConnOnPort(PortView port, ConnectionView conn, boolean isStart)
+  protected Connection RegisterConnOnPort(PortView port, ConnectionView conn, boolean isStart)
   {
-    ConnectionView toRemove = port.RegisterConn(conn, isStart);
-    if (toRemove != null)
+    ConnectionView toremove = port.RegisterConn(conn, isStart);
+    if (toremove != null)
     {
-      SchemaPane.getChildren().remove(toRemove);
+      RemoveDisplConn(toremove);
+      return toremove.GetConnection();
     }
+    return null;
   }
 
   protected String ConnectConnectionView(ConnectionView connView, boolean justTry)
   {
     Connection conn = connView.GetConnection();
     String msg = "";
-    if (conn == null) return msg;
+    if (conn == null) return "Unconnected";
 
-    System.err.printf("Connecting %s (%d) -> %s (%d)%s ... ",
+    System.err.printf("Connecting %s (%d) -> %s (%d)%s",
       conn.SourceBlockID,
       conn.SourcePortNumber,
       conn.DestBlockID,
       conn.DestPortNumber,
-      justTry ? " (justTry)" : ""
+      justTry ? " (justTry)\n" : ""
     );
+
     EAddStatus resStatus = _schema.TryValidateConnection(conn);
-    System.err.printf(" Validated ... ");
+
     if (resStatus == EAddStatus.Ok)
     {
       if (!justTry)
+      {
         _schema.AddConnection(conn);
-      System.err.printf("Connected ... ");
+        UpdateSchemaStats();
+        System.err.printf("  ... Connected\n");
+      }
     }
     else
     {
@@ -301,13 +318,12 @@ public class MainView extends AnchorPane
         case ConnectionCuseesCycles : msg = "Connection causes cycles."; break;
         default:                      msg = "Unknown."; break;
       }
-      System.err.printf("cant connect ... ");
+      System.err.printf(" ... can't connect (%s)\n", msg);
     }
-    System.err.printf("end\n");
     return msg;
   }
 
-  public void CreateErrorMessage(String msg, Point2D position)
+  protected void CreateErrorMessage(String msg, Point2D position)
   {
     DeleteErrorMessage();
     _errorMessage = new Label(msg);
@@ -319,12 +335,37 @@ public class MainView extends AnchorPane
     getChildren().add(_errorMessage);
   }
 
-  public void DeleteErrorMessage()
+  protected void DeleteErrorMessage()
   {
     if (_errorMessage != null)
     {
       getChildren().remove(_errorMessage);
       _errorMessage = null;
     }
+  }
+
+  protected void UpdateSchemaStats()
+  {
+    Set<Connection> conns = _schema.GetConnections();
+    BlockNumber.setText(String.valueOf(_schema.GetBlocks().size()));
+    ConnNumber.setText(String.valueOf(conns.size()));
+    // List<ConnectionView> toremove = new ArrayList<ConnectionView>();
+    // for (ConnectionView conn : displayConns)
+    // {
+    //   if (!conns.contains(conn.GetConnection()))
+    //     toremove.add(conn);
+    // }
+    // for (ConnectionView conn : toremove)
+    //   RemoveDisplConn(conn);
+  }
+  protected void RemoveDisplConn(ConnectionView conn)
+  {
+    SchemaPane.getChildren().remove(conn);
+    displayConns.remove(conn);
+  }
+  protected void AddDisplConn(ConnectionView conn)
+  {
+    SchemaPane.getChildren().add(conn);
+    displayConns.add(conn);
   }
 }
