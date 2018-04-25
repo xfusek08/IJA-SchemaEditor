@@ -28,6 +28,11 @@ public class Connection
     SourceBlockID = sourceBlockID;
   }
 
+  /** Constructor */
+  public Connection()
+  {
+  }
+
   /**
    * Check if all atributes of connection are equals 
    * @param obj another connection

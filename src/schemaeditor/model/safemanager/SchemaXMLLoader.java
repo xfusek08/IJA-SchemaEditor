@@ -9,7 +9,6 @@ package schemaeditor.model.safemanager;
 import schemaeditor.model.safemanager.*;
 import schemaeditor.model.base.*;
 import java.util.*;
-import static org.junit.Assert.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

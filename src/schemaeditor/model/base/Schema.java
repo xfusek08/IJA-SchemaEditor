@@ -7,11 +7,8 @@
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.*;
-<<<<<<< HEAD
 import schemaeditor.model.safemanager.*;
-=======
 import schemaeditor.model.base.enums.EAddStatus;
->>>>>>> gui
 
 import java.util.*;
 import java.util.stream.Stream;

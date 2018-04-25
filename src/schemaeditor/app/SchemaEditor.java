@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import safemanager.model.safemanager.SchemaXMLLoader;
+import schemaeditor.model.safemanager.SchemaXMLLoader;
 import schemaeditor.model.base.Schema;
 import schemaeditor.model.blocks.arithmetics.*;
 import javafx.scene.shape.Rectangle;
