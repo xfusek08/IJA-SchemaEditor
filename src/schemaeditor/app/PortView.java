@@ -34,6 +34,7 @@ public class PortView extends AnchorPane
   protected int _portNum;
   protected ConnectionView _connection;
   protected boolean _isConnectedEnd;
+  // protected Label _inputNumLabel;
 
   public PortView(Port port, boolean isOutput, int portNum)
   {
@@ -109,6 +110,7 @@ public class PortView extends AnchorPane
 
   public ConnectionView RegisterConn(ConnectionView connection, boolean isStart)
   {
+    // ClearInputNumber();
     ConnectionView old = _connection;
     _connection = connection;
     _isConnectedEnd = !isStart;
@@ -140,4 +142,17 @@ public class PortView extends AnchorPane
       }
     });
   }
+
+  // public void SetInputLabel()
+  // {
+  //   getChildren().remove(_inputNumLabel);
+  //   if (_port.isInput())
+  //   {
+  //     _inputNumber = number;
+  //     _inputNumLabel = new Label(String.valueOf(_port.getInputNumber()));
+  //     _inputNumLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px;");
+  //     _inputNumLabel.setTextFill(Color.SKYBLUE);
+  //     getChildren().add(_inputNumLabel);
+  //   }
+  // }
 }

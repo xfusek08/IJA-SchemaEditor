@@ -223,9 +223,9 @@ public class BlockView extends AnchorPane implements Observer
   {
     switch(_block.GetStatus().getState())
     {
-      case Finished: BlockBody.setStyle("-fx-background-color: rgb(200,255,200);" + _styles);
-      case Error: BlockBody.setStyle("-fx-background-color: rgb(255,200,200);" + _styles);
-      case Ready: BlockBody.setStyle("-fx-background-color: white;" + _styles);
+      case Finished: BlockBody.setStyle("-fx-background-color: rgb(200,255,200);" + _styles); break;
+      case Error: BlockBody.setStyle("-fx-background-color: rgb(255,200,200);" + _styles); break;
+      case Ready: BlockBody.setStyle("-fx-background-color: white;" + _styles); break;
     }
   }
 }

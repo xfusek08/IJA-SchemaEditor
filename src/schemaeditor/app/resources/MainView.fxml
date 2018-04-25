@@ -44,7 +44,9 @@
                   </AnchorPane>
                   <HBox layoutX="94.0" layoutY="96.0" style="-fx-alignment: center;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button fx:id="Runbt" mnemonicParsing="false" onAction="#RunCalculation" text="Run" />
+                        <Button fx:id="RunActionbt" mnemonicParsing="false" onAction="#RunAction" text="Run" />
+                        <Button fx:id="ResetActionbt" mnemonicParsing="false" onAction="#ResetAction" text="Reset" />
+                        <Button fx:id="StepActionbt" mnemonicParsing="false" onAction="#StepAction" text="Step" />
                      </children>
                   </HBox>
                </children></AnchorPane>

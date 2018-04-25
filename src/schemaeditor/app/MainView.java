@@ -32,6 +32,7 @@ import javafx.scene.paint.Color;
 import schemaeditor.app.BlockView;
 import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Connection;
+import schemaeditor.model.base.Port;
 import schemaeditor.model.base.Schema;
 import schemaeditor.model.base.enums.EAddStatus;
 import schemaeditor.model.blocks.arithmetics.*;
@@ -115,9 +116,23 @@ public class MainView extends AnchorPane
   }
 
   @FXML
-  private void RunCalculation(ActionEvent event)
+  private void RunAction(ActionEvent event)
   {
+    for(Port port : _schema.GetInputPorts())
+      port.SetValueByName("number", 1.0);
     _schema.RunCalculation();
+  }
+  @FXML
+  private void ResetAction(ActionEvent event)
+  {
+    _schema.StopCalculation();
+  }
+  @FXML
+  private void StepAction(ActionEvent event)
+  {
+    for(Port port : _schema.GetInputPorts())
+      port.SetValueByName("number", 1.0);
+    _schema.StepCalculation();
   }
 
   protected void CreateHandlers()
@@ -384,14 +399,6 @@ public class MainView extends AnchorPane
     Set<Connection> conns = _schema.GetConnections();
     BlockNumber.setText(String.valueOf(_schema.GetBlocks().size()));
     ConnNumber.setText(String.valueOf(conns.size()));
-    // List<ConnectionView> toremove = new ArrayList<ConnectionView>();
-    // for (ConnectionView conn : displayConns)
-    // {
-    //   if (!conns.contains(conn.GetConnection()))
-    //     toremove.add(conn);
-    // }
-    // for (ConnectionView conn : toremove)
-    //   RemoveDisplConn(conn);
   }
   protected void RemoveDisplConn(ConnectionView conn)
   {

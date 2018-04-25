@@ -36,6 +36,7 @@ public abstract class Block extends Observable implements Observer
     this.X = 100;
     this.Y = 100;
     DefinePorts();
+    Reset();
   }
 
   /** Define ports of block */
@@ -53,7 +54,7 @@ public abstract class Block extends Observable implements Observer
   {
     InputPorts.get(number).SetData(value);
   }
-  
+
   /**
    * Check if all input ports are defined
    * @return true if all ports are defined
@@ -86,11 +87,15 @@ public abstract class Block extends Observable implements Observer
   /** Reset */
   public void Reset()
   {
-    for(int i = 0; i < OutputPorts.size(); i++)
+    for (Port port : OutputPorts)
     {
-      Iterable<String> names = OutputPorts.get(i).GetValuesNames();
-      for(String s : names)
-        OutputPorts.get(i).SetValueByName(s, null);
+      for(String s : port.GetValuesNames())
+        port.SetValueByName(s, Double.NaN);
+    }
+    for (Port port : InputPorts)
+    {
+      for(String s : port.GetValuesNames())
+        port.SetValueByName(s, Double.NaN);
     }
     _status.setState(EState.Ready);
   }
