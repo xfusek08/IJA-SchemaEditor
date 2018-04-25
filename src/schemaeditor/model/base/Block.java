@@ -7,6 +7,7 @@
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.Port;
+
 import java.util.*;
 
 /**
@@ -19,7 +20,8 @@ public abstract class Block
   public List<Port> InputPorts;
   public List<Port> OutputPorts;
   public String DisplayName;
-  public Point Position;
+  public double X;
+  public double Y;
 
   /** Constructor */
   public Block(UUID ID, String name)
@@ -29,6 +31,8 @@ public abstract class Block
     this.InputPorts = new ArrayList<>();
     this.OutputPorts = new ArrayList<>();
     this.DisplayName = name;
+    this.X = 100;
+    this.Y = 100;
     DefinePorts();
   }
 

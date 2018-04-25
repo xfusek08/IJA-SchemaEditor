@@ -1,12 +1,23 @@
 package schemaeditor.app;
 
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import safemanager.model.safemanager.SchemaXMLLoader;
+import schemaeditor.model.base.Schema;
+import schemaeditor.model.blocks.arithmetics.*;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Main class testing javafx
@@ -21,26 +32,19 @@ public class SchemaEditor extends Application
   @Override
   public void start(Stage primaryStage)
   {
-    Button btn = new Button();
-    btn.setText("Say 'Hello World'");
-    btn.setOnAction(
-      new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event)
-        {
-          System.out.println("Hello World!");
-        }
-      }
-    );
-
-    StackPane root = new StackPane();
-    root.getChildren().add(btn);
-
-    Scene scene = new Scene(root, 300, 250);
-
-    primaryStage.setTitle("Hello World!");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    BorderPane root = new BorderPane();
+    try
+    {
+      // Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
+      Scene scene = new Scene(root);
+      primaryStage.setScene(scene);
+      primaryStage.show();
+    }
+    catch(Exception e)
+    {
+      e.printStackTrace();
+    }
+    root.setCenter(new MainView());
   }
 
   /**

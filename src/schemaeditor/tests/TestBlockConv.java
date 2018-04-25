@@ -89,7 +89,7 @@ public class TestBlockConv
         equ.InputPorts.get(1).SetValueByName("number", -2.1);
         equ.Calculate();
         assertEquals(1.0, equ.OutputPorts.get(0).GetValueByName("bool"), 0.0);
-        
+
     }
 
     /**

@@ -6,9 +6,12 @@
  */
 package schemaeditor.model.base;
 
-import schemaeditor.model.base.enums.EAddStatus;
 import schemaeditor.model.base.*;
+<<<<<<< HEAD
 import schemaeditor.model.safemanager.*;
+=======
+import schemaeditor.model.base.enums.EAddStatus;
+>>>>>>> gui
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -34,7 +37,9 @@ public class Schema // extends Observable
   /** Adds block instance into schema */
   public Block AddBlock(Block block)
   {
-    _blocks.add(new SchemaBlock(block));
+    SchemaBlock newSBlock = new SchemaBlock(block);
+    if (!_blocks.contains(newSBlock))
+      _blocks.add(newSBlock);
     return block;
   }
 
@@ -89,7 +94,7 @@ public class Schema // extends Observable
       return EAddStatus.OutSourcePortNotFound;
     if(in == null)
       return EAddStatus.InDestPortNotfoud;
-    if(!in.Compatible(out._data) || !out.Compatible(out._data))
+    if(!in.Compatible(out) || !out.Compatible(out))
       return EAddStatus.PortsIncopatible;
     for (SchemaBlock schemaBlock : _blocks)
       if(schemaBlock._block.ID == connection.SourceBlockID)

@@ -34,9 +34,10 @@ public class SaveBlock
   private List<SavePort> InputPorts = new ArrayList<>();
   private List<SavePort> OutputPorts = new ArrayList<>();
   private String DisplayName = null;
-  private Point Position = null;
+  public double X;
+  public double Y;
 
-  public void setStatus(BlockStatus _status) 
+  public void setStatus(BlockStatus _status)
   {
     this._status = _status;
   }
@@ -46,7 +47,7 @@ public class SaveBlock
     return _status;
   }
 
-  public void setID(UUID ID) 
+  public void setID(UUID ID)
   {
     this.ID = ID;
   }
@@ -56,7 +57,7 @@ public class SaveBlock
     return ID;
   }
 
-  public void setInputPorts(List<SavePort> InputPorts) 
+  public void setInputPorts(List<SavePort> InputPorts)
   {
     this.InputPorts = InputPorts;
   }
@@ -66,7 +67,7 @@ public class SaveBlock
     return InputPorts;
   }
 
-  public void setOutputPorts(List<SavePort> OutputPorts) 
+  public void setOutputPorts(List<SavePort> OutputPorts)
   {
     this.OutputPorts = OutputPorts;
   }
@@ -76,7 +77,7 @@ public class SaveBlock
     return OutputPorts;
   }
 
-  public void setDisplayName(String DisplayName) 
+  public void setDisplayName(String DisplayName)
   {
     this.DisplayName = DisplayName;
   }
@@ -86,14 +87,24 @@ public class SaveBlock
     return DisplayName;
   }
 
-  public void setPosition(Point Position) 
+  public void setX(double X)
   {
-    this.Position = Position;
+    this.X = X;
   }
 
-  public Point getPosition()
+  public void setY(double Y)
   {
-    return Position;
+    this.Y = Y;
+  }
+
+  public double getX()
+  {
+    return this.X;
+  }
+
+  public double getY()
+  {
+    return this.Y;
   }
 
   public void setFromSchema(Block _block)
@@ -112,13 +123,14 @@ public class SaveBlock
     this._status = _block.GetStatus();
     this.ID = _block.ID;
     this.DisplayName = _block.DisplayName;
-    this.Position = _block.Position;
+    this.X = _block.X;
+    this.Y = _block.Y;
   }
 
   public Block getFromSave()
   {
     Block block;
-    switch(this.DisplayName) 
+    switch(this.DisplayName)
     {
       case "abs":
         block = new NumberBlock_Abs(this.ID);
@@ -187,7 +199,7 @@ public class SaveBlock
     Port sPort;
     for(SavePort port : this.InputPorts)
     {
-      switch (port.getType()) 
+      switch (port.getType())
       {
         case "number":
           sPort = new NumberPort();
@@ -207,7 +219,7 @@ public class SaveBlock
     }
     for(SavePort port : this.OutputPorts)
     {
-      switch (port.getType()) 
+      switch (port.getType())
       {
         case "number":
           sPort = new NumberPort();
@@ -226,7 +238,8 @@ public class SaveBlock
       block.OutputPorts.add(sPort);
     }
     block.DisplayName = this.DisplayName;
-    block.Position = this.Position;
+    block.X = this.X;
+    block.Y = this.Y;
     return block;
   }
 }
