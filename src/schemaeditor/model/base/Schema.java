@@ -19,10 +19,10 @@ import java.util.stream.Stream;
  * Schema is composed from Blocks and connections
  * @TODO: Schema should be implementing observable object to notify view of changes inside structure
  */
-public class Schema // extends Observable
+public class Schema extends Observable
 {
-  public Set<SchemaBlock> _blocks;
-  public Set<Connection> _connections;
+  protected Set<SchemaBlock> _blocks;
+  protected Set<Connection> _connections;
 
   /** Constructor */
   public Schema()

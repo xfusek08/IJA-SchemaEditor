@@ -24,8 +24,6 @@ public class ConnectionView extends Pane
   protected Point2D _end;
   protected boolean _fromOut;
   protected Connection _connection;
-  protected Port _sourcePort;
-  protected Port _destPort;
 
   public ConnectionView(Point2D start, Point2D end, boolean fromOut)
   {
@@ -33,8 +31,6 @@ public class ConnectionView extends Pane
     _end = end;
     _fromOut = fromOut;
     _connection = new Connection();
-    _sourcePort = null;
-    _destPort = null;
     // System.err.print(getClass().getResource("resources/ConnectionView.fxml"));
     // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
@@ -66,14 +62,9 @@ public class ConnectionView extends Pane
 
   public Connection GetConnection()
   {
-    return _connection;
-  }
-
-  public boolean ArePortCompatible()
-  {
-    if (_sourcePort != null && _destPort != null)
-      return _sourcePort.Compatible(_destPort);
-    return true;
+    if (_connection.SourceBlockID != null && _connection.DestBlockID != null)
+      return _connection;
+    return null;
   }
 
   public void SetStart(Point2D point)
@@ -100,27 +91,35 @@ public class ConnectionView extends Pane
     Curve.setControlY2(_end.getY());
   }
 
-  public void setSource(Port port, UUID blockID, int portNumber)
+  public void setSource(UUID blockID, int portNumber)
   {
-    _sourcePort = port;
+    UnSetRed();
     _connection.SourceBlockID = blockID;
     _connection.SourcePortNumber = portNumber;
-    CheckCompatible();
   }
 
-  public void setDest(Port port, UUID blockID, int portNumber)
+  public void setDest(UUID blockID, int portNumber)
   {
-    _destPort = port;
+    UnSetRed();
     _connection.DestBlockID = blockID;
     _connection.DestPortNumber = portNumber;
-    CheckCompatible();
   }
 
-  protected void CheckCompatible()
+  public void SetPort(boolean isOutput, UUID blockID, int portNumber)
   {
-    if (!ArePortCompatible())
-      Curve.setStroke(Color.RED);
+    if (isOutput)
+      setSource(blockID, portNumber);
     else
-      Curve.setStroke(Color.BLACK);
+      setDest(blockID, portNumber);
+  }
+
+  public void SetRed()
+  {
+    Curve.setStroke(Color.RED);
+  }
+
+  public void UnSetRed()
+  {
+    Curve.setStroke(Color.BLACK);
   }
 }
