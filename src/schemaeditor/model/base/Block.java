@@ -6,6 +6,7 @@
  */
 package schemaeditor.model.base;
 
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.base.Port;
 
 import java.util.*;
@@ -74,6 +75,7 @@ public abstract class Block
       for(String s : names)
         OutputPorts.get(i).SetValueByName(s, null);
     }
+    _status.State = EState.Ready;
   }
 
   /**

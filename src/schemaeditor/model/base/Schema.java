@@ -7,6 +7,7 @@
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.*;
+import schemaeditor.model.base.enums.EState;
 import schemaeditor.model.safemanager.*;
 import schemaeditor.model.base.enums.EAddStatus;
 
@@ -167,26 +168,91 @@ public class Schema extends Observable
     return res;
   }
 
+  public Set<Block> GetOutBlocks()
+  {
+    Dictionary<SchemaBlock, List<Port>> inputdict = GetOutpuSchemaBlocksWithOutpuPorts();
+    Set<Block> res = new HashSet<Block>();
+    Enumeration<SchemaBlock> keys = inputdict.keys();
+    while(keys.hasMoreElements())
+      res.add(keys.nextElement().GetBlock());
+    return res;
+  }
+
   /** Runs calculation */
   public boolean RunCalculation()
   {
-    return false;
+    boolean doCalc = true;
+    try
+    {
+      StartCalculation();
+      while(doCalc == true)
+        doCalc = StepCalculation();
+    }
+    catch(Exception e)
+    {
+      return false;
+    }
+    return true;
   }
 
   /** Starts debug calculation and prepares it to stepping */
   public void StartCalculation()
   {
+    //najdu vsechny bloky, ktere maji prazdne porty pomoci metody a zavolam calculate na blocich
+    Set<Block> blocks = GetInBlocks();
+    for(Block block : blocks)
+      block.Calculate();
   }
 
   /** Execute one level of calculation */
   public boolean StepCalculation()
   {
-    return false;
+    //najdu vsechny bloky ktery maji stav finished a do pole nahraju vsechny bloky kam vedou
+    //na kazdy blok zavolam calculate
+    boolean calculated = false;
+    Set<Block> blocks = new HashSet<Block>();
+    for(SchemaBlock schemaBlock : _blocks)
+      if(schemaBlock.GetBlock().GetStatus().State == EState.Finished)
+        for(Connection conn : _connections)
+          if(conn.SourceBlockID == schemaBlock.GetBlock().ID)
+            for(SchemaBlock sBlock : _blocks)
+              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().State != EState.Finished)
+              {
+                sBlock.GetBlock().Calculate();
+                calculated = true;
+              }
+    return calculated;
   }
 
   /** Resets all blocks into initial state before calculation */
   public void StopCalculation()
   {
+    //najdu vsechny bloky, ktere maji prazdne VYSTUPNI porty a navratim do stavu Ready
+    //vsechny bloky, ktere do nich vedly nahraju do pole a navratim do stavu Ready
+    //takhle budu pokracovat dokud vyhledam bloky, ktere do nich sli a pole bude prazdne
+    boolean doRes = false;
+    Set<Block> blocks = GetOutBlocks();
+    for(Block block : blocks)
+      block.Reset();
+    while(doRes == true)
+      doRes = StepCalculation();
+  }
+
+  private boolean StepStop()
+  {
+    boolean calculated = false;
+    Set<Block> blocks = new HashSet<Block>();
+    for(SchemaBlock schemaBlock : _blocks)
+      if(schemaBlock.GetBlock().GetStatus().State != EState.Finished)
+        for(Connection conn : _connections)
+          if(conn.DestBlockID == schemaBlock.GetBlock().ID)
+            for(SchemaBlock sBlock : _blocks)
+              if(sBlock.GetBlock().ID == conn.SourceBlockID && sBlock.GetBlock().GetStatus().State == EState.Finished)
+              {
+                sBlock.GetBlock().Reset();
+                calculated = true;
+              }
+    return calculated;
   }
 
   /************************************************ PROTECTED ***************************************************/
@@ -222,8 +288,8 @@ public class Schema extends Observable
               preBlock = sBlock;
           if(preBlock != null)
           {
-            block._precedestors.addAll(preBlock.GetPrecedestors());
-            block._precedestors.add(preBlock.GetBlock().ID);
+            block.AddAllPrecedestor(preBlock.GetPrecedestors());
+            block.AddPrecedestor(preBlock.GetBlock().ID);
             queue.set(block);
           }
           AddConnection(connection, true);
