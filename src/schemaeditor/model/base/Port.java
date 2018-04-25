@@ -117,4 +117,12 @@ public abstract class Port
       return false;
     return true;
   }
+
+  public String GetValueAsString()
+  {
+    String res = "";
+    for(String s : GetValuesNames())
+      res = res + "\"" + s + "\": " + String.valueOf(GetValueByName(s) + "\n");
+    return res;
+  }
 }

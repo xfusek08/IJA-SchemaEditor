@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public class CplexBlock_Sub extends Block
 {
-  public static final String NAME = "Complex substraction";
+  public static final String NAME = "Complex Sub";
 
   /** Constructor */
   public CplexBlock_Sub(UUID id)
@@ -50,6 +50,6 @@ public class CplexBlock_Sub extends Block
     double resultI = valueI1 - valueI2;
     OutputPorts.get(0).SetValueByName("real", resultR);
     OutputPorts.get(0).SetValueByName("imaginary", resultI);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

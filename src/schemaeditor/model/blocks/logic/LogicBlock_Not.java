@@ -43,6 +43,6 @@ public class LogicBlock_Not extends Block
     double value = InputPorts.get(0).GetValueByName("bool");
     value = -(value - 1.0);
     OutputPorts.get(0).SetValueByName("bool", value);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

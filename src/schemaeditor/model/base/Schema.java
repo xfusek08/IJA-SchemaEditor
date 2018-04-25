@@ -212,11 +212,11 @@ public class Schema extends Observable
     boolean calculated = false;
     Set<Block> blocks = new HashSet<Block>();
     for(SchemaBlock schemaBlock : _blocks)
-      if(schemaBlock.GetBlock().GetStatus().State == EState.Finished)
+      if(schemaBlock.GetBlock().GetStatus().getState() == EState.Finished)
         for(Connection conn : _connections)
           if(conn.SourceBlockID == schemaBlock.GetBlock().ID)
             for(SchemaBlock sBlock : _blocks)
-              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().State != EState.Finished)
+              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() != EState.Finished)
               {
                 sBlock.GetBlock().Calculate();
                 calculated = true;
@@ -243,11 +243,11 @@ public class Schema extends Observable
     boolean calculated = false;
     Set<Block> blocks = new HashSet<Block>();
     for(SchemaBlock schemaBlock : _blocks)
-      if(schemaBlock.GetBlock().GetStatus().State != EState.Finished)
+      if(schemaBlock.GetBlock().GetStatus().getState() != EState.Finished)
         for(Connection conn : _connections)
           if(conn.DestBlockID == schemaBlock.GetBlock().ID)
             for(SchemaBlock sBlock : _blocks)
-              if(sBlock.GetBlock().ID == conn.SourceBlockID && sBlock.GetBlock().GetStatus().State == EState.Finished)
+              if(sBlock.GetBlock().ID == conn.SourceBlockID && sBlock.GetBlock().GetStatus().getState() == EState.Finished)
               {
                 sBlock.GetBlock().Reset();
                 calculated = true;
@@ -373,7 +373,6 @@ public class Schema extends Observable
     List<Connection> toremove = new ArrayList<Connection>();
     source.ConnectOutPort(connection.SourcePortNumber);
     dest.ConnectInPort(connection.DestPortNumber, source.GetPrecedestors());
-
     GetConnections().stream()
       .filter(c ->
         c.SourceBlockID.equals(connection.SourceBlockID) && c.SourcePortNumber == connection.SourcePortNumber ||

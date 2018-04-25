@@ -6,21 +6,43 @@
  */
 package schemaeditor.model.base;
 
+import java.util.Observable;
 import java.util.UUID;
 import schemaeditor.model.base.enums.EState;
 
 /**
  * Class representing status
  */
-public class BlockStatus
+public class BlockStatus extends Observable
 {
-  public EState State;
-  public String Message;
+  private EState _state;
+  private String _message;
 
   /** Constructor */
   public BlockStatus()
   {
-    this.State = EState.Error;
-    this.Message = "";
+    this._state = EState.Error;
+    this._message = "";
+  }
+  public void setState(EState state)
+  {
+    _state = state;
+    setChanged();
+    notifyObservers();
+  }
+
+  public EState getState()
+  {
+    return _state;
+  }
+
+  public String getMessage()
+  {
+    return _message;
+  }
+
+  public void setMessage(String _message)
+  {
+	  this._message = _message;
   }
 }

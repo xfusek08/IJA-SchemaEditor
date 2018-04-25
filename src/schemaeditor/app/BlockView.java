@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
@@ -15,24 +17,27 @@ import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Port;
 
-public class BlockView extends AnchorPane
+public class BlockView extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;
 
   @FXML GridPane InputPortGrid;
   @FXML GridPane OutputPortGrid;
   @FXML HBox BlockBody;
-  @FXML Label label_DisplayName;
-  @FXML Label IDLabel;
+  @FXML Text DisplayName;
 
   protected Block _block;
   protected Point2D _dragOffset;
@@ -41,9 +46,13 @@ public class BlockView extends AnchorPane
   private EventHandler <DragEvent> DragDroppedHandler;
   private EventHandler <DragEvent> DragExitedHandler;
 
+  protected String _styles;
+
   public BlockView(Block block)
   {
     _block = block;
+    _block.addObserver(this);
+
     // System.err.print(getClass().getResource("resources/BlockView.fxml"));
     // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
@@ -64,8 +73,8 @@ public class BlockView extends AnchorPane
   @FXML
   private void initialize()
   {
-    label_DisplayName.setText(_block.DisplayName);
-    IDLabel.setText(_block.ID.toString());
+    _styles = BlockBody.getStyle();
+    DisplayName.setText(_block.DisplayName);
     this.setLayoutX(_block.X);
     this.setLayoutY(_block.Y);
 
@@ -89,7 +98,13 @@ public class BlockView extends AnchorPane
       OutputPortGrid.add(new PortView(port, true, cnt), 0, cnt);
       cnt++;
     }
+    Reload();
     MakeDragEvents();
+  }
+
+  public void update(Observable obs, Object obj)
+  {
+    Reload();
   }
 
   public Block GetBlock()
@@ -100,6 +115,8 @@ public class BlockView extends AnchorPane
   public void MoveToPoint(Point2D point)
   {
     Point2D localCoords = getParent().sceneToLocal(point).subtract(_dragOffset);
+    _block.X = localCoords.getX();
+    _block.Y = localCoords.getY();
     relocate (
       (int) (localCoords.getX()),
       (int) (localCoords.getY())
@@ -175,42 +192,40 @@ public class BlockView extends AnchorPane
 
     BlockBody.setOnDragDetected(new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent event) {
-        Point2D schemaCoords = getParent().sceneToLocal(event.getSceneX(), event.getSceneY());
-        System.out.printf("drag %s (%s): [%f, %f]",
-          _block.ID.toString(),
-          _block.DisplayName,
-          schemaCoords.getX(),
-          schemaCoords.getY()
-        );
+        if (event.getButton() == MouseButton.PRIMARY)
+        {
+          Point2D schemaCoords = getParent().sceneToLocal(event.getSceneX(), event.getSceneY());
+          System.out.printf("drag %s (%s): [%f, %f]",
+            _block.ID.toString(),
+            _block.DisplayName,
+            schemaCoords.getX(),
+            schemaCoords.getY()
+          );
 
-        getParent().setOnDragOver(null);
-        getParent().setOnDragDropped(null);
-        getParent().setOnDragExited(null);
-        getParent().setOnDragOver(DragOverHandler);
-        getParent().setOnDragDropped(DragDroppedHandler);
-        getParent().setOnDragExited(DragExitedHandler);
+          getParent().setOnDragOver(null);
+          getParent().setOnDragDropped(null);
+          getParent().setOnDragExited(null);
+          getParent().setOnDragOver(DragOverHandler);
+          getParent().setOnDragDropped(DragDroppedHandler);
+          getParent().setOnDragExited(DragExitedHandler);
 
-        _dragOffset = sceneToLocal(event.getSceneX(), event.getSceneY());
+          _dragOffset = sceneToLocal(event.getSceneX(), event.getSceneY());
 
-        ClipboardContent content = new ClipboardContent();
-        content.putString(_block.ID.toString());
-        startDragAndDrop(TransferMode.ANY).setContent(content);
-        event.consume();
+          ClipboardContent content = new ClipboardContent();
+          content.putString(_block.ID.toString());
+          startDragAndDrop(TransferMode.ANY).setContent(content);
+          event.consume();
+        }
       }
     });
-
-    BlockBody.setOnMouseEntered(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event)
-      {
-        IDLabel.setVisible(true);
-      }
-    });
-
-    BlockBody.setOnMouseExited(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event)
-      {
-        IDLabel.setVisible(false);
-      }
-    });
+  }
+  protected void Reload()
+  {
+    switch(_block.GetStatus().getState())
+    {
+      case Finished: BlockBody.setStyle("-fx-background-color: rgb(200,255,200);" + _styles);
+      case Error: BlockBody.setStyle("-fx-background-color: rgb(255,200,200);" + _styles);
+      case Ready: BlockBody.setStyle("-fx-background-color: white;" + _styles);
+    }
   }
 }

@@ -46,6 +46,6 @@ public class NumberBlock_Mul extends Block
     double value2 = InputPorts.get(1).GetValueByName("number");
     double result = value1 * value2;
     OutputPorts.get(0).SetValueByName("number", result);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

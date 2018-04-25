@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root fx:id="root_pane" style="-fx-border-color: black; -fx-border-width: 3px; -fx-background-color: white;" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="IDLabel" style="-fx-font-weight: bold;" text="id">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
+            <Separator />
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Status:">
+                     <GridPane.margin>
+                        <Insets right="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="StatusLabel" alignment="CENTER" style="-fx-font-weight: bold;" text="Ready" textAlignment="CENTER" GridPane.columnIndex="1" />
+                  <Label text="Message:" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="MessageLabel" alignment="CENTER" style="-fx-font-weight: bold;" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </GridPane>
+            <Separator />
+            <Label text="Input values:">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
+            <GridPane fx:id="InValuesGrid">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </GridPane>
+            <Separator />
+            <Label text="Output values:">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
+            <GridPane fx:id="OutValuesGrid">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</fx:root>

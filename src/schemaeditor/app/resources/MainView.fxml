@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -23,8 +24,7 @@
                <children>
                   <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Label text="Schema properties:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <GridPane layoutY="75.0" prefHeight="35.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+                        <GridPane layoutY="75.0" prefHeight="35.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="70.0" prefWidth="73.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="37.0" minWidth="27.0" prefWidth="34.0" />
@@ -42,6 +42,11 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
+                  <HBox layoutX="94.0" layoutY="96.0" style="-fx-alignment: center;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="Runbt" mnemonicParsing="false" onAction="#RunCalculation" text="Run" />
+                     </children>
+                  </HBox>
                </children></AnchorPane>
          </center>
          <left>

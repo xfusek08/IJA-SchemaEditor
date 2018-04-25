@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public class CplexBlock_Add extends Block
 {
-  public static final String NAME = "Complex addition";
+  public static final String NAME = "Complex Add";
 
   /** Constructor */
   public CplexBlock_Add(UUID id)
@@ -50,6 +50,6 @@ public class CplexBlock_Add extends Block
     double resultI = valueI1 + valueI2;
     OutputPorts.get(0).SetValueByName("real", resultR);
     OutputPorts.get(0).SetValueByName("imaginary", resultI);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

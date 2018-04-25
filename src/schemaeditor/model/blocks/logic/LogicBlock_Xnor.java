@@ -48,6 +48,6 @@ public class LogicBlock_Xnor extends Block
       OutputPorts.get(0).SetValueByName("bool", 1.0);
     else
       OutputPorts.get(0).SetValueByName("bool", 0.0);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

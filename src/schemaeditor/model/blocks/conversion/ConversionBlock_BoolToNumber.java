@@ -34,7 +34,7 @@ public class ConversionBlock_BoolToNumber extends Block
   protected void DefinePorts()
   {
     InputPorts.add(new BoolPort());
-  
+
     OutputPorts.add(new NumberPort());
   }
 
@@ -43,6 +43,6 @@ public class ConversionBlock_BoolToNumber extends Block
   {
     double value = InputPorts.get(0).GetValueByName("bool");
     OutputPorts.get(0).SetValueByName("number", value);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

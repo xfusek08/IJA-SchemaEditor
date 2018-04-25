@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Class reprezenting one block
  */
-public abstract class Block
+public abstract class Block extends Observable implements Observer
 {
   protected BlockStatus _status;
   public UUID ID;
@@ -28,6 +28,7 @@ public abstract class Block
   public Block(UUID ID, String name)
   {
     this._status = new BlockStatus();
+    this._status.addObserver(this);
     this.ID = ID;
     this.InputPorts = new ArrayList<>();
     this.OutputPorts = new ArrayList<>();
@@ -66,6 +67,12 @@ public abstract class Block
     return this._status;
   }
 
+  public void update(Observable obs, Object obj)
+  {
+    setChanged();
+    notifyObservers();
+  }
+
   /** Reset */
   public void Reset()
   {
@@ -75,7 +82,7 @@ public abstract class Block
       for(String s : names)
         OutputPorts.get(i).SetValueByName(s, null);
     }
-    _status.State = EState.Ready;
+    _status.setState(EState.Ready);
   }
 
   /**

@@ -46,13 +46,13 @@ public class NumberBlock_Div extends Block
     double value2 = InputPorts.get(1).GetValueByName("number");
     if(value2 == 0)
     {
-      _status.State = EState.Error;
+      _status.setState(EState.Error);
     }
     else
     {
       double result = value1 / value2;
       OutputPorts.get(0).SetValueByName("number", result);
-      _status.State = EState.Finished;
+      _status.setState(EState.Finished);
     }
   }
 }

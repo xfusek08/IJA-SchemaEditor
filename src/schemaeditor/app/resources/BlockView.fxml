@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Text?>
 
 <fx:root fx:id="root_pane" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -21,9 +19,9 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <HBox fx:id="BlockBody" prefHeight="100.0" prefWidth="60.0" style="-fx-alignment: center; -fx-background-color: white; -fx-border-color: Black; -fx-border-width: 3px; -fx-border-radius: 5px;" styleClass="Block" stylesheets="@styles.css">
+            <HBox fx:id="BlockBody" prefHeight="100.0" prefWidth="60.0" style="-fx-alignment: center; -fx-border-color: Black; -fx-border-width: 3px; -fx-border-radius: 5px;" styleClass="Block" stylesheets="@styles.css">
                <children>
-                  <Label fx:id="label_DisplayName" text="Name" />
+                  <Text fx:id="DisplayName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="47.13671875" />
                </children>
             </HBox>
             <GridPane fx:id="OutputPortGrid" prefWidth="20.0">
@@ -36,15 +34,5 @@
             </GridPane>
          </children>
       </HBox>
-      <Label fx:id="IDLabel" alignment="CENTER" contentDisplay="CENTER" mouseTransparent="true" style="-fx-font-size: 15;" styleClass="IDLabel" stylesheets="@styles.css" visible="false" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <textFill>
-            <RadialGradient centerX="0.5166666666666667" centerY="0.5047619047619047" focusDistance="0.04651162790697683" radius="0.9186046511627908">
-               <stops>
-                  <Stop color="#2d15ff" />
-                  <Stop color="#d1ccff" offset="1.0" />
-               </stops>
-            </RadialGradient>
-         </textFill>
-      </Label>
    </children>
 </fx:root>

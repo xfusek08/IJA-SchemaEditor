@@ -74,9 +74,9 @@ public class ConnectionView extends Pane
     Curve.setStartY(_start.getY());
     Curve.setControlY1(_start.getY());
     if (_fromOut)
-      Curve.setControlX1(_start.getX() + 100);
+      Curve.setControlX1(_start.getX() + 50);
     else
-      Curve.setControlX1(_start.getX() - 100);
+      Curve.setControlX1(_start.getX() - 50);
   }
 
   public void SetEnd(Point2D point)
@@ -85,9 +85,9 @@ public class ConnectionView extends Pane
     Curve.setEndX(_end.getX());
     Curve.setEndY(_end.getY());
     if (_start.getX() > _end.getX())
-      Curve.setControlX2(_end.getX() + 100);
+      Curve.setControlX2(_end.getX() + 50);
     else
-      Curve.setControlX2(_end.getX() - 100);
+      Curve.setControlX2(_end.getX() - 50);
     Curve.setControlY2(_end.getY());
   }
 

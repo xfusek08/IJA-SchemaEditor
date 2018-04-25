@@ -18,6 +18,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.fxml.FXML;
@@ -54,6 +55,8 @@ public class MainView extends AnchorPane
   private EventHandler<DragEvent> connectionDragOverHandle;
   private EventHandler<DragEvent> connectionDragDropHandle;
   private EventHandler<DragEvent> connectionDragExitedHandler;
+
+  private BlockInfoBoard _infotab;
 
   public MainView()
   {
@@ -109,6 +112,12 @@ public class MainView extends AnchorPane
       SetConnectionEvents(newBlockView);
     }
     UpdateSchemaStats();
+  }
+
+  @FXML
+  private void RunCalculation(ActionEvent event)
+  {
+    _schema.RunCalculation();
   }
 
   protected void CreateHandlers()
@@ -270,6 +279,32 @@ public class MainView extends AnchorPane
         }
       });
     }
+
+    blockView.BlockBody.setOnMousePressed(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        if (event.getButton() == MouseButton.MIDDLE)
+        {
+          _infotab = new BlockInfoBoard(blockView.GetBlock());
+          getChildren().add(_infotab);
+          Point2D coords = SchemaPane.localToScene(blockView.getLayoutX(), blockView.getLayoutY());
+          _infotab.relocate(coords.getX() + 80, coords.getY());
+          event.consume();
+        }
+      }
+    });
+
+    blockView.BlockBody.setOnMouseReleased(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        if (event.getButton() == MouseButton.MIDDLE)
+        {
+          getChildren().remove(_infotab);
+          _infotab = null;
+          event.consume();
+        }
+      }
+    });
   }
   protected Connection RegisterConnOnPort(PortView port, ConnectionView conn, boolean isStart)
   {
