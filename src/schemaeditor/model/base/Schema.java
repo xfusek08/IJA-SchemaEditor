@@ -24,12 +24,14 @@ public class Schema extends Observable
 {
   protected Set<SchemaBlock> _blocks;
   protected Set<Connection> _connections;
+  protected boolean _isCalculating;
 
   /** Constructor */
   public Schema()
   {
     _blocks = new HashSet<SchemaBlock>();
     _connections = new HashSet<Connection>();
+    _isCalculating = false;
   }
 
   /** Adds block instance into schema */
@@ -40,6 +42,11 @@ public class Schema extends Observable
       _blocks.add(newSBlock);
     notifyObservers();
     return block;
+  }
+
+  public boolean isCalculating()
+  {
+    return _isCalculating;
   }
 
   @Override
@@ -183,6 +190,7 @@ public class Schema extends Observable
   /** Runs calculation */
   public boolean RunCalculation()
   {
+    _isCalculating = true;
     boolean doCalc = true;
     try
     {
@@ -200,10 +208,12 @@ public class Schema extends Observable
   /** Starts debug calculation and prepares it to stepping */
   public void StartCalculation()
   {
+    _isCalculating = true;
     //najdu vsechny bloky, ktere maji prazdne porty pomoci metody a zavolam calculate na blocich
     Set<Block> blocks = GetInBlocks();
     for(Block block : blocks)
-      block.Calculate();
+      if(block.isExecutable())
+        block.Calculate();
   }
 
   /** Execute one level of calculation */
@@ -217,11 +227,11 @@ public class Schema extends Observable
         for(Connection conn : _connections)
           if(conn.SourceBlockID == schemaBlock.GetBlock().ID)
             for(SchemaBlock sBlock : _blocks)
-              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() != EState.Finished
-              && sBlock.GetBlock().GetStatus().getState() != EState.Error)
+              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() == EState.Ready)
               {
                 sendVal(conn);
-                sBlock.GetBlock().Calculate();
+                if(sBlock.GetBlock().isExecutable())
+                  sBlock.GetBlock().Calculate();
                 calculated = true;
               }
     return calculated;
@@ -240,6 +250,7 @@ public class Schema extends Observable
     List<Block> blocks = GetBlocks();
     for(Block block : blocks)
       block.Reset();
+    _isCalculating = false;
   }
 
   /************************************************ PROTECTED ***************************************************/

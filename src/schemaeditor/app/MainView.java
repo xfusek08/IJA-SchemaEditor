@@ -135,7 +135,10 @@ public class MainView extends AnchorPane
   {
     for(Port port : _schema.GetInputPorts())
       port.SetValueByName("number", 1.0);
-    _schema.StepCalculation();
+    if(!_schema.isCalculating())
+      _schema.StartCalculation();
+    else
+      _schema.StepCalculation();
   }
 
   protected void CreateHandlers()

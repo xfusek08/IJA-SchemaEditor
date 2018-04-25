@@ -55,6 +55,15 @@ public abstract class Block extends Observable implements Observer
     InputPorts.get(number).SetData(value);
   }
 
+  public boolean isExecutable()
+  {
+    for(Port port : InputPorts)
+      for(String key : port.GetData().keySet())
+        if(Double.isNaN(port.GetData().get(key)))
+          return false;
+    return true;
+  }
+
   /**
    * Check if all input ports are defined
    * @return true if all ports are defined

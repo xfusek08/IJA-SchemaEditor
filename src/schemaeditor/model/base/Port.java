@@ -55,7 +55,7 @@ public abstract class Port extends Observable
 
   public HashMap<String, Double> GetData()
   {
-    return _data;
+    return new HashMap<String, Double>(_data);
   }
 
   public void SetData(HashMap<String, Double> data)
