@@ -33,7 +33,6 @@ public class SchemaXMLLoader implements ISchemaLoader
     JAXBContext context = JAXBContext.newInstance(SaveSchema.class);
     Unmarshaller read = context.createUnmarshaller();
     SaveSchema rSchema = (SaveSchema) read.unmarshal(new FileReader(fileName));
-    Set<Connection> cons = new HashSet<Connection>();
     Set<Block> _blocks = new HashSet<Block>();
     Schema _schema = new Schema();
     for(SaveBlock block : rSchema.getBlock())
@@ -48,9 +47,8 @@ public class SchemaXMLLoader implements ISchemaLoader
     {
       Connection saveConn;
       saveConn = conn.getFromSave();
-      cons.add(saveConn);
+      _schema.AddConnection(saveConn);
     }
-    _schema._connections = cons;
     return _schema;
   }
 
