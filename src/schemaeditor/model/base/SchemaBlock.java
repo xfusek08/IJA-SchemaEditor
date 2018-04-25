@@ -39,6 +39,22 @@ class SchemaBlock
   }
 
   /**
+   * Add precedestor to precedestors
+   */
+  public void AddPrecedestor(UUID ID)
+  {
+    _precedestors.add(ID);
+  }
+
+  /**
+   * Add all precedestor to precedestors
+   */
+  public void AddAllPrecedestor(Set<UUID> IDs)
+  {
+    _precedestors.addAll(IDs);
+  }
+
+  /**
    * Return iterable of free in ports
    * @return Set of _freeInPorts
    */
