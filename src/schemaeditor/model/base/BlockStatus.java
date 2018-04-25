@@ -21,7 +21,7 @@ public class BlockStatus extends Observable
   /** Constructor */
   public BlockStatus()
   {
-    this._state = EState.Error;
+    this._state = EState.Ready;
     this._message = "";
   }
   public void setState(EState state)

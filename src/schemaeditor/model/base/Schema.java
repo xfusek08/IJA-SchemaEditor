@@ -50,13 +50,13 @@ public class Schema extends Observable
   /** Removes block instance from schema */
   public void RemoveBlock(Block block)
   {
-    _blocks.remove(GetSchemaBlockById(block.ID));
     List<Connection> toRemove = new ArrayList<Connection>();
     for (Connection conn : GetConnections())
       if (conn.DestBlockID == block.ID || conn.SourceBlockID == block.ID)
         toRemove.add(conn);
     for (Connection conn : toRemove)
       RemoveConnection(conn);
+    _blocks.remove(GetSchemaBlockById(block.ID));
     notifyObservers();
     CalculateSchemaConnections();
   }
@@ -107,8 +107,10 @@ public class Schema extends Observable
       if(schemaBlock._block.ID == connection.SourceBlockID)
         prec = schemaBlock;
     for (UUID ID : prec.GetPrecedestors())
+    {
       if(ID == connection.DestBlockID)
         return EAddStatus.ConnectionCuseesCycles;
+    }
     return EAddStatus.Ok;
   }
 
@@ -207,52 +209,37 @@ public class Schema extends Observable
   /** Execute one level of calculation */
   public boolean StepCalculation()
   {
-    //najdu vsechny bloky ktery maji stav finished a do pole nahraju vsechny bloky kam vedou
+    //najdu vsechny bloky ktery maji stav finished
     //na kazdy blok zavolam calculate
     boolean calculated = false;
-    Set<Block> blocks = new HashSet<Block>();
     for(SchemaBlock schemaBlock : _blocks)
       if(schemaBlock.GetBlock().GetStatus().getState() == EState.Finished)
         for(Connection conn : _connections)
           if(conn.SourceBlockID == schemaBlock.GetBlock().ID)
             for(SchemaBlock sBlock : _blocks)
-              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() != EState.Finished)
+              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() != EState.Finished
+              && sBlock.GetBlock().GetStatus().getState() != EState.Error)
               {
+                sendVal(conn);
                 sBlock.GetBlock().Calculate();
                 calculated = true;
               }
     return calculated;
   }
 
+  private void sendVal(Connection conn)
+  {
+    HashMap<String, Double> value = GetSchemaBlockById(conn.SourceBlockID).GetBlock().getOutPortVal(conn.SourcePortNumber);
+    GetSchemaBlockById(conn.DestBlockID).GetBlock().setInPortVal(conn.DestPortNumber, value);
+  }
+
   /** Resets all blocks into initial state before calculation */
   public void StopCalculation()
   {
-    //najdu vsechny bloky, ktere maji prazdne VYSTUPNI porty a navratim do stavu Ready
-    //vsechny bloky, ktere do nich vedly nahraju do pole a navratim do stavu Ready
-    //takhle budu pokracovat dokud vyhledam bloky, ktere do nich sli a pole bude prazdne
     boolean doRes = false;
-    Set<Block> blocks = GetOutBlocks();
+    List<Block> blocks = GetBlocks();
     for(Block block : blocks)
       block.Reset();
-    while(doRes == true)
-      doRes = StepCalculation();
-  }
-
-  private boolean StepStop()
-  {
-    boolean calculated = false;
-    Set<Block> blocks = new HashSet<Block>();
-    for(SchemaBlock schemaBlock : _blocks)
-      if(schemaBlock.GetBlock().GetStatus().getState() != EState.Finished)
-        for(Connection conn : _connections)
-          if(conn.DestBlockID == schemaBlock.GetBlock().ID)
-            for(SchemaBlock sBlock : _blocks)
-              if(sBlock.GetBlock().ID == conn.SourceBlockID && sBlock.GetBlock().GetStatus().getState() == EState.Finished)
-              {
-                sBlock.GetBlock().Reset();
-                calculated = true;
-              }
-    return calculated;
   }
 
   /************************************************ PROTECTED ***************************************************/
@@ -265,47 +252,11 @@ public class Schema extends Observable
   protected void CalculateSchemaConnections()
   {
     _blocks.stream().forEach(sb -> sb.Clean());
-    List<SchemaBlock> openQueue = new ArrayList<SchemaBlock>();
-    Dictionary<SchemaBlock, List<Port>> inputDict = GetInputSchemaBlocksWithInputPorts();
+    Set<Block> openQueue = new HashSet<Block>();
     Set<Connection> connections = GetConnections();
     //Nahrani prvnich blocku do fronty
-    for(Enumeration blocks = inputDict.keys(); blocks.hasMoreElements();)
-    {
-      openQueue.add((SchemaBlock)blocks.nextElement());
-    }
-    ListIterator<SchemaBlock> queue = openQueue.listIterator();
-    while(queue.hasNext())
-    {
-      SchemaBlock block = queue.next();
-      for(Connection connection : connections)
-      {
-        //Pro kazdy block najdu jeho konekci predchudce a ziskam predchudce
-        if(connection.DestBlockID == block.GetBlock().ID)
-        {
-          SchemaBlock preBlock = null;
-          for(SchemaBlock sBlock : openQueue)
-            if(connection.SourceBlockID == sBlock.GetBlock().ID)
-              preBlock = sBlock;
-          if(preBlock != null)
-          {
-            block.AddAllPrecedestor(preBlock.GetPrecedestors());
-            block.AddPrecedestor(preBlock.GetBlock().ID);
-            queue.set(block);
-          }
-          AddConnection(connection, true);
-        }
-        //Bloky na ktere vede nahraju do pole
-        if(connection.SourceBlockID == block.GetBlock().ID)
-        {
-          SchemaBlock afBlock = null;
-          for(SchemaBlock sBlock : _blocks)
-            if(connection.DestBlockID == sBlock.GetBlock().ID)
-              afBlock = sBlock;
-          if(afBlock != null)
-            queue.add(afBlock);
-        }
-      }
-    }
+    openQueue = GetInBlocks();
+    
   }
 
   private SchemaBlock GetSchemaBlockById(UUID id)
@@ -372,7 +323,11 @@ public class Schema extends Observable
     boolean isRemoved = false;
     List<Connection> toremove = new ArrayList<Connection>();
     source.ConnectOutPort(connection.SourcePortNumber);
-    dest.ConnectInPort(connection.DestPortNumber, source.GetPrecedestors());
+    Set<UUID> prec = new HashSet<UUID>();
+    prec.addAll(source.GetPrecedestors());
+    prec.add(source.GetBlock().ID);
+    dest.ConnectInPort(connection.DestPortNumber, prec);
+
     GetConnections().stream()
       .filter(c ->
         c.SourceBlockID.equals(connection.SourceBlockID) && c.SourcePortNumber == connection.SourcePortNumber ||
@@ -389,8 +344,8 @@ public class Schema extends Observable
     if (!_connections.add(connection))
       return EAddStatus.OtherError;
 
-    // if (isRemoved && recalculate)
-    //   CalculateSchemaConnections();
+    //if (isRemoved && recalculate)
+       //CalculateSchemaConnections();
 
     System.err.printf("\n");
     for (Connection conn : GetConnections())

@@ -50,6 +50,16 @@ public abstract class Port
     return true;
   }
 
+  public HashMap<String, Double> GetData()
+  {
+    return _data;
+  }
+
+  public void SetData(HashMap<String, Double> data)
+  {
+    this._data = data;
+  }
+
   /**
    * Return list of value names
    * @return Set of names

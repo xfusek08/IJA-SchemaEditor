@@ -44,6 +44,16 @@ public abstract class Block extends Observable implements Observer
   /** Calculated values in ports */
   public abstract void Calculate();
 
+  public HashMap<String, Double> getOutPortVal(int number)
+  {
+    return OutputPorts.get(number).GetData();
+  }
+
+  public void setInPortVal(int number, HashMap<String, Double> value)
+  {
+    InputPorts.get(number).SetData(value);
+  }
+  
   /**
    * Check if all input ports are defined
    * @return true if all ports are defined
