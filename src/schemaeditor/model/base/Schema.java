@@ -256,7 +256,7 @@ public class Schema extends Observable
     Set<Connection> connections = GetConnections();
     //Nahrani prvnich blocku do fronty
     openQueue = GetInBlocks();
-    
+
   }
 
   private SchemaBlock GetSchemaBlockById(UUID id)
@@ -270,6 +270,7 @@ public class Schema extends Observable
   protected Dictionary<SchemaBlock, List<Port>> GetInputSchemaBlocksWithInputPorts()
   {
     Dictionary<SchemaBlock, List<Port>> result = new Hashtable<SchemaBlock, List<Port>>();
+    int inputNumber = 0;
     for (SchemaBlock block : _blocks)
     {
       List<Port> inPortList = new ArrayList<Port>();
@@ -281,7 +282,12 @@ public class Schema extends Observable
           if (connected = (conn.DestBlockID == block.GetBlock().ID && conn.DestPortNumber == portnum))
             break;
         if (!connected)
+        {
+          port.SetInputNumber(inputNumber++);
           inPortList.add(port);
+        }
+        else
+          port.UnsetInput();
         portnum++;
       }
       if (inPortList.size() > 0)

@@ -2,6 +2,8 @@ package schemaeditor.app;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Port;
 import schemaeditor.model.blocks.arithmetics.*;
 
-public class PortView extends AnchorPane
+public class PortView extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;
   @FXML Circle Aura;
@@ -34,7 +36,7 @@ public class PortView extends AnchorPane
   protected int _portNum;
   protected ConnectionView _connection;
   protected boolean _isConnectedEnd;
-  // protected Label _inputNumLabel;
+  protected Label _inputNumLabel;
 
   public PortView(Port port, boolean isOutput, int portNum)
   {
@@ -42,6 +44,7 @@ public class PortView extends AnchorPane
     _isOutput = isOutput;
     _portNum = portNum;
     _connection = null;
+    _port.addObserver(this);
     // System.err.print(getClass().getResource("resources/PortView.fxml"));
     // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
@@ -143,16 +146,18 @@ public class PortView extends AnchorPane
     });
   }
 
-  // public void SetInputLabel()
-  // {
-  //   getChildren().remove(_inputNumLabel);
-  //   if (_port.isInput())
-  //   {
-  //     _inputNumber = number;
-  //     _inputNumLabel = new Label(String.valueOf(_port.getInputNumber()));
-  //     _inputNumLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px;");
-  //     _inputNumLabel.setTextFill(Color.SKYBLUE);
-  //     getChildren().add(_inputNumLabel);
-  //   }
-  // }
+  public void update(Observable obs, Object obj)
+  {
+    if (_inputNumLabel != null)
+      getChildren().remove(_inputNumLabel);
+
+    if (_port.IsInput())
+    {
+      _inputNumLabel = new Label(String.valueOf(_port.GetInputNumber()));
+      _inputNumLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px;");
+      _inputNumLabel.setTextFill(Color.SKYBLUE);
+      _inputNumLabel.setMouseTransparent(true);
+      getChildren().add(_inputNumLabel);
+    }
+  }
 }

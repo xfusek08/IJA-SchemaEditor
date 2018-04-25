@@ -147,12 +147,6 @@ public class BlockView extends AnchorPane implements Observer
 
   protected void MakeDragEvents()
   {
-    BlockBody.setOnMousePressed(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event) {
-        toFront();
-      }
-		});
-
     DragOverHandler = new EventHandler<DragEvent>() {
       @Override public void handle(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);

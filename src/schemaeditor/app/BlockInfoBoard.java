@@ -90,14 +90,14 @@ public class BlockInfoBoard extends AnchorPane implements Observer
     for (Port port : _block.InputPorts)
     {
       InValuesGrid.add(new Text(String.valueOf(portNum) + ":"), 0, portNum);
-      InValuesGrid.add(new Text(port.GetValueAsString() + ":"), 1, portNum);
+      InValuesGrid.add(new Text(port.GetValueAsString()), 1, portNum);
       portNum++;
     }
     portNum = 0;
     for (Port port : _block.OutputPorts)
     {
       OutValuesGrid.add(new Text(String.valueOf(portNum) + ":"), 0, portNum);
-      OutValuesGrid.add(new Text(port.GetValueAsString() + ":"), 1, portNum);
+      OutValuesGrid.add(new Text(port.GetValueAsString()), 1, portNum);
       portNum++;
     }
   }

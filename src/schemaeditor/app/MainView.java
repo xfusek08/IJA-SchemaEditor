@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -26,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -46,6 +48,7 @@ public class MainView extends AnchorPane
   @FXML MenuBar MainMenuBar;
   @FXML Label BlockNumber;
   @FXML Label ConnNumber;
+  @FXML GridPane InputTable;
 
   protected ConnectionView draggConnection;
   protected Schema _schema;
@@ -298,6 +301,7 @@ public class MainView extends AnchorPane
     blockView.BlockBody.setOnMousePressed(new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent event)
       {
+        blockView.toFront();
         if (event.getButton() == MouseButton.MIDDLE)
         {
           _infotab = new BlockInfoBoard(blockView.GetBlock());
@@ -399,6 +403,43 @@ public class MainView extends AnchorPane
     Set<Connection> conns = _schema.GetConnections();
     BlockNumber.setText(String.valueOf(_schema.GetBlocks().size()));
     ConnNumber.setText(String.valueOf(conns.size()));
+
+    InputTable.getChildren().clear();
+    for (Port port : _schema.GetInputPorts())
+    {
+      Label label = new Label(String.valueOf(port.GetInputNumber()));
+      label.setStyle("-fx-font-weight: bold; -fx-font-size: 15px;");
+      GridPane portValues = new GridPane();
+      int row = 0;
+      for (String name : port.GetValuesNames())
+      {
+        TextField input = new TextField(String.valueOf(port.GetValueByName(name)));
+        input.setPrefWidth(50);
+        portValues.add(new Label(name), 0, row);
+        portValues.add(input, 1, row);
+        row++;
+        input.setOnMouseClicked(new EventHandler<MouseEvent>() {
+          @Override public void handle(MouseEvent envent) {
+            input.selectAll();
+          }
+        });
+        input.setOnAction(new EventHandler<ActionEvent>() {
+          @Override public void handle(ActionEvent envent)
+          {
+            Double val;
+            try {
+              val = Double.parseDouble(input.getText());
+            } catch (NumberFormatException e) {
+              val = Double.NaN;
+            }
+            port.SetValueByName(name, val);
+            input.setText(String.valueOf(val));
+          }
+        });
+      }
+      InputTable.add(label, 0, port.GetInputNumber());
+      InputTable.add(portValues, 1, port.GetInputNumber());
+    }
   }
   protected void RemoveDisplConn(ConnectionView conn)
   {

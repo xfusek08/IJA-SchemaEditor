@@ -9,16 +9,19 @@ package schemaeditor.model.base;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 import java.util.Set;
 
 /**
  * Class representing one port
  */
-public abstract class Port
+public abstract class Port extends Observable
 {
   public String type;
   public HashMap<String, Double> _data;
   protected List<String> _undefinedValues;
+  protected boolean _isInput;
+  protected int _inputNumber;
 
   /** Constructor */
   public Port()
@@ -132,7 +135,33 @@ public abstract class Port
   {
     String res = "";
     for(String s : GetValuesNames())
-      res = res + "\"" + s + "\": " + String.valueOf(GetValueByName(s) + "\n");
+      if (s != "")
+        res = res + "\"" + s + "\": " + String.valueOf(GetValueByName(s) + "\n");
     return res;
+  }
+
+  public void SetInputNumber(int number)
+  {
+    _inputNumber = number;
+    _isInput = true;
+    setChanged();
+    notifyObservers();
+  }
+
+  public void UnsetInput()
+  {
+    _isInput = false;
+    setChanged();
+    notifyObservers();
+  }
+
+  public boolean IsInput()
+  {
+    return _isInput;
+  }
+
+  public int GetInputNumber()
+  {
+    return _inputNumber;
   }
 }
