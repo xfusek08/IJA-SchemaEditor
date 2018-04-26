@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class ConversionBlock_Equal extends Block
 {
-  public static final String NAME = "Equal";
+  public static final String NAME = "Equals";
 
   /** Constructor */
   public ConversionBlock_Equal(UUID ID)

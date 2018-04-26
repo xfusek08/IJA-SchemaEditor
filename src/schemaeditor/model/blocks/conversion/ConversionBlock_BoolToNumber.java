@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class ConversionBlock_BoolToNumber extends Block
 {
-  public static final String NAME = "BoolToNumber";
+  public static final String NAME = "Bool To Number";
 
   /** Constructor */
   public ConversionBlock_BoolToNumber(UUID ID)

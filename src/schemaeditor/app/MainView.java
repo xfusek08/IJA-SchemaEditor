@@ -39,6 +39,8 @@ import schemaeditor.model.base.Schema;
 import schemaeditor.model.base.enums.EAddStatus;
 import schemaeditor.model.blocks.arithmetics.*;
 import schemaeditor.model.blocks.complex.*;
+import schemaeditor.model.blocks.conversion.*;
+import schemaeditor.model.blocks.logic.*;
 
 public class MainView extends AnchorPane
 {
@@ -106,6 +108,17 @@ public class MainView extends AnchorPane
       case "AddBlockBt_CplDiv" : newBlock = new CplexBlock_Div(); break;
       case "AddBlockBt_CplMul" : newBlock = new CplexBlock_Mul(); break;
       case "AddBlockBt_CplAbs" : newBlock = new CplexBlock_Abs(); break;
+
+      case "AddBlockBt_and"  :  newBlock = new LogicBlock_And(); break;
+      case "AddBlockBt_or"   :  newBlock = new LogicBlock_Or(); break;
+      case "AddBlockBt_not"  :  newBlock = new LogicBlock_Not(); break;
+      case "AddBlockBt_xor"  :  newBlock = new LogicBlock_Xor(); break;
+      case "AddBlockBt_xnor" :  newBlock = new LogicBlock_Xnor(); break;
+
+      case "AddBlockBt_booltonum" :  newBlock = new ConversionBlock_BoolToNumber(); break;
+      case "AddBlockBt_equals"    :  newBlock = new ConversionBlock_Equal(); break;
+      case "AddBlockBt_greater"   :  newBlock = new ConversionBlock_Greater(); break;
+      case "AddBlockBt_less"      :  newBlock = new ConversionBlock_Less(); break;
     }
     if (newBlock != null)
     {
@@ -121,8 +134,6 @@ public class MainView extends AnchorPane
   @FXML
   private void RunAction(ActionEvent event)
   {
-    for(Port port : _schema.GetInputPorts())
-      port.SetValueByName("number", 1.0);
     _schema.RunCalculation();
   }
   @FXML
@@ -133,8 +144,6 @@ public class MainView extends AnchorPane
   @FXML
   private void StepAction(ActionEvent event)
   {
-    for(Port port : _schema.GetInputPorts())
-      port.SetValueByName("number", 1.0);
     if(!_schema.isCalculating())
       _schema.StartCalculation();
     else

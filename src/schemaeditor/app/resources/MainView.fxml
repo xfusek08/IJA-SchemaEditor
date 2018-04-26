@@ -158,12 +158,69 @@
                   </TitledPane>
                   <TitledPane text="Logic blocks">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="-1.4000000000000004" prefHeight="180.0" prefWidth="178.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_and" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="AND" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_or" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="OR" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_not" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="NOT" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_xor" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="XOR" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_xnor" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="XNOR" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                      </content>
                   </TitledPane>
                   <TitledPane text="Conversion blocks">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="180.0" prefWidth="178.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_booltonum" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Bool to number" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_equals" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Equals" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_greater" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Greater" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_less" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Less" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                      </content>
                   </TitledPane>
                </panes>
@@ -178,7 +235,6 @@
                         <MenuItem mnemonicParsing="false" text="Open…" />
                         <Menu mnemonicParsing="false" text="Open Recent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
                         <MenuItem mnemonicParsing="false" text="Save" />
                         <MenuItem mnemonicParsing="false" text="Save As…" />
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -187,8 +243,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Edit">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <MenuItem mnemonicParsing="false" text="Clear" />
                      </items>
                   </Menu>
                </menus>

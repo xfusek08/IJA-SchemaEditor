@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import schemaeditor.model.base.Block;
@@ -36,8 +37,9 @@ public class BlockView extends AnchorPane implements Observer
 
   @FXML GridPane InputPortGrid;
   @FXML GridPane OutputPortGrid;
-  @FXML HBox BlockBody;
+  @FXML VBox BlockBody;
   @FXML Text DisplayName;
+  @FXML Pane DeleteButton;
 
   protected Block _block;
   protected Point2D _dragOffset;
@@ -100,6 +102,19 @@ public class BlockView extends AnchorPane implements Observer
     }
     Reload();
     MakeDragEvents();
+
+    DeleteButton.setVisible(true);
+    DeleteButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event) { DeleteButton.setVisible(true); }
+    });
+    DeleteButton.setOnMouseExited(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event) { DeleteButton.setVisible(false); }
+    });
+  }
+
+  @FXML public void DeleteBLock(MouseEvent event)
+  {
+    System.err.printf("Deleting block: %s\n", _block.ID);
   }
 
   public void update(Observable obs, Object obj)
