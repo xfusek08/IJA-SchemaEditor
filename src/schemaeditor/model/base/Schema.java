@@ -62,7 +62,7 @@ public class Schema extends Observable
       if (conn.DestBlockID == block.ID || conn.SourceBlockID == block.ID)
         toRemove.add(conn);
     for (Connection conn : toRemove)
-      RemoveConnection(conn);
+      RemoveConnection(conn, false);
     _blocks.remove(GetSchemaBlockById(block.ID));
     notifyObservers();
     CalculateSchemaConnections();
@@ -124,8 +124,7 @@ public class Schema extends Observable
   /** Removes block instance from schema */
   public void RemoveConnection(Connection connection)
   {
-    _connections.remove(connection);
-    notifyObservers();
+    RemoveConnection(connection, true);
   }
 
   // Iterators of collections
@@ -282,10 +281,20 @@ public class Schema extends Observable
   protected void CalculateSchemaConnections()
   {
     _blocks.stream().forEach(sb -> sb.Clean());
-    Set<Block> openQueue = new HashSet<Block>();
+    List<Block> openQueue = new ArrayList<Block>(GetInBlocks());
     Set<Connection> connections = GetConnections();
     //Nahrani prvnich blocku do fronty
-    openQueue = GetInBlocks();
+    while(!openQueue.isEmpty())
+    {
+      Block first = openQueue.get(0);
+      for(Connection conn : connections)
+        if(conn.SourceBlockID == first.ID)
+        {
+          AddConnection(conn, false);
+          openQueue.add(GetSchemaBlockById(conn.DestBlockID).GetBlock());
+        }
+      openQueue.remove(first);
+    }
   }
 
   private SchemaBlock GetSchemaBlockById(UUID id)
@@ -371,7 +380,7 @@ public class Schema extends Observable
     boolean isRemoved = false;
     for (Connection conn : toremove)
     {
-      RemoveConnection(conn);
+      RemoveConnection(conn, false);
       isRemoved = true;
     }
 
@@ -386,5 +395,14 @@ public class Schema extends Observable
       System.err.printf("\t%s (%d) -> %s (%d)\n", conn.SourceBlockID.toString(), conn.SourcePortNumber, conn.DestBlockID.toString(), conn.DestPortNumber);
     System.err.printf("\n");
     return EAddStatus.Ok;
+  }
+
+  /** Removes block instance from schema */
+  protected void RemoveConnection(Connection connection, boolean recalculate)
+  {
+    _connections.remove(connection);
+    if(recalculate)
+      CalculateSchemaConnections();
+    notifyObservers();
   }
 }
