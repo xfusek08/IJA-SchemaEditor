@@ -210,10 +210,15 @@ public class Schema extends Observable
   {
     _isCalculating = true;
     //najdu vsechny bloky, ktere maji prazdne porty pomoci metody a zavolam calculate na blocich
-    Set<Block> blocks = GetInBlocks();
-    for(Block block : blocks)
-      if(block.isExecutable())
-        block.Calculate();
+    Set<Connection> conns = new HashSet<Connection>();
+    for(SchemaBlock sBlock : _blocks)
+      if(sBlock.GetBlock().isExecutable())
+      {
+        sBlock.GetBlock().Calculate();
+        conns.addAll(getConsToNextBlocks(sBlock));
+      }
+    for(Connection connect : conns)
+      sendVal(connect);
   }
 
   /** Execute one level of calculation */
@@ -221,7 +226,9 @@ public class Schema extends Observable
   {
     //najdu vsechny bloky ktery maji stav finished
     //na kazdy blok zavolam calculate
+
     boolean calculated = false;
+    Set<Connection> conns = new HashSet<Connection>();
     for(SchemaBlock schemaBlock : _blocks)
       if(schemaBlock.GetBlock().GetStatus().getState() == EState.Finished)
         for(Connection conn : _connections)
@@ -229,11 +236,15 @@ public class Schema extends Observable
             for(SchemaBlock sBlock : _blocks)
               if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() == EState.Ready)
               {
-                sendVal(conn);
                 if(sBlock.GetBlock().isExecutable())
+                {
                   sBlock.GetBlock().Calculate();
+                  conns.addAll(getConsToNextBlocks(sBlock));
+                }
                 calculated = true;
               }
+    for(Connection connect : conns)
+      sendVal(connect);
     return calculated;
   }
 
@@ -243,10 +254,18 @@ public class Schema extends Observable
     GetSchemaBlockById(conn.DestBlockID).GetBlock().setInPortVal(conn.DestPortNumber, value);
   }
 
+  private Set<Connection> getConsToNextBlocks(SchemaBlock sBlock)
+  {
+    Set<Connection> conns = new HashSet<Connection>();
+    for(Connection conn : _connections)
+      if(conn.SourceBlockID == sBlock.GetBlock().ID)
+        conns.add(conn);
+    return conns;
+  }
+
   /** Resets all blocks into initial state before calculation */
   public void StopCalculation()
   {
-    boolean doRes = false;
     List<Block> blocks = GetBlocks();
     for(Block block : blocks)
       block.Reset();
@@ -267,7 +286,6 @@ public class Schema extends Observable
     Set<Connection> connections = GetConnections();
     //Nahrani prvnich blocku do fronty
     openQueue = GetInBlocks();
-
   }
 
   private SchemaBlock GetSchemaBlockById(UUID id)
@@ -337,21 +355,20 @@ public class Schema extends Observable
 
     SchemaBlock source = GetSchemaBlockById(connection.SourceBlockID);
     SchemaBlock dest = GetSchemaBlockById(connection.DestBlockID);
-    boolean isRemoved = false;
-    List<Connection> toremove = new ArrayList<Connection>();
-    source.ConnectOutPort(connection.SourcePortNumber);
-    Set<UUID> prec = new HashSet<UUID>();
-    prec.addAll(source.GetPrecedestors());
-    prec.add(source.GetBlock().ID);
-    dest.ConnectInPort(connection.DestPortNumber, prec);
+    // source.ConnectOutPort(connection.SourcePortNumber);
+    dest.AddAllPrecedestor(source.GetPrecedestors());
+    dest.AddPrecedestor(source.GetBlock().ID);
 
+    List<Connection> toremove = new ArrayList<Connection>();
     GetConnections().stream()
       .filter(c ->
         c.SourceBlockID.equals(connection.SourceBlockID) && c.SourcePortNumber == connection.SourcePortNumber ||
         c.DestBlockID.equals(connection.DestBlockID) && c.DestPortNumber == connection.DestPortNumber
       )
-      .forEach(c -> toremove.add(c));
+      .forEach(c -> toremove.add(c)
+    );
 
+    boolean isRemoved = false;
     for (Connection conn : toremove)
     {
       RemoveConnection(conn);
@@ -361,8 +378,8 @@ public class Schema extends Observable
     if (!_connections.add(connection))
       return EAddStatus.OtherError;
 
-    //if (isRemoved && recalculate)
-       //CalculateSchemaConnections();
+    if (isRemoved && recalculate)
+       CalculateSchemaConnections();
 
     System.err.printf("\n");
     for (Connection conn : GetConnections())
