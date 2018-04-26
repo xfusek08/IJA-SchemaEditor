@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,19 +24,14 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <VBox fx:id="BlockBody" prefHeight="100.0" prefWidth="60.0" style="-fx-alignment: center; -fx-border-color: Black; -fx-border-width: 3px; -fx-border-radius: 5px;" styleClass="Block" stylesheets="@styles.css">
+            <VBox fx:id="BlockBody" maxHeight="100.0" maxWidth="60.0" prefHeight="100.0" prefWidth="60.0" style="-fx-alignment: top; -fx-border-color: Black; -fx-border-width: 3px; -fx-border-radius: 5px;" styleClass="Block" stylesheets="@styles.css">
                <children>
-                  <AnchorPane prefHeight="101.0" prefWidth="54.0">
+                  <AnchorPane>
                      <children>
-                        <VBox style="-fx-alignment: center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <Pane fx:id="DeleteButton" accessibleText="Delete block" style="-fx-border-color: transparent transparent black black; -fx-border-width: 2px; -fx-border-radius: 3px;" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-3.0">
                            <children>
-                              <Text fx:id="DisplayName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" />
-                           </children>
-                        </VBox>
-                        <Pane fx:id="DeleteButton" accessibleText="Delete block" onMouseClicked="#DeleteBLock" visible="false" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
-                           <children>
-                              <Line endY="7.0" startX="7.0" stroke="RED" strokeLineCap="ROUND" strokeWidth="2.0" />
-                              <Line endX="7.0" endY="7.0" stroke="RED" strokeLineCap="ROUND" strokeWidth="2.0" />
+                              <Line endX="7.0" endY="7.0" layoutX="4.0" layoutY="6.0" strokeLineCap="ROUND" strokeWidth="2.0" />
+                              <Line endY="7.0" layoutX="4.0" layoutY="6.0" startX="7.0" strokeLineCap="ROUND" strokeWidth="2.0" />
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -43,6 +39,15 @@
                         </Pane>
                      </children>
                   </AnchorPane>
+                  <HBox maxWidth="60.0" prefHeight="100.0" prefWidth="60.0" style="-fx-alignment: center;">
+                     <children>
+                        <Text fx:id="DisplayName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="50.0">
+                           <HBox.margin>
+                              <Insets top="-25.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <GridPane fx:id="OutputPortGrid" prefWidth="20.0">

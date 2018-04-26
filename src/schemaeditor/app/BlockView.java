@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Port;
@@ -103,18 +104,12 @@ public class BlockView extends AnchorPane implements Observer
     Reload();
     MakeDragEvents();
 
-    DeleteButton.setVisible(true);
     DeleteButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event) { DeleteButton.setVisible(true); }
+      @Override public void handle(MouseEvent event) { DeleteButton.getChildren().forEach(c -> ((Line)c).setStroke(Color.RED)); }
     });
     DeleteButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event) { DeleteButton.setVisible(false); }
+      @Override public void handle(MouseEvent event) { DeleteButton.getChildren().forEach(c -> ((Line)c).setStroke(Color.BLACK)); }
     });
-  }
-
-  @FXML public void DeleteBLock(MouseEvent event)
-  {
-    System.err.printf("Deleting block: %s\n", _block.ID);
   }
 
   public void update(Observable obs, Object obj)

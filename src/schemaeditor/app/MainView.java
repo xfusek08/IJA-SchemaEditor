@@ -55,7 +55,7 @@ public class MainView extends AnchorPane
   protected ConnectionView draggConnection;
   protected Schema _schema;
   protected Label _errorMessage;
-  protected List<ConnectionView> displayConns;
+  protected List<ConnectionView> _displayConns;
 
   private EventHandler<DragEvent> connectionDragDroppedHandle;
   private EventHandler<DragEvent> connectionDragOverHandle;
@@ -67,7 +67,7 @@ public class MainView extends AnchorPane
   public MainView()
   {
     _schema = new Schema();
-    displayConns = new ArrayList<ConnectionView>();
+    _displayConns = new ArrayList<ConnectionView>();
 
     FXMLLoader fxmlLoader = new FXMLLoader(
       getClass().getResource("resources/MainView.fxml")
@@ -148,6 +148,18 @@ public class MainView extends AnchorPane
       _schema.StartCalculation();
     else
       _schema.StepCalculation();
+  }
+
+  public void RemoveBlockView(BlockView blockView)
+  {
+    List<ConnectionView> toremove = new ArrayList<ConnectionView>();
+    for (ConnectionView conn : _displayConns)
+      if (conn.GetConnection().DestBlockID == blockView.GetBlock().ID || conn.GetConnection().SourceBlockID == blockView.GetBlock().ID)
+        toremove.add(conn);
+    for (ConnectionView conn : toremove)
+      RemoveDisplConn(conn);
+    _schema.RemoveBlock(blockView.GetBlock());
+    SchemaPane.getChildren().remove(blockView);
   }
 
   protected void CreateHandlers()
@@ -336,6 +348,17 @@ public class MainView extends AnchorPane
         }
       }
     });
+
+    blockView.DeleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        if (event.getButton() == MouseButton.PRIMARY)
+        {
+          RemoveBlockView(blockView);
+          event.consume();
+        }
+      }
+    });
   }
   protected Connection RegisterConnOnPort(PortView port, ConnectionView conn, boolean isStart)
   {
@@ -380,7 +403,7 @@ public class MainView extends AnchorPane
       {
         case OutSourcePortNotFound :  msg = "Source port not found."; break;
         case InDestPortNotfoud :      msg = "Destination port not found."; break;
-        case PortsIncopatible :       msg = "Incopatible ports."; break;
+        case PortsIncopatible :       msg = "Incompatible ports."; break;
         case ConnectionCuseesCycles : msg = "Connection causes cycles."; break;
         default:                      msg = "Unknown."; break;
       }
@@ -456,11 +479,11 @@ public class MainView extends AnchorPane
   protected void RemoveDisplConn(ConnectionView conn)
   {
     SchemaPane.getChildren().remove(conn);
-    displayConns.remove(conn);
+    _displayConns.remove(conn);
   }
   protected void AddDisplConn(ConnectionView conn)
   {
     SchemaPane.getChildren().add(conn);
-    displayConns.add(conn);
+    _displayConns.add(conn);
   }
 }
