@@ -235,7 +235,7 @@
                         <MenuItem mnemonicParsing="false" text="Open…" onAction="#LoadFile"/>
                         <Menu mnemonicParsing="false" text="Open Recent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save" onAction="#SaveFile"/>
                         <MenuItem mnemonicParsing="false" text="Save As…" onAction="#SaveAsFile"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Quit" />

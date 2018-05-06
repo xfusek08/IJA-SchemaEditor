@@ -60,6 +60,7 @@ public class MainView extends AnchorPane implements Observer
   protected Schema _schema;
   protected Label _errorMessage;
   protected List<ConnectionView> _displayConns;
+  protected String _filePath;
 
   private EventHandler<DragEvent> connectionDragDroppedHandle;
   private EventHandler<DragEvent> connectionDragOverHandle;
@@ -73,6 +74,7 @@ public class MainView extends AnchorPane implements Observer
     _schema = new Schema();
     _schema.addObserver(this);
     _displayConns = new ArrayList<ConnectionView>();
+    _filePath = null;
 
     FXMLLoader fxmlLoader = new FXMLLoader(
       getClass().getResource("resources/MainView.fxml")
@@ -96,6 +98,20 @@ public class MainView extends AnchorPane implements Observer
   }
 
   @FXML
+  private void SaveFile(ActionEvent event) throws JAXBException, IOException
+  {
+    if (_filePath != null) 
+    {
+      SchemaXMLLoader loader = new SchemaXMLLoader();
+      loader.SaveSchema(_schema, _filePath);
+    }
+    else
+    {
+      SaveAsFile(event);
+    }  
+  }
+
+  @FXML
   private void SaveAsFile(ActionEvent event) throws JAXBException, IOException
   {
     final Stage stage = new Stage();
@@ -108,6 +124,7 @@ public class MainView extends AnchorPane implements Observer
     {
       SchemaXMLLoader loader = new SchemaXMLLoader();
       loader.SaveSchema(_schema, file.toString());
+      _filePath = file.toString();
     }  
   }
 
