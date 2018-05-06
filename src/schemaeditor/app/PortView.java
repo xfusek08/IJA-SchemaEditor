@@ -60,8 +60,6 @@ public class PortView extends AnchorPane implements Observer
     _portNum = portNum;
     _connection = null;
     _port.addObserver(this);
-    // System.err.print(getClass().getResource("resources/PortView.fxml"));
-    // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
         getClass().getResource("resources/PortView.fxml")
     );
@@ -77,6 +75,9 @@ public class PortView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Initialize
+   */
   @FXML
   private void initialize()
   {
@@ -94,45 +95,75 @@ public class PortView extends AnchorPane implements Observer
     MakeEvents();
   }
 
+  /**
+   * Get port
+   * @return port
+   */
   public Port GetPort()
   {
     return _port;
   }
 
+  /**
+   * Get port number
+   * @return port number
+   */
   public int GetPortNum()
   {
     return _portNum;
   }
 
+  /**
+   * Get boolean defining if port is out port
+   * @return boolean
+   */
   public boolean IsOutput()
   {
     return _isOutput;
   }
 
+  /**
+   * Get tip
+   * @return position of tip
+   */
   public Point2D GetTip()
   {
     return Aura.localToScene(Aura.getCenterX(), Aura.getCenterY());
   }
 
+  /**
+   * Set blue color
+   */
   public void SetHover()
   {
     Aura.setStroke(Color.SKYBLUE);
   }
 
+  /**
+   * Unset hover (color)
+   */
   public void UnSetHover()
   {
     Aura.setStroke(Color.TRANSPARENT);
   }
 
+  /**
+   * @param connection connection to be registered
+   * @param isStart determine if is starting
+   * @return old connection
+   */
   public ConnectionView RegisterConn(ConnectionView connection, boolean isStart)
   {
-    // ClearInputNumber();
     ConnectionView old = _connection;
     _connection = connection;
     _isConnectedEnd = !isStart;
     return old;
   }
 
+  /**
+   * Move connection
+   * @param Scene scene to be moved
+   */
   public void MoveConnection(Parent Scene)
   {
     if (_connection != null)
@@ -144,6 +175,9 @@ public class PortView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Make events
+   */
   protected void MakeEvents()
   {
     Aura.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -159,6 +193,10 @@ public class PortView extends AnchorPane implements Observer
     });
   }
 
+  /**
+   * Update object
+   * @param obj object to be updated
+   */
   public void update(Observable obs, Object obj)
   {
     if (_inputNumLabel != null)
