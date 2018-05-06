@@ -28,7 +28,7 @@ public abstract class Block extends Observable implements Observer
   /**
    * Constructor
    * @param ID block id
-   * @param ID name of block
+   * @param name name of block
    * */
   public Block(UUID ID, String name)
   {

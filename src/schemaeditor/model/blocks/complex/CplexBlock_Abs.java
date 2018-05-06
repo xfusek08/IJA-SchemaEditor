@@ -18,7 +18,10 @@ public class CplexBlock_Abs extends Block
 {
   public static final String NAME = "Complex Abs";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Abs(UUID id)
   {
     super(id, NAME);

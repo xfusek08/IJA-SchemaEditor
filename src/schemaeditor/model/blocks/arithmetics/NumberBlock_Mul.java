@@ -18,7 +18,10 @@ public class NumberBlock_Mul extends Block
 {
   public static final String NAME = "Mul";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param ID ID of block
+  */
   public NumberBlock_Mul(UUID ID)
   {
     super(ID, NAME);

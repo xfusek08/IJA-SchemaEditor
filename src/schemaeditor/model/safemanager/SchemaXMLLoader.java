@@ -28,6 +28,9 @@ public class SchemaXMLLoader implements ISchemaLoader
    * Loads and returns schema from XML file.
    *
    * @param fileName Name of xml file where schema is stored
+   * @throws JAXBException exception
+   * @throws IOException exception
+   * @return schema
    */
   public Schema LoadSchema(String fileName) throws JAXBException, IOException
   {
@@ -54,6 +57,8 @@ public class SchemaXMLLoader implements ISchemaLoader
    * Saves schema into a XML file.
    *
    * @param fileName Name of xml file where schema will be stored
+   * @throws JAXBException exception
+   * @throws IOException exception
    */
   public void SaveSchema(Schema schema, String fileName) throws JAXBException, IOException
   {

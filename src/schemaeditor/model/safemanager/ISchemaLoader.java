@@ -19,6 +19,9 @@ public interface ISchemaLoader
   /**
    * Loads and returns schema from file.
    * @param fileName Name of file where schema is stored
+   * @throws JAXBException exception
+   * @throws IOException exception
+   * @return schema
    */
   public Schema LoadSchema(String fileName) throws JAXBException, IOException;
 
@@ -27,6 +30,8 @@ public interface ISchemaLoader
    *
    * @param schema    Schema to be saved
    * @param fileName Name of file where schema will be stored
+   * @throws JAXBException exception
+   * @throws IOException exception
    */
   public void SaveSchema(Schema schema, String fileName) throws JAXBException, IOException;
 }

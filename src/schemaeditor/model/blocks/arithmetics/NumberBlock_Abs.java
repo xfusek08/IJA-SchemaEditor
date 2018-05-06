@@ -18,7 +18,10 @@ public class NumberBlock_Abs extends Block
 {
   public static final String NAME = "Abs";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param ID ID of block
+  */
   public NumberBlock_Abs(UUID ID)
   {
     super(ID, NAME);

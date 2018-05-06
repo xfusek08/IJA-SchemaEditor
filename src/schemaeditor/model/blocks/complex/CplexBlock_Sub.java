@@ -18,7 +18,10 @@ public class CplexBlock_Sub extends Block
 {
   public static final String NAME = "Complex Sub";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Sub(UUID id)
   {
     super(id, NAME);
