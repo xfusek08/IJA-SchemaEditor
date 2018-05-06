@@ -34,7 +34,7 @@ public class SaveSchema
   private Set<SaveConnection> connection = null;
 
   /**
-   * Set save metod
+   * Set save method
    * @param blocks set blocks
   */
   public void setBlock(List<SaveBlock> blocks)
@@ -43,7 +43,7 @@ public class SaveSchema
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return blocks
   */
   public List<SaveBlock> getBlock()
@@ -52,7 +52,7 @@ public class SaveSchema
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param conn set conns
   */
   public void setConn(Set<SaveConnection> conn)
@@ -61,7 +61,7 @@ public class SaveSchema
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return connections
   */
   public Set<SaveConnection> getConn()

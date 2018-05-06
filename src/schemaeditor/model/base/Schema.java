@@ -140,7 +140,7 @@ public class Schema extends Observable
     for (SchemaBlock schemaBlock : _blocks)
       if(schemaBlock._block.ID.equals(connection.SourceBlockID))
         prec = schemaBlock;
-    for (UUID ID : prec.GetPrecedestors())
+    for (UUID ID : prec.GetPredecessors())
       if(ID.equals(connection.DestBlockID))
         return EAddStatus.ConnectionCausesCycles;
     return EAddStatus.Ok;
@@ -189,7 +189,7 @@ public class Schema extends Observable
    */
   public List<Port> GetOutPorts()
   {
-    Dictionary<SchemaBlock, List<Port>> outputdict = GetOutpuSchemaBlocksWithOutpuPorts();
+    Dictionary<SchemaBlock, List<Port>> outputdict = GetOutputSchemaBlocksWithOutputPorts();
     List<Port> outPortList = new ArrayList<Port>();
     Enumeration<List<Port>> values = outputdict.elements();
     while(values.hasMoreElements())
@@ -217,7 +217,7 @@ public class Schema extends Observable
    */
   public Set<Block> GetOutBlocks()
   {
-    Dictionary<SchemaBlock, List<Port>> inputdict = GetOutpuSchemaBlocksWithOutpuPorts();
+    Dictionary<SchemaBlock, List<Port>> inputdict = GetOutputSchemaBlocksWithOutputPorts();
     Set<Block> res = new HashSet<Block>();
     Enumeration<SchemaBlock> keys = inputdict.keys();
     while(keys.hasMoreElements())
@@ -326,7 +326,7 @@ public class Schema extends Observable
   /************************************************ PROTECTED ***************************************************/
 
   /**
-   * Cleans all informations from all schemablocks and use bfs to fill new precedestors to blocks and check validity of connections.
+   * Cleans all informations from all schemablocks and use bfs to fill new Predecessors to blocks and check validity of connections.
    * If some invalid connection occures then such a connection is thrown away. By invalid is considered connection causing loops.
    * It uses AddConnection method without adding to collection (doNotAdd = false) for update state of scheamblocks.
    */
@@ -410,7 +410,7 @@ public class Schema extends Observable
    * Get dictionary of input block and its input ports
    * @return dictionary of block and ports
    */
-  protected Dictionary<SchemaBlock, List<Port>> GetOutpuSchemaBlocksWithOutpuPorts()
+  protected Dictionary<SchemaBlock, List<Port>> GetOutputSchemaBlocksWithOutputPorts()
   {
     Dictionary<SchemaBlock, List<Port>> result = new Hashtable<SchemaBlock, List<Port>>();
     for (SchemaBlock block : _blocks)
@@ -447,8 +447,8 @@ public class Schema extends Observable
 
     SchemaBlock source = GetSchemaBlockById(connection.SourceBlockID);
     SchemaBlock dest = GetSchemaBlockById(connection.DestBlockID);
-    dest.AddAllPrecedestor(source.GetPrecedestors());
-    dest.AddPrecedestor(source.GetBlock().ID);
+    dest.AddAllPredecessor(source.GetPredecessors());
+    dest.AddPredecessor(source.GetBlock().ID);
 
 
     if (!noadd)

@@ -15,48 +15,48 @@ import java.util.UUID;
  */
 class SchemaBlock
 {
-  protected Set<UUID> _precedestors;
+  protected Set<UUID> _Predecessors;
   protected Set<Integer> _freeInPorts;
   protected Set<Integer> _freeOutPorts;
   protected Block _block;
 
-  /** 
-   * Constructor 
+  /**
+   * Constructor
    * @param block block held in schemaBlock
    */
   public SchemaBlock(Block block)
   {
     _block = block;
-    _precedestors = new HashSet<UUID>();
+    _Predecessors = new HashSet<UUID>();
     _freeInPorts = new HashSet<Integer>();
     _freeOutPorts = new HashSet<Integer>();
   }
 
   /**
-   * Return all precedestors of block
-   * @return _precedestors
+   * Return all Predecessors of block
+   * @return _Predecessors
    */
-  public Set<UUID> GetPrecedestors()
+  public Set<UUID> GetPredecessors()
   {
-    return _precedestors;
+    return _Predecessors;
   }
 
   /**
-   * Add precedestor to precedestors
-   * @param ID ID of precedestor
+   * Add Predecessor to Predecessors
+   * @param ID ID of Predecessor
    */
-  public void AddPrecedestor(UUID ID)
+  public void AddPredecessor(UUID ID)
   {
-    _precedestors.add(ID);
+    _Predecessors.add(ID);
   }
 
   /**
-   * Add all precedestor to precedestors
+   * Add all Predecessor to Predecessors
    * @param IDs set of all predecestors ID to be added
    */
-  public void AddAllPrecedestor(Set<UUID> IDs)
+  public void AddAllPredecessor(Set<UUID> IDs)
   {
-    _precedestors.addAll(IDs);
+    _Predecessors.addAll(IDs);
   }
 
   /**
@@ -89,18 +89,18 @@ class SchemaBlock
   /**
    * Link InPort with another port
    * @param portNum port to be connected
-   * @param sourcePrecedestors precedestors of connected block
+   * @param sourcePredecessors Predecessors of connected block
    * @return true if was not connect
    */
-  public boolean ConnectInPort(int portNum, Set<UUID> sourcePrecedestors)
+  public boolean ConnectInPort(int portNum, Set<UUID> sourcePredecessors)
   {
     if (_freeInPorts.add(portNum))
     {
       // connected unconnected port
-      _precedestors.addAll(sourcePrecedestors);
+      _Predecessors.addAll(sourcePredecessors);
       return true;
     }
-    _precedestors.clear();
+    _Predecessors.clear();
     return false;
   }
 
@@ -115,14 +115,14 @@ class SchemaBlock
   }
 
   /**
-   * Clear values of ports and precedestors
+   * Clear values of ports and Predecessors
    * @note this method does not clear _block
    */
   public void Clean()
   {
     _freeInPorts.clear();
     _freeOutPorts.clear();
-    _precedestors.clear();
+    _Predecessors.clear();
   }
 
   /**

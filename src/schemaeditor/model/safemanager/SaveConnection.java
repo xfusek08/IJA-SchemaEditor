@@ -22,7 +22,7 @@ public class SaveConnection
   private UUID SourceBlockID;
 
   /**
-   * Set save metod
+   * Set save method
    * @param DestPortNumber destination port number
   */
   public void setDestPort(int DestPortNumber)
@@ -31,7 +31,7 @@ public class SaveConnection
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return destination port number
   */
   public int getDestPort()
@@ -40,7 +40,7 @@ public class SaveConnection
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param SourcePortNumber source port number
   */
   public void setSourcePort(int SourcePortNumber)
@@ -49,7 +49,7 @@ public class SaveConnection
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return source port number
   */
   public int getSourcePort()
@@ -58,7 +58,7 @@ public class SaveConnection
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param DestBlockID destination block ID
   */
   public void setDestBlock(UUID DestBlockID)
@@ -67,7 +67,7 @@ public class SaveConnection
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return destination block ID
   */
   public UUID getDestBlock()
@@ -76,7 +76,7 @@ public class SaveConnection
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param SourceBlockID source block ID
   */
   public void setSourceBlock(UUID SourceBlockID)
@@ -85,7 +85,7 @@ public class SaveConnection
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return source block ID
   */
   public UUID getSourceBlock()
@@ -94,7 +94,7 @@ public class SaveConnection
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param connection connection to be set
   */
   public void setFromSchema(Connection connection)
@@ -106,7 +106,7 @@ public class SaveConnection
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return connection that was saved
   */
   public Connection getFromSave()

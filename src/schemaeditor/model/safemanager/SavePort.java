@@ -28,68 +28,68 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class SavePort
 {
   @XmlElement
-  private String type; 
+  private String type;
   @XmlElement
   private HashMap<String, Double> _data;
   @XmlElement
   private List<String> _undefinedValues;
 
-  /** 
-   * Set save metod
+  /**
+   * Set save method
    * @param type port type
   */
-  public void setType(String type) 
+  public void setType(String type)
   {
     this.type = type;
   }
 
-  /** 
-   * Get save metod
+  /**
+   * Get save method
    * @return port type
   */
-  public String getType() 
+  public String getType()
   {
     return type;
   }
 
-  /** 
-   * Set save metod
+  /**
+   * Set save method
    * @param _data port data
   */
-  public void setData(HashMap<String, Double> _data) 
+  public void setData(HashMap<String, Double> _data)
   {
     this._data = _data;
   }
 
-  /** 
-   * Get save metod
+  /**
+   * Get save method
    * @return port data
   */
-  public HashMap<String, Double> getData() 
+  public HashMap<String, Double> getData()
   {
     return _data;
   }
 
-  /** 
-   * Set save metod
+  /**
+   * Set save method
    * @param _undefinedValues undefined values
   */
-  public void setVal(List<String> _undefinedValues) 
+  public void setVal(List<String> _undefinedValues)
   {
     this._undefinedValues = _undefinedValues;
   }
 
-  /** 
-   * Get save metod
+  /**
+   * Get save method
    * @return undefined values
   */
-  public List<String> getVal() 
+  public List<String> getVal()
   {
     return _undefinedValues;
   }
 
-  /** 
-   * Set save metod
+  /**
+   * Set save method
    * @param port port to be set
   */
   public void setFromSchema(Port port)
@@ -99,14 +99,14 @@ public class SavePort
     this._undefinedValues = port.GetUndefinedValues();
   }
 
-  /** 
-   * Get save metod
+  /**
+   * Get save method
    * @return port
   */
   public Port getFromSave()
   {
     Port port;
-    switch (this.type) 
+    switch (this.type)
     {
       case "number":
         port = new NumberPort();

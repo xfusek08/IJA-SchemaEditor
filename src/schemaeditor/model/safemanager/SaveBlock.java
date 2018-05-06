@@ -39,7 +39,7 @@ public class SaveBlock
   public double Y;
 
   /**
-   * Set save metod
+   * Set save method
    * @param _status blockStatus
   */
   public void setStatus(BlockStatus _status)
@@ -48,7 +48,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return blockStatus
   */
   public BlockStatus getStatus()
@@ -57,7 +57,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param ID block ID
   */
   public void setID(UUID ID)
@@ -66,7 +66,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return block ID
   */
   public UUID getID()
@@ -75,7 +75,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param InputPorts Input ports
   */
   public void setInputPorts(List<SavePort> InputPorts)
@@ -84,7 +84,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return Input ports
   */
   public List<SavePort> getInputPorts()
@@ -93,7 +93,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param OutputPorts Output ports
   */
   public void setOutputPorts(List<SavePort> OutputPorts)
@@ -102,7 +102,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return Output ports
   */
   public List<SavePort> getOutputPorts()
@@ -111,7 +111,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param DisplayName Name of block
   */
   public void setDisplayName(String DisplayName)
@@ -120,7 +120,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return Name of block
   */
   public String getDisplayName()
@@ -129,7 +129,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param X co-ordinate x
   */
   public void setX(double X)
@@ -138,7 +138,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param Y co-ordinate y
   */
   public void setY(double Y)
@@ -147,7 +147,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return co-ordinate x
   */
   public double getX()
@@ -156,7 +156,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return co-ordinate x
   */
   public double getY()
@@ -165,7 +165,7 @@ public class SaveBlock
   }
 
   /**
-   * Set save metod
+   * Set save method
    * @param _block block to be saved
   */
   public void setFromSchema(Block _block)
@@ -189,7 +189,7 @@ public class SaveBlock
   }
 
   /**
-   * Get save metod
+   * Get save method
    * @return block that was saved
   */
   public Block getFromSave()
