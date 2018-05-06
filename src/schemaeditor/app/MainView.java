@@ -146,8 +146,6 @@ public class MainView extends AnchorPane implements Observer
     {
       lSchema = loader.LoadSchema(file.toString());
       _filePath = file.toString();
-      System.err.printf("Block :%d \n", lSchema.GetBlocks().size());
-      System.err.printf("Cons :%d \n", lSchema.GetConnections().size());
       LoadSchema(lSchema);
     }
     // TODO: chyba ...

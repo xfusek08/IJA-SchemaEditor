@@ -196,47 +196,6 @@ public class SaveBlock
         block = new NumberBlock_Abs(this.ID);
         break;
     }
-    Port sPort;
-    for(SavePort port : this.InputPorts)
-    {
-      switch (port.getType())
-      {
-        case "number":
-          sPort = new NumberPort();
-          break;
-        case "bool":
-          sPort = new BoolPort();
-          break;
-        case "real":
-          sPort = new ComplexPort();
-          break;
-        default:
-          sPort = new NumberPort();
-          break;
-      }
-      sPort = port.getFromSave();
-      block.InputPorts.add(sPort);
-    }
-    for(SavePort port : this.OutputPorts)
-    {
-      switch (port.getType())
-      {
-        case "number":
-          sPort = new NumberPort();
-          break;
-        case "bool":
-          sPort = new BoolPort();
-          break;
-        case "real":
-          sPort = new ComplexPort();
-          break;
-        default:
-          sPort = new NumberPort();
-          break;
-      }
-      sPort = port.getFromSave();
-      block.OutputPorts.add(sPort);
-    }
     block.DisplayName = this.DisplayName;
     block.X = this.X;
     block.Y = this.Y;
