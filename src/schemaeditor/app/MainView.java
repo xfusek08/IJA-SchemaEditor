@@ -71,13 +71,16 @@ public class MainView extends AnchorPane implements Observer
 
   protected ConnectionView dragConnection;
   protected Schema _schema;
-  protected Label _errorMessage;
+  protected Label _message;
   protected List<ConnectionView> _displayConns;
   protected String _filePath;
 
   private EventHandler<DragEvent> connectionDragDroppedHandle;
   private EventHandler<DragEvent> connectionDragOverHandle;
   private EventHandler<DragEvent> connectionDragExitedHandler;
+
+  private EventHandler<MouseEvent> connectionOverEvent;
+  private EventHandler<MouseEvent> connectionExitedEvent;
 
   private BlockInfoBoard _infotab;
 
@@ -251,6 +254,8 @@ public class MainView extends AnchorPane implements Observer
   protected void RemoveDisplConn(ConnectionView conn)
   {
     SchemaPane.getChildren().remove(conn);
+    conn.Curve.setOnMouseEntered(null);
+    conn.Curve.setOnMouseExited(null);
     _displayConns.remove(conn);
   }
 
@@ -318,7 +323,6 @@ public class MainView extends AnchorPane implements Observer
         invalidConns.add(conn);
         continue;
       }
-
       ConnectionView newConnView = new ConnectionView(
         conn,
         SchemaPane.sceneToLocal(startPort.GetTip()),
@@ -423,25 +427,25 @@ public class MainView extends AnchorPane implements Observer
    */
   protected void CreateErrorMessage(String msg, Point2D position)
   {
-    DeleteErrorMessage();
-    _errorMessage = new Label(msg);
-    _errorMessage.setMouseTransparent(true);
-    _errorMessage.setTextFill(Color.WHITE);
-    _errorMessage.setStyle("-fx-background-color: red; -fx-border-color: yellow; -fx-border-width: 1px; -fx-padding: 3px; -fx-font-size: 15px;");
-    _errorMessage.setLayoutX(position.getX());
-    _errorMessage.setLayoutY(position.getY() - 40);
-    getChildren().add(_errorMessage);
+    DeleteMessage();
+    _message = new Label(msg);
+    _message.setMouseTransparent(true);
+    _message.setTextFill(Color.WHITE);
+    _message.setStyle("-fx-background-color: red; -fx-border-color: yellow; -fx-border-width: 1px; -fx-padding: 3px; -fx-font-size: 15px;");
+    _message.setLayoutX(position.getX());
+    _message.setLayoutY(position.getY() - 40);
+    getChildren().add(_message);
   }
 
   /**
    * Removes error message from screen
    */
-  protected void DeleteErrorMessage()
+  protected void DeleteMessage()
   {
-    if (_errorMessage != null)
+    if (_message != null)
     {
-      getChildren().remove(_errorMessage);
-      _errorMessage = null;
+      getChildren().remove(_message);
+      _message = null;
     }
   }
 
@@ -516,7 +520,7 @@ public class MainView extends AnchorPane implements Observer
     connectionDragDroppedHandle = new EventHandler<DragEvent>() {
       @Override public void handle(DragEvent event) {
         System.err.printf(" dropped [%f, %f]\n", event.getX(), event.getY());
-        DeleteErrorMessage();
+        DeleteMessage();
         setOnDragOver(null);
         setOnDragDropped(null);
         setOnDragExited(null);
@@ -531,7 +535,7 @@ public class MainView extends AnchorPane implements Observer
     connectionDragExitedHandler = new EventHandler<DragEvent>() {
       @Override public void handle(DragEvent event) {
         System.err.printf(" exited [%f, %f])\n", event.getX(), event.getY());
-        DeleteErrorMessage();
+        DeleteMessage();
         setOnDragOver(null);
         setOnDragDropped(null);
         setOnDragExited(null);
@@ -573,7 +577,7 @@ public class MainView extends AnchorPane implements Observer
               !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
           {
             pw.SetHover();
-            DeleteErrorMessage();
+            DeleteMessage();
             dragConnection.SetEnd(SchemaPane.sceneToLocal(pw.GetTip()));
             dragConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
             String errorMsg = ConnectConnectionView(dragConnection, true);
@@ -588,7 +592,7 @@ public class MainView extends AnchorPane implements Observer
         @Override public void handle(DragEvent event) {
           if (dragConnection != null)
           {
-            DeleteErrorMessage();
+            DeleteMessage();
             event.acceptTransferModes(TransferMode.ANY);
             if (pw.IsOutput() != dragConnection.isFromOut() &&
                 !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
@@ -629,7 +633,7 @@ public class MainView extends AnchorPane implements Observer
               event.setDropCompleted(false);
             }
             System.err.printf("dragConnection nulled\n");
-            DeleteErrorMessage();
+            DeleteMessage();
             dragConnection = null;
           }
         }

@@ -6,6 +6,7 @@
  */
 package schemaeditor.app;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
