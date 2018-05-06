@@ -52,14 +52,13 @@ public class MainView extends AnchorPane implements Observer
   @FXML Label ConnNumber;
   @FXML GridPane InputTable;
 
-  protected ConnectionView draggConnection;
+  protected ConnectionView dragConnection;
   protected Schema _schema;
   protected Label _errorMessage;
   protected List<ConnectionView> _displayConns;
 
   private EventHandler<DragEvent> connectionDragDroppedHandle;
   private EventHandler<DragEvent> connectionDragOverHandle;
-  private EventHandler<DragEvent> connectionDragDropHandle;
   private EventHandler<DragEvent> connectionDragExitedHandler;
 
   private BlockInfoBoard _infotab;
@@ -127,7 +126,7 @@ public class MainView extends AnchorPane implements Observer
       newBlock.Y = 100;
       BlockView newBlockView = new BlockView(_schema.AddBlock(newBlock));
       SchemaPane.getChildren().add(newBlockView);
-      SetConnectionEvents(newBlockView);
+      SetEventsOfBlocksAndConnection(newBlockView);
     }
     UpdateSchemaStats();
   }
@@ -137,11 +136,13 @@ public class MainView extends AnchorPane implements Observer
   {
     _schema.RunCalculation();
   }
+
   @FXML
   private void ResetAction(ActionEvent event)
   {
     _schema.StopCalculation();
   }
+
   @FXML
   private void StepAction(ActionEvent event)
   {
@@ -156,6 +157,29 @@ public class MainView extends AnchorPane implements Observer
     UpdateSchemaStats();
   }
 
+  /**
+   * Removes connection view from display collection
+   * @param conn connection view to be removed
+   */
+  protected void RemoveDisplConn(ConnectionView conn)
+  {
+    SchemaPane.getChildren().remove(conn);
+    _displayConns.remove(conn);
+  }
+
+  /**
+   * Register connection view to display collection
+   * @param conn connection view to be added
+   */
+  protected void AddDisplConn(ConnectionView conn)
+  {
+    SchemaPane.getChildren().add(conn);
+    _displayConns.add(conn);
+  }
+
+  /**
+   * @param blockView
+  */
   public void RemoveBlockView(BlockView blockView)
   {
     List<ConnectionView> toremove = new ArrayList<ConnectionView>();
@@ -168,203 +192,13 @@ public class MainView extends AnchorPane implements Observer
     _schema.RemoveBlock(blockView.GetBlock());
   }
 
-  protected void CreateHandlers()
-  {
-    connectionDragOverHandle = new EventHandler<DragEvent>() {
-      @Override public void handle(DragEvent event) {
-        event.acceptTransferModes(TransferMode.ANY);
-        draggConnection.SetEnd(
-          SchemaPane.sceneToLocal(new Point2D(event.getSceneX(), event.getSceneY()))
-        );
-        event.consume();
-      }
-    };
-
-    connectionDragDroppedHandle = new EventHandler<DragEvent>() {
-      @Override public void handle(DragEvent event) {
-        System.err.printf(" dropped [%f, %f]\n", event.getX(), event.getY());
-        DeleteErrorMessage();
-        setOnDragOver(null);
-        setOnDragDropped(null);
-        setOnDragExited(null);
-        RemoveDisplConn(draggConnection);
-        draggConnection = null;
-        event.setDropCompleted(false);
-        event.consume();
-      }
-    };
-
-    connectionDragExitedHandler = new EventHandler<DragEvent>() {
-      @Override public void handle(DragEvent event) {
-        System.err.printf(" exited [%f, %f])\n", event.getX(), event.getY());
-        DeleteErrorMessage();
-        setOnDragOver(null);
-        setOnDragDropped(null);
-        setOnDragExited(null);
-        RemoveDisplConn(draggConnection);
-        draggConnection = null;
-        event.setDropCompleted(false);
-        event.consume();
-        }
-    };
-  }
-
-  protected void SetConnectionEvents(BlockView blockView)
-  {
-    for (PortView pw : blockView.GetAllPorts())
-    {
-      pw.Aura.setOnDragOver( new EventHandler<DragEvent>() {
-        @Override public void handle(DragEvent event) {
-          event.acceptTransferModes(TransferMode.ANY);
-          if (pw.IsOutput() != draggConnection.isFromOut() &&
-              !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
-          {
-            event.consume();
-          }
-        }
-      });
-
-      pw.Aura.setOnDragExited( new EventHandler<DragEvent>() {
-        @Override public void handle(DragEvent event) {
-          if (draggConnection != null)
-          {
-            DeleteErrorMessage();
-            event.acceptTransferModes(TransferMode.ANY);
-            if (pw.IsOutput() != draggConnection.isFromOut() &&
-                !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
-            {
-              pw.UnSetHover();
-              draggConnection.SetPort(pw.IsOutput(), null, 0);
-              event.consume();
-            }
-          }
-        }
-      });
-
-      pw.Aura.setOnDragEntered( new EventHandler<DragEvent>() {
-        @Override public void handle(DragEvent event) {
-          System.err.printf("DragEntered\n");
-          event.acceptTransferModes(TransferMode.ANY);
-          if (pw.IsOutput() != draggConnection.isFromOut() &&
-              !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
-          {
-            pw.SetHover();
-            DeleteErrorMessage();
-            draggConnection.SetEnd(SchemaPane.sceneToLocal(pw.GetTip()));
-            draggConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
-            String errorMsg = ConnectConnectionView(draggConnection, true);
-            if (errorMsg != "") CreateErrorMessage(errorMsg, pw.GetTip());
-            event.consume();
-          }
-        }
-      });
-
-      pw.Aura.setOnDragDropped( new EventHandler<DragEvent>() {
-        @Override public void handle(DragEvent event) {
-          System.err.printf("Drop\n");
-          event.acceptTransferModes(TransferMode.ANY);
-          if (pw.IsOutput() != draggConnection.isFromOut() &&
-              !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
-          {
-            setOnDragOver(null);
-            setOnDragDropped(null);
-            setOnDragExited(null);
-            event.consume();
-
-            pw.UnSetHover();
-            draggConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
-            if (ConnectConnectionView(draggConnection, false) == "")
-            {
-              System.err.printf("Drop on valid port\n");
-              RegisterConnOnPort(pw, draggConnection, false);
-              event.setDropCompleted(true);
-            }
-            else
-            {
-              System.err.printf("Drop on invalid port\n");
-              RemoveDisplConn(draggConnection);
-              event.setDropCompleted(false);
-            }
-            System.err.printf("draggConnection nulled\n");
-            DeleteErrorMessage();
-            draggConnection = null;
-          }
-        }
-      });
-
-      pw.Aura.setOnDragDetected(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent event) {
-          System.err.printf("Drag detected: %s (%s) : %d (%s)\n",
-            blockView.GetBlock().ID.toString(),
-            blockView.GetBlock().DisplayName,
-            pw.GetPortNum(),
-            pw.IsOutput() ? "output" : "input"
-          );
-
-          setOnDragOver(null);
-          setOnDragDropped(null);
-          setOnDragExited(null);
-          setOnDragOver(connectionDragOverHandle);
-          setOnDragDropped(connectionDragDroppedHandle);
-          setOnDragExited(connectionDragExitedHandler);
-
-          draggConnection = new ConnectionView(
-            SchemaPane.sceneToLocal(pw.GetTip()),
-            SchemaPane.sceneToLocal(event.getSceneX(), event.getSceneY()),
-            pw.IsOutput()
-          );
-          draggConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
-          AddDisplConn(draggConnection);
-
-          Connection toremove = RegisterConnOnPort(pw, draggConnection, true);
-          if (toremove != null)
-            _schema.RemoveConnection(toremove);
-          ClipboardContent content = new ClipboardContent();
-          content.putString(blockView.GetBlock().ID.toString());
-          startDragAndDrop(TransferMode.ANY).setContent(content);
-          event.consume();
-        }
-      });
-    }
-
-    blockView.BlockBody.setOnMousePressed(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event)
-      {
-        blockView.toFront();
-        if (event.getButton() == MouseButton.MIDDLE)
-        {
-          _infotab = new BlockInfoBoard(blockView.GetBlock());
-          getChildren().add(_infotab);
-          Point2D coords = SchemaPane.localToScene(blockView.getLayoutX(), blockView.getLayoutY());
-          _infotab.relocate(coords.getX() + 80, coords.getY());
-          event.consume();
-        }
-      }
-    });
-
-    blockView.BlockBody.setOnMouseReleased(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event)
-      {
-        if (event.getButton() == MouseButton.MIDDLE)
-        {
-          getChildren().remove(_infotab);
-          _infotab = null;
-          event.consume();
-        }
-      }
-    });
-
-    blockView.DeleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event)
-      {
-        if (event.getButton() == MouseButton.PRIMARY)
-        {
-          RemoveBlockView(blockView);
-          event.consume();
-        }
-      }
-    });
-  }
+  /**
+   * Registers connection view on port view.
+   * @param PortView  Port where connection will be attached.
+   * @param conn      Connection to be attached.
+   * @param isStart   True if port is connected to start point of connection curve, false if is on end. This is used to orient shape of curve.
+   * @return instance of removed connection null if no connection was rewritten.
+   */
   protected Connection RegisterConnOnPort(PortView port, ConnectionView conn, boolean isStart)
   {
     ConnectionView toremove = port.RegisterConn(conn, isStart);
@@ -376,6 +210,12 @@ public class MainView extends AnchorPane implements Observer
     return null;
   }
 
+  /**
+   * Tries to connect two blocks in model based on connection view description. Connection is created in model if validating was ok.
+   * @param connView  Connection view describing new connection in model.
+   * @param justTry   Flag. If True method will validate connection and return result, but if connection is ok does not affect model.
+   * @return string error message what went wrong in connection, empty string is ok.
+   */
   protected String ConnectConnectionView(ConnectionView connView, boolean justTry)
   {
     Connection conn = connView.GetConnection();
@@ -416,6 +256,11 @@ public class MainView extends AnchorPane implements Observer
     return msg;
   }
 
+  /**
+   * Creates error message na screen on certain position.
+   * @param msg       Message to be displayed.
+   * @param position  Position where message will be displayed.
+   */
   protected void CreateErrorMessage(String msg, Point2D position)
   {
     DeleteErrorMessage();
@@ -428,6 +273,9 @@ public class MainView extends AnchorPane implements Observer
     getChildren().add(_errorMessage);
   }
 
+  /**
+   * Removes error message from screen
+   */
   protected void DeleteErrorMessage()
   {
     if (_errorMessage != null)
@@ -437,6 +285,9 @@ public class MainView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Reloads data from schema to be displayed on screen. Input ports, block count, connection count.
+   */
   protected void UpdateSchemaStats()
   {
     Set<Connection> conns = _schema.GetConnections();
@@ -480,14 +331,227 @@ public class MainView extends AnchorPane implements Observer
       InputTable.add(portValues, 1, port.GetInputNumber());
     }
   }
-  protected void RemoveDisplConn(ConnectionView conn)
+
+  //===========================================================================
+  //=========================  Handling events ================================
+  //===========================================================================
+
+  /**
+   * Defines handles to object fields to be attach and detach to MainView in various circumstances
+  */
+  protected void CreateHandlers()
   {
-    SchemaPane.getChildren().remove(conn);
-    _displayConns.remove(conn);
+    // drag and stretch connection outside the blocks
+    connectionDragOverHandle = new EventHandler<DragEvent>() {
+      @Override public void handle(DragEvent event) {
+        event.acceptTransferModes(TransferMode.ANY);
+        dragConnection.SetEnd(
+          SchemaPane.sceneToLocal(new Point2D(event.getSceneX(), event.getSceneY()))
+        );
+        event.consume();
+      }
+    };
+
+    // Drop connection when it is outside of port
+    connectionDragDroppedHandle = new EventHandler<DragEvent>() {
+      @Override public void handle(DragEvent event) {
+        System.err.printf(" dropped [%f, %f]\n", event.getX(), event.getY());
+        DeleteErrorMessage();
+        setOnDragOver(null);
+        setOnDragDropped(null);
+        setOnDragExited(null);
+        RemoveDisplConn(dragConnection);
+        dragConnection = null;
+        event.setDropCompleted(false);
+        event.consume();
+      }
+    };
+
+    // Drop connection when mouse exits screen
+    connectionDragExitedHandler = new EventHandler<DragEvent>() {
+      @Override public void handle(DragEvent event) {
+        System.err.printf(" exited [%f, %f])\n", event.getX(), event.getY());
+        DeleteErrorMessage();
+        setOnDragOver(null);
+        setOnDragDropped(null);
+        setOnDragExited(null);
+        RemoveDisplConn(dragConnection);
+        dragConnection = null;
+        event.setDropCompleted(false);
+        event.consume();
+        }
+    };
   }
-  protected void AddDisplConn(ConnectionView conn)
+
+  /**
+   * Defining events for newly created blockview such as connections displaying information and deleting blocks.
+   * @param blockView newly created blockview
+   */
+  protected void SetEventsOfBlocksAndConnection(BlockView blockView)
   {
-    SchemaPane.getChildren().add(conn);
-    _displayConns.add(conn);
+    // for each port on block, set events for creating and connection connections
+    for (PortView pw : blockView.GetAllPorts())
+    {
+      // consume dragging connection over port, because it has snapped.
+      pw.Aura.setOnDragOver( new EventHandler<DragEvent>() {
+        @Override public void handle(DragEvent event) {
+          event.acceptTransferModes(TransferMode.ANY);
+          if (pw.IsOutput() != dragConnection.isFromOut() &&
+              !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
+          {
+            event.consume();
+          }
+        }
+      });
+
+      // drag and connection over the port and snaps it to port if it is valid connection, eventualy display error warning
+      pw.Aura.setOnDragEntered( new EventHandler<DragEvent>() {
+        @Override public void handle(DragEvent event) {
+          System.err.printf("DragEntered\n");
+          event.acceptTransferModes(TransferMode.ANY);
+          if (pw.IsOutput() != dragConnection.isFromOut() &&
+              !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
+          {
+            pw.SetHover();
+            DeleteErrorMessage();
+            dragConnection.SetEnd(SchemaPane.sceneToLocal(pw.GetTip()));
+            dragConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
+            String errorMsg = ConnectConnectionView(dragConnection, true);
+            if (errorMsg != "") CreateErrorMessage(errorMsg, pw.GetTip());
+            event.consume();
+          }
+        }
+      });
+
+      // exit snapping to ports
+      pw.Aura.setOnDragExited( new EventHandler<DragEvent>() {
+        @Override public void handle(DragEvent event) {
+          if (dragConnection != null)
+          {
+            DeleteErrorMessage();
+            event.acceptTransferModes(TransferMode.ANY);
+            if (pw.IsOutput() != dragConnection.isFromOut() &&
+                !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
+            {
+              pw.UnSetHover();
+              dragConnection.SetPort(pw.IsOutput(), null, 0);
+              event.consume();
+            }
+          }
+        }
+      });
+
+      // drop connection to port, if it is valid.
+      pw.Aura.setOnDragDropped( new EventHandler<DragEvent>() {
+        @Override public void handle(DragEvent event) {
+          System.err.printf("Drop\n");
+          event.acceptTransferModes(TransferMode.ANY);
+          if (pw.IsOutput() != dragConnection.isFromOut() &&
+              !blockView.GetBlock().ID.toString().equals(event.getDragboard().getString()))
+          {
+            setOnDragOver(null);
+            setOnDragDropped(null);
+            setOnDragExited(null);
+            event.consume();
+
+            pw.UnSetHover();
+            dragConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
+            if (ConnectConnectionView(dragConnection, false) == "")
+            {
+              System.err.printf("Drop on valid port\n");
+              RegisterConnOnPort(pw, dragConnection, false);
+              event.setDropCompleted(true);
+            }
+            else
+            {
+              System.err.printf("Drop on invalid port\n");
+              RemoveDisplConn(dragConnection);
+              event.setDropCompleted(false);
+            }
+            System.err.printf("dragConnection nulled\n");
+            DeleteErrorMessage();
+            dragConnection = null;
+          }
+        }
+      });
+
+      // detect drag action over the port and create connection folliwing the mouse
+      pw.Aura.setOnDragDetected(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent event) {
+
+          System.err.printf("Drag detected: %s (%s) : %d (%s)\n",
+            blockView.GetBlock().ID.toString(),
+            blockView.GetBlock().DisplayName,
+            pw.GetPortNum(),
+            pw.IsOutput() ? "output" : "input"
+          );
+
+          setOnDragOver(null);
+          setOnDragDropped(null);
+          setOnDragExited(null);
+          setOnDragOver(connectionDragOverHandle);
+          setOnDragDropped(connectionDragDroppedHandle);
+          setOnDragExited(connectionDragExitedHandler);
+
+          dragConnection = new ConnectionView(
+            SchemaPane.sceneToLocal(pw.GetTip()),
+            SchemaPane.sceneToLocal(event.getSceneX(), event.getSceneY()),
+            pw.IsOutput()
+          );
+
+          dragConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
+          AddDisplConn(dragConnection);
+
+          Connection toremove = RegisterConnOnPort(pw, dragConnection, true);
+          if (toremove != null)
+            _schema.RemoveConnection(toremove);
+          ClipboardContent content = new ClipboardContent();
+          content.putString(blockView.GetBlock().ID.toString());
+          startDragAndDrop(TransferMode.ANY).setContent(content);
+          event.consume();
+        }
+      });
+    }
+
+    // if middle button is pressed over block data of block state are shown
+    blockView.BlockBody.setOnMousePressed(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        blockView.toFront();
+        if (event.getButton() == MouseButton.MIDDLE)
+        {
+          _infotab = new BlockInfoBoard(blockView.GetBlock());
+          getChildren().add(_infotab);
+          Point2D coords = SchemaPane.localToScene(blockView.getLayoutX(), blockView.getLayoutY());
+          _infotab.relocate(coords.getX() + 80, coords.getY());
+          event.consume();
+        }
+      }
+    });
+
+    // hides block info when mouse middle button is released
+    blockView.BlockBody.setOnMouseReleased(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        if (event.getButton() == MouseButton.MIDDLE)
+        {
+          getChildren().remove(_infotab);
+          _infotab = null;
+          event.consume();
+        }
+      }
+    });
+
+    // set delete block action when cross button is pressed
+    blockView.DeleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event)
+      {
+        if (event.getButton() == MouseButton.PRIMARY)
+        {
+          RemoveBlockView(blockView);
+          event.consume();
+        }
+      }
+    });
   }
 }
