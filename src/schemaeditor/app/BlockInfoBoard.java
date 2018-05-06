@@ -45,12 +45,14 @@ public class BlockInfoBoard extends AnchorPane implements Observer
 
   protected Block _block;
 
+  /**
+   * Constructor
+   * @param block block of which info to be shown
+   */
   public BlockInfoBoard(Block block)
   {
     _block = block;
     _block.addObserver(this);
-    // System.err.print(getClass().getResource("resources/BlockInfoBoard.fxml"));
-    // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
         getClass().getResource("resources/BlockInfoBoard.fxml")
     );
@@ -66,17 +68,26 @@ public class BlockInfoBoard extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Initialize block
+   */
   @FXML
   private void initialize()
   {
     LoadFromBlock();
   }
 
+  /**
+   * Update object
+   */
   public void update(Observable obs, Object obj)
   {
     LoadFromBlock();
   }
 
+  /**
+   * Change view data base on block data
+   */
   public void LoadFromBlock()
   {
     IDLabel.setText(_block.ID.toString());

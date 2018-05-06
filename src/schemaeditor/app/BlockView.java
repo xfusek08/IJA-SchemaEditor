@@ -61,14 +61,16 @@ public class BlockView extends AnchorPane implements Observer
 
   protected String _styles;
 
+  /**
+   * Constructor
+   * @param block block to be view
+   */
   public BlockView(Block block)
   {
     _block = block;
     _block.addObserver(this);
     _dragOffset = new Point2D(0,0);
 
-    // System.err.print(getClass().getResource("resources/BlockView.fxml"));
-    // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
         getClass().getResource("resources/BlockView.fxml")
     );
@@ -84,6 +86,9 @@ public class BlockView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Block initialization
+   */
   @FXML
   private void initialize()
   {
@@ -123,16 +128,27 @@ public class BlockView extends AnchorPane implements Observer
     });
   }
 
+  /**
+   * Update object
+   */
   public void update(Observable obs, Object obj)
   {
     Reload();
   }
 
+  /**
+   * Get block
+   * @return block
+   */
   public Block GetBlock()
   {
     return _block;
   }
 
+  /**
+   * Move to point
+   * @param point co-ordinates of point to be moved to
+   */
   public void MoveToPoint(Point2D point)
   {
     Point2D localCoords = getParent().sceneToLocal(point).subtract(_dragOffset);
@@ -146,6 +162,10 @@ public class BlockView extends AnchorPane implements Observer
       port.MoveConnection(getParent());
   }
 
+  /**
+   * Get all ports
+   * @return list of all ports
+   */
   public List<PortView> GetAllPorts()
   {
     List<PortView> res = new ArrayList<PortView>();
@@ -169,6 +189,7 @@ public class BlockView extends AnchorPane implements Observer
   /**
    * Gets input port View on index
    * @param index index of input port
+   * @return port view if found
    */
   public PortView GetInputPortViewByIndex(int index)
   {
@@ -183,6 +204,7 @@ public class BlockView extends AnchorPane implements Observer
   /**
    * Gets output port View on index
    * @param index index of output port
+   * @return port view if found
    */
   public PortView GetOutputPortViewByIndex(int index)
   {
@@ -195,15 +217,14 @@ public class BlockView extends AnchorPane implements Observer
   }
 
 
+  /**
+   * Events occuring when draging object
+   */
   protected void MakeDragEvents()
   {
     DragOverHandler = new EventHandler<DragEvent>() {
       @Override public void handle(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
-        // System.out.printf("setOnDragOver: [%f, %f]\n",
-        //   event.getX(),
-        //   event.getY()
-        // );
         MoveToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
         event.consume();
       }

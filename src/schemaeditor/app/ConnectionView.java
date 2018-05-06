@@ -34,14 +34,19 @@ public class ConnectionView extends Pane
   protected boolean _fromOut;
   protected Connection _connection;
 
+  /**
+   * Constructor
+   * @param conn connection to be viewed
+   * @param start starting point
+   * @param end ending point
+   * @param fromOut boolean defining if from out port
+   */
   public ConnectionView(Connection conn, Point2D start, Point2D end, boolean fromOut)
   {
     _start = start;
     _end = end;
     _fromOut = fromOut;
     _connection = conn;
-    // System.err.print(getClass().getResource("resources/ConnectionView.fxml"));
-    // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(
         getClass().getResource("resources/ConnectionView.fxml")
     );
@@ -57,6 +62,9 @@ public class ConnectionView extends Pane
     }
   }
 
+  /**
+   * Initialization of connection
+   */
   @FXML
   private void initialize()
   {
@@ -64,11 +72,19 @@ public class ConnectionView extends Pane
     SetEnd(_end);
   }
 
+  /**
+   * Get boolean to chceck if from out port
+   * @return true if is draged from out port
+   */
   public boolean isFromOut()
   {
     return _fromOut;
   }
 
+  /**
+   * Get connection
+   * @return connection of its block are not null
+   */
   public Connection GetConnection()
   {
     if (_connection.SourceBlockID != null && _connection.DestBlockID != null)
@@ -76,6 +92,10 @@ public class ConnectionView extends Pane
     return null;
   }
 
+  /**
+   * Set starting point of connection
+   * @param point starting point
+   */
   public void SetStart(Point2D point)
   {
     _start = point;
@@ -88,6 +108,10 @@ public class ConnectionView extends Pane
       Curve.setControlX1(_start.getX() - 50);
   }
 
+  /**
+   * Set ending point of connection
+   * @param point end point
+   */
   public void SetEnd(Point2D point)
   {
     _end = point;
@@ -100,6 +124,11 @@ public class ConnectionView extends Pane
     Curve.setControlY2(_end.getY());
   }
 
+  /**
+   * Set source block and source port number
+   * @param blockID source block ID
+   * @param portNumber source port number
+   */
   public void setSource(UUID blockID, int portNumber)
   {
     UnSetRed();
@@ -107,6 +136,11 @@ public class ConnectionView extends Pane
     _connection.SourcePortNumber = portNumber;
   }
 
+  /**
+   * Set destination block and destination port 
+   * @param blockID destination block ID
+   * @param portNumber destination port number
+   */
   public void setDest(UUID blockID, int portNumber)
   {
     UnSetRed();
@@ -114,6 +148,12 @@ public class ConnectionView extends Pane
     _connection.DestPortNumber = portNumber;
   }
 
+  /**
+   * Set port
+   * @param isOutput boolean to determine if port if out port
+   * @param blockID block ID
+   * @param portNumber port number
+   */
   public void SetPort(boolean isOutput, UUID blockID, int portNumber)
   {
     if (isOutput)
@@ -122,11 +162,17 @@ public class ConnectionView extends Pane
       setDest(blockID, portNumber);
   }
 
+  /**
+   * Set message red
+   */
   public void SetRed()
   {
     Curve.setStroke(Color.RED);
   }
 
+  /**
+   * Unset message red
+   */
   public void UnSetRed()
   {
     Curve.setStroke(Color.BLACK);

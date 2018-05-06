@@ -42,7 +42,6 @@ public class SchemaEditor extends Application
     BorderPane root = new BorderPane();
     try
     {
-      // Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();

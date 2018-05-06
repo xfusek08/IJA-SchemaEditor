@@ -84,6 +84,9 @@ public class MainView extends AnchorPane implements Observer
 
   private BlockInfoBoard _infotab;
 
+  /**
+   * Constructor
+   */
   public MainView()
   {
     _schema = new Schema();
@@ -106,12 +109,18 @@ public class MainView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Initialize
+   */
   @FXML
   private void initialize()
   {
     CreateHandlers();
   }
 
+  /**
+   * Save schema
+   */
   @FXML
   private void SaveFile(ActionEvent event) throws JAXBException, IOException
   {
@@ -126,6 +135,9 @@ public class MainView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Save as.. schema
+   */
   @FXML
   private void SaveAsFile(ActionEvent event) throws JAXBException, IOException
   {
@@ -143,6 +155,9 @@ public class MainView extends AnchorPane implements Observer
     }
   }
 
+  /**
+   * Load schema
+   */
   @FXML
   private void LoadFile(ActionEvent event) throws JAXBException, IOException
   {
@@ -160,9 +175,11 @@ public class MainView extends AnchorPane implements Observer
       _filePath = file.toString();
       LoadSchema(lSchema);
     }
-    // TODO: chyba ...
   }
 
+  /**
+   * Add block to schema
+   */
   @FXML
   private void AddBlock(MouseEvent event)
   {
@@ -204,6 +221,9 @@ public class MainView extends AnchorPane implements Observer
     UpdateSchemaStats();
   }
 
+  /**
+   * Run calculation
+   */
   @FXML
   private void RunAction(ActionEvent event)
   {
