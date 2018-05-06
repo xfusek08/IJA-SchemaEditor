@@ -18,7 +18,10 @@ public class CplexBlock_Complement extends Block
 {
   public static final String NAME = "Complex Complement";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Complement(UUID id)
   {
     super(id, NAME);

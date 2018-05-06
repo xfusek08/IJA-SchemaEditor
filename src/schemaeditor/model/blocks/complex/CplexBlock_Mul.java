@@ -18,7 +18,10 @@ public class CplexBlock_Mul extends Block
 {
   public static final String NAME = "Complex Mul";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Mul(UUID id)
   {
     super(id, NAME);
