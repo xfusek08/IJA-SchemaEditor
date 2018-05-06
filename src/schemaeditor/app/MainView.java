@@ -338,7 +338,6 @@ public class MainView extends AnchorPane implements Observer
 
       if (startPort == null || endPort == null)
       {
-        // TODO: chyba ... vypsat ??
         System.err.printf("Cannot create connection ... port not found\n");
         invalidConns.add(conn);
         continue;
@@ -430,9 +429,9 @@ public class MainView extends AnchorPane implements Observer
       switch (resStatus)
       {
         case OutSourcePortNotFound :  msg = "Source port not found."; break;
-        case InDestPortNotfoud :      msg = "Destination port not found."; break;
-        case PortsIncopatible :       msg = "Incompatible ports."; break;
-        case ConnectionCuseesCycles : msg = "Connection causes cycles."; break;
+        case InDestPortNotFound :      msg = "Destination port not found."; break;
+        case PortsIncompatible :       msg = "Incompatible ports."; break;
+        case ConnectionCausesCycles : msg = "Connection causes cycles."; break;
         default:                      msg = "Unknown."; break;
       }
       System.err.printf(" ... can't connect (%s)\n", msg);

@@ -11,8 +11,8 @@ public enum EAddStatus
 {
   Ok,
   OutSourcePortNotFound,
-  InDestPortNotfoud,
-  PortsIncopatible,
-  ConnectionCuseesCycles,
+  InDestPortNotFound,
+  PortsIncompatible,
+  ConnectionCausesCycles,
   OtherError;
 }

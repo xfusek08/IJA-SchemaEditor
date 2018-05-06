@@ -13,7 +13,7 @@ import schemaeditor.model.base.Port;
 import java.util.*;
 
 /**
- * Class reprezenting one block
+ * Class representing one block
  */
 public abstract class Block extends Observable implements Observer
 {
@@ -25,8 +25,8 @@ public abstract class Block extends Observable implements Observer
   public double X;
   public double Y;
 
-  /** 
-   * Constructor 
+  /**
+   * Constructor
    * @param ID block id
    * @param ID name of block
    * */

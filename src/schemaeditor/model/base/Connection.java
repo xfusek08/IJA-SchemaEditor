@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 /**
- * Class reprezenting one connection between output and input port of two blocks
+ * Class representing one connection between output and input port of two blocks
  */
 public class Connection
 {
@@ -41,9 +41,9 @@ public class Connection
   }
 
   /**
-   * Check if all atributes of connection are equals 
+   * Check if all atributes of connection are equals
    * @param obj another connection
-   * @return true if are equal 
+   * @return true if are equal
    */
   public boolean equals(Object obj)
   {
@@ -61,7 +61,7 @@ public class Connection
 
   /**
    * Return hash code of connection
-   * @return hashCode  
+   * @return hashCode
    */
   public int hashCode()
   {

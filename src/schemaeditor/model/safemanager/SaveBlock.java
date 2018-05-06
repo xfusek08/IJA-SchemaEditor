@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
- * Class reprezenting one block
+ * Class representing one block
  */
 @XmlRootElement(name = "SaveBlock")
 @XmlAccessorType (XmlAccessType.FIELD)
@@ -38,7 +38,7 @@ public class SaveBlock
   public double X;
   public double Y;
 
-  /** 
+  /**
    * Set save metod
    * @param _status blockStatus
   */
@@ -47,7 +47,7 @@ public class SaveBlock
     this._status = _status;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return blockStatus
   */
@@ -56,7 +56,7 @@ public class SaveBlock
     return _status;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param ID block ID
   */
@@ -65,7 +65,7 @@ public class SaveBlock
     this.ID = ID;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return block ID
   */
@@ -74,7 +74,7 @@ public class SaveBlock
     return ID;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param InputPorts Input ports
   */
@@ -83,7 +83,7 @@ public class SaveBlock
     this.InputPorts = InputPorts;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return Input ports
   */
@@ -92,7 +92,7 @@ public class SaveBlock
     return InputPorts;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param OutputPorts Output ports
   */
@@ -101,7 +101,7 @@ public class SaveBlock
     this.OutputPorts = OutputPorts;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return Output ports
   */
@@ -110,7 +110,7 @@ public class SaveBlock
     return OutputPorts;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param DisplayName Name of block
   */
@@ -119,7 +119,7 @@ public class SaveBlock
     this.DisplayName = DisplayName;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return Name of block
   */
@@ -128,7 +128,7 @@ public class SaveBlock
     return DisplayName;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param X co-ordinate x
   */
@@ -137,7 +137,7 @@ public class SaveBlock
     this.X = X;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param Y co-ordinate y
   */
@@ -146,7 +146,7 @@ public class SaveBlock
     this.Y = Y;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return co-ordinate x
   */
@@ -155,7 +155,7 @@ public class SaveBlock
     return this.X;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return co-ordinate x
   */
@@ -164,7 +164,7 @@ public class SaveBlock
     return this.Y;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param _block block to be saved
   */
@@ -188,7 +188,7 @@ public class SaveBlock
     this.Y = _block.Y;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return block that was saved
   */

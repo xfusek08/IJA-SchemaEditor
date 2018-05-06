@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
- * Class for object reprezenting one Schema
+ * Class for object representing one Schema
  * Schema is composed from Blocks and connections
  */
 @XmlRootElement(namespace = "schemaeditor.model.base")
@@ -33,38 +33,38 @@ public class SaveSchema
   @XmlElement(name = "connection")
   private Set<SaveConnection> connection = null;
 
-  /** 
+  /**
    * Set save metod
    * @param blocks set blocks
   */
-  public void setBlock(List<SaveBlock> blocks) 
+  public void setBlock(List<SaveBlock> blocks)
   {
     this.blocks = blocks;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return blocks
   */
-  public List<SaveBlock> getBlock() 
+  public List<SaveBlock> getBlock()
   {
     return blocks;
   }
 
-  /** 
+  /**
    * Set save metod
    * @param conn set conns
   */
-  public void setConn(Set<SaveConnection> conn) 
+  public void setConn(Set<SaveConnection> conn)
   {
     this.connection = conn;
   }
 
-  /** 
+  /**
    * Get save metod
    * @return connections
   */
-  public Set<SaveConnection> getConn() 
+  public Set<SaveConnection> getConn()
   {
     return connection;
   }

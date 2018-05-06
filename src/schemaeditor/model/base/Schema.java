@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Class for object reprezenting one Schema
+ * Class for object representing one Schema
  *
  * Schema is composed from Blocks and connectionsa
  */
@@ -97,8 +97,8 @@ public class Schema extends Observable
     return res;
   }
 
-  /** 
-   * Removes block instance from schema 
+  /**
+   * Removes block instance from schema
    * @param connection connectiont to be removed from list
    */
   public void RemoveConnection(Connection connection)
@@ -123,7 +123,7 @@ public class Schema extends Observable
     if(connection.SourceBlockID == null)
       return EAddStatus.OutSourcePortNotFound;
     if(connection.DestBlockID == null)
-      return EAddStatus.InDestPortNotfoud;
+      return EAddStatus.InDestPortNotFound;
     for (SchemaBlock schemaBlock : _blocks)
     {
       if(schemaBlock._block.ID.equals(connection.SourceBlockID))
@@ -134,22 +134,22 @@ public class Schema extends Observable
     if(out == null)
       return EAddStatus.OutSourcePortNotFound;
     if(in == null)
-      return EAddStatus.InDestPortNotfoud;
+      return EAddStatus.InDestPortNotFound;
     if(!in.Compatible(out) || !out.Compatible(out))
-      return EAddStatus.PortsIncopatible;
+      return EAddStatus.PortsIncompatible;
     for (SchemaBlock schemaBlock : _blocks)
       if(schemaBlock._block.ID.equals(connection.SourceBlockID))
         prec = schemaBlock;
     for (UUID ID : prec.GetPrecedestors())
       if(ID.equals(connection.DestBlockID))
-        return EAddStatus.ConnectionCuseesCycles;
+        return EAddStatus.ConnectionCausesCycles;
     return EAddStatus.Ok;
   }
 
   // Iterators of collections
 
-  /** 
-   * Get Block list iterator 
+  /**
+   * Get Block list iterator
    * @return list of blocks
    */
   public List<Block> GetBlocks()
@@ -160,8 +160,8 @@ public class Schema extends Observable
     return list;
   }
 
-  /** 
-   * Get Block list iterator 
+  /**
+   * Get Block list iterator
    * @return connection list
   */
   public Set<Connection> GetConnections()
@@ -169,8 +169,8 @@ public class Schema extends Observable
     return _connections;
   }
 
-  /** 
-   * Gets list of input (unconnected) ports of schema. 
+  /**
+   * Gets list of input (unconnected) ports of schema.
    * @return list of all input ports
    */
   public List<Port> GetInputPorts()
@@ -183,8 +183,8 @@ public class Schema extends Observable
     return inPortList;
   }
 
-  /** 
-   * Gets list of output (unconnected) ports of schema. 
+  /**
+   * Gets list of output (unconnected) ports of schema.
    * @return list of all output ports
    */
   public List<Port> GetOutPorts()
@@ -197,8 +197,8 @@ public class Schema extends Observable
     return outPortList;
   }
 
-  /** 
-   * Gets list of block with unconnected input ports of schema. 
+  /**
+   * Gets list of block with unconnected input ports of schema.
    * @return list of all input blocks
    */
   public Set<Block> GetInBlocks()
@@ -211,8 +211,8 @@ public class Schema extends Observable
     return res;
   }
 
-  /** 
-   * Gets list of block with unconnected output ports of schema. 
+  /**
+   * Gets list of block with unconnected output ports of schema.
    * @return list of all output blocks
    */
   public Set<Block> GetOutBlocks()
@@ -225,9 +225,9 @@ public class Schema extends Observable
     return res;
   }
 
-  /** 
+  /**
    * Runs calculation
-   * @return true of run succesfully 
+   * @return true of run succesfully
    */
   public boolean RunCalculation()
   {
@@ -246,8 +246,8 @@ public class Schema extends Observable
     return true;
   }
 
-  /** 
-   * Starts debug calculation and prepares it to stepping 
+  /**
+   * Starts debug calculation and prepares it to stepping
    */
   public void StartCalculation()
   {
@@ -263,8 +263,8 @@ public class Schema extends Observable
       sendVal(connect);
   }
 
-  /** 
-   * Execute one level of calculation 
+  /**
+   * Execute one level of calculation
    * @return true if block calculated
    */
   public boolean StepCalculation()
@@ -290,7 +290,7 @@ public class Schema extends Observable
     return calculated;
   }
 
-  /** 
+  /**
    * Send value to connected port
    * @param conn connection to send value by
    */
@@ -300,7 +300,7 @@ public class Schema extends Observable
     GetSchemaBlockById(conn.DestBlockID).GetBlock().setInPortVal(conn.DestPortNumber, value);
   }
 
-  /** 
+  /**
    * Find connections to next block
    * @param sBlock block to used in connection
    * @return list of connections leading to next block
@@ -360,7 +360,7 @@ public class Schema extends Observable
     }
   }
 
-  /** 
+  /**
    * Find schema block in list
    * @param id ID of block
    * @return block if found, null if not
@@ -373,7 +373,7 @@ public class Schema extends Observable
     return null;
   }
 
-  /** 
+  /**
    * Get dictionary of input block and its input ports
    * @return dictionary of block and ports
    */
@@ -406,7 +406,7 @@ public class Schema extends Observable
     return result;
   }
 
-  /** 
+  /**
    * Get dictionary of input block and its input ports
    * @return dictionary of block and ports
    */
@@ -433,7 +433,7 @@ public class Schema extends Observable
     return result;
   }
 
-  /** 
+  /**
    * Add connection to block
    * @param connection connection to be add
    * @param recalculate value to determine if recalculate schema
@@ -475,8 +475,8 @@ public class Schema extends Observable
     return EAddStatus.Ok;
   }
 
-  /** 
-   * Removes block instance from schema 
+  /**
+   * Removes block instance from schema
    * @param connection connection to be removed
    * @param recalculate value to determine if recalculate schema
    */
