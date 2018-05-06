@@ -72,16 +72,19 @@
   <target name="doc" depends="clean">
     <mkdir dir="${location_doc}"/>
     <javadoc
-        sourcepath="${location_src}"
+        encoding="UTF-8"
+        author="true"
+        version="true"
         destdir="${location_doc}"
         excludepackagenames="tests"
         use="true"
+        windowtitle="IJA-SchemaEditor"
         doctitle="IJA-SchemaEditor">
 
-      <fileset dir="${location_src}" defaultexcludes="yes">
-         <include name="**/*.java"/>
-         <exclude name="tests/**"/>
-      </fileset>
+      <packageset dir="src" defaultexcludes="yes">
+        <include name="schemaeditor/app/**"/>
+        <exclude name="schemaeditor/model/**"/>
+      </packageset>
     </javadoc>
   </target>
 
