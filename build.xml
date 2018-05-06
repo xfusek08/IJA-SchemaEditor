@@ -83,7 +83,7 @@
 
       <packageset dir="src" defaultexcludes="yes">
         <include name="schemaeditor/app/**"/>
-        <exclude name="schemaeditor/model/**"/>
+        <include name="schemaeditor/model/**"/>
       </packageset>
     </javadoc>
   </target>
