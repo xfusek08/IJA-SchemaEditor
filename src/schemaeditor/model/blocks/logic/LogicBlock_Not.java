@@ -18,7 +18,10 @@ public class LogicBlock_Not extends Block
 {
   public static final String NAME = "Not";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id id of block
+   */
   public LogicBlock_Not(UUID id)
   {
     super(id, NAME);

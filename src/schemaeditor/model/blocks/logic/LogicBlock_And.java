@@ -18,7 +18,10 @@ public class LogicBlock_And extends Block
 {
   public static final String NAME = "And";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id id of block
+   */
   public LogicBlock_And(UUID id)
   {
     super(id, NAME);

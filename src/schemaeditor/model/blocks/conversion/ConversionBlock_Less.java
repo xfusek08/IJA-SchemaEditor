@@ -18,10 +18,13 @@ public class ConversionBlock_Less extends Block
 {
   public static final String NAME = "Less";
 
-  /** Constructor */
-  public ConversionBlock_Less(UUID ID)
+  /**
+   * Constructor
+   * @param id id of block
+   */
+  public ConversionBlock_Less(UUID id)
   {
-    super(ID, NAME);
+    super(id, NAME);
   }
 
   /** Constructor */

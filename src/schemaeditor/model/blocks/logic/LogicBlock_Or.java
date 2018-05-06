@@ -18,7 +18,10 @@ public class LogicBlock_Or extends Block
 {
   public static final String NAME = "Or";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id id of block
+   */
   public LogicBlock_Or(UUID id)
   {
     super(id, NAME);

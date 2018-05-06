@@ -18,7 +18,10 @@ public class LogicBlock_Xnor extends Block
 {
   public static final String NAME = "Xnor";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id id of block
+   */
   public LogicBlock_Xnor(UUID id)
   {
     super(id, NAME);

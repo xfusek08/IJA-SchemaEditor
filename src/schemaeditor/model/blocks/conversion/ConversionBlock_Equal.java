@@ -18,10 +18,13 @@ public class ConversionBlock_Equal extends Block
 {
   public static final String NAME = "Equals";
 
-  /** Constructor */
-  public ConversionBlock_Equal(UUID ID)
+  /**
+   * Constructor
+   * @param id id of block
+   */
+  public ConversionBlock_Equal(UUID id)
   {
-    super(ID, NAME);
+    super(id, NAME);
   }
 
   /** Constructor */

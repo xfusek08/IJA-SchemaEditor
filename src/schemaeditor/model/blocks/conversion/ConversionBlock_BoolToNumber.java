@@ -18,10 +18,13 @@ public class ConversionBlock_BoolToNumber extends Block
 {
   public static final String NAME = "Bool To Number";
 
-  /** Constructor */
-  public ConversionBlock_BoolToNumber(UUID ID)
+  /**
+   * Constructor
+   * @param id id of block
+   */
+  public ConversionBlock_BoolToNumber(UUID id)
   {
-    super(ID, NAME);
+    super(id, NAME);
   }
 
   /** Constructor */

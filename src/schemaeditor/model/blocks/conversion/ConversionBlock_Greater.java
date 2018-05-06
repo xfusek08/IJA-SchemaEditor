@@ -18,10 +18,13 @@ public class ConversionBlock_Greater extends Block
 {
   public static final String NAME = "Greater";
 
-  /** Constructor */
-  public ConversionBlock_Greater(UUID ID)
+  /**
+   * Constructor
+   * @param id id of block
+   */
+  public ConversionBlock_Greater(UUID id)
   {
-    super(ID, NAME);
+    super(id, NAME);
   }
 
   /** Constructor */

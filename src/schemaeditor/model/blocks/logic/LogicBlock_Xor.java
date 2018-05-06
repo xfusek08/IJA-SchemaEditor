@@ -18,7 +18,10 @@ public class LogicBlock_Xor extends Block
 {
   public static final String NAME = "Xor";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id id of block
+   */
   public LogicBlock_Xor(UUID id)
   {
     super(id, NAME);
