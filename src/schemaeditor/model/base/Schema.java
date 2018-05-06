@@ -252,7 +252,6 @@ public class Schema extends Observable
   public void StartCalculation()
   {
     _isCalculating = true;
-    //najdu vsechny bloky, ktere maji prazdne porty pomoci metody a zavolam calculate na blocich
     Set<Connection> conns = new HashSet<Connection>();
     for(SchemaBlock sBlock : _blocks)
       if(sBlock.GetBlock().isExecutable())
@@ -448,7 +447,6 @@ public class Schema extends Observable
 
     SchemaBlock source = GetSchemaBlockById(connection.SourceBlockID);
     SchemaBlock dest = GetSchemaBlockById(connection.DestBlockID);
-    // source.ConnectOutPort(connection.SourcePortNumber);
     dest.AddAllPrecedestor(source.GetPrecedestors());
     dest.AddPrecedestor(source.GetBlock().ID);
 
