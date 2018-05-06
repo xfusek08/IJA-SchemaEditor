@@ -42,7 +42,7 @@ import schemaeditor.model.blocks.complex.*;
 import schemaeditor.model.blocks.conversion.*;
 import schemaeditor.model.blocks.logic.*;
 
-public class MainView extends AnchorPane
+public class MainView extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;
   @FXML AnchorPane SchemaPane;
@@ -67,6 +67,7 @@ public class MainView extends AnchorPane
   public MainView()
   {
     _schema = new Schema();
+    _schema.addObserver(this);
     _displayConns = new ArrayList<ConnectionView>();
 
     FXMLLoader fxmlLoader = new FXMLLoader(
@@ -150,6 +151,11 @@ public class MainView extends AnchorPane
       _schema.StepCalculation();
   }
 
+  public void update(Observable obs, Object obj)
+  {
+    UpdateSchemaStats();
+  }
+
   public void RemoveBlockView(BlockView blockView)
   {
     List<ConnectionView> toremove = new ArrayList<ConnectionView>();
@@ -158,8 +164,8 @@ public class MainView extends AnchorPane
         toremove.add(conn);
     for (ConnectionView conn : toremove)
       RemoveDisplConn(conn);
-    _schema.RemoveBlock(blockView.GetBlock());
     SchemaPane.getChildren().remove(blockView);
+    _schema.RemoveBlock(blockView.GetBlock());
   }
 
   protected void CreateHandlers()
@@ -313,7 +319,6 @@ public class MainView extends AnchorPane
           Connection toremove = RegisterConnOnPort(pw, draggConnection, true);
           if (toremove != null)
             _schema.RemoveConnection(toremove);
-          UpdateSchemaStats();
           ClipboardContent content = new ClipboardContent();
           content.putString(blockView.GetBlock().ID.toString());
           startDragAndDrop(TransferMode.ANY).setContent(content);
@@ -392,7 +397,6 @@ public class MainView extends AnchorPane
       if (!justTry)
       {
         _schema.AddConnection(conn);
-        UpdateSchemaStats();
         System.err.printf("  ... Connected\n");
       }
     }

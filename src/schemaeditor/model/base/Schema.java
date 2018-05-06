@@ -40,6 +40,7 @@ public class Schema extends Observable
     SchemaBlock newSBlock = new SchemaBlock(block);
     if (!_blocks.contains(newSBlock))
       _blocks.add(newSBlock);
+    setChanged();
     notifyObservers();
     return block;
   }
@@ -64,8 +65,9 @@ public class Schema extends Observable
     for (Connection conn : toRemove)
       RemoveConnection(conn, false);
     _blocks.remove(GetSchemaBlockById(block.ID));
-    notifyObservers();
     CalculateSchemaConnections();
+    setChanged();
+    notifyObservers();
   }
 
   /**
@@ -75,9 +77,18 @@ public class Schema extends Observable
    */
   public EAddStatus AddConnection(Connection connection)
   {
-    EAddStatus res = AddConnection(connection, true);
+    EAddStatus res = AddConnection(connection, true, false);
+    setChanged();
     notifyObservers();
     return res;
+  }
+
+  /** Removes block instance from schema */
+  public void RemoveConnection(Connection connection)
+  {
+    RemoveConnection(connection, true);
+    setChanged();
+    notifyObservers();
   }
 
   /**
@@ -119,12 +130,6 @@ public class Schema extends Observable
         return EAddStatus.ConnectionCuseesCycles;
     }
     return EAddStatus.Ok;
-  }
-
-  /** Removes block instance from schema */
-  public void RemoveConnection(Connection connection)
-  {
-    RemoveConnection(connection, true);
   }
 
   // Iterators of collections
@@ -280,20 +285,36 @@ public class Schema extends Observable
    */
   protected void CalculateSchemaConnections()
   {
+    // System.err.printf("Recalculate call:\n");
     _blocks.stream().forEach(sb -> sb.Clean());
-    List<Block> openQueue = new ArrayList<Block>(GetInBlocks());
-    Set<Connection> connections = GetConnections();
+    Queue<Block> openQueue = new LinkedList<Block>();
+
+    Dictionary<SchemaBlock, List<Port>> inputdict = GetInputSchemaBlocksWithInputPorts();
+    Enumeration<SchemaBlock> keys = inputdict.keys();
+    while(keys.hasMoreElements())
+    {
+      SchemaBlock sblock = keys.nextElement();
+      List<Port> ports = inputdict.get(sblock);
+      Block block = sblock.GetBlock();
+      if (block.InputPorts.size() == ports.size())
+      {
+        // System.err.printf("\t inblock: %s %d %d\n", block.ID, block.InputPorts.size(), ports.size());
+        openQueue.add(block);
+      }
+    }
+
     //Nahrani prvnich blocku do fronty
     while(!openQueue.isEmpty())
     {
-      Block first = openQueue.get(0);
-      for(Connection conn : connections)
+      Block first = openQueue.poll();
+      // System.err.printf("Check of %s\n", first.ID);
+      for(Connection conn : GetConnections())
         if(conn.SourceBlockID == first.ID)
         {
-          AddConnection(conn, false);
+          // System.err.printf("adding %s\n", GetSchemaBlockById(conn.DestBlockID).GetBlock().ID);
+          AddConnection(conn, false, true);
           openQueue.add(GetSchemaBlockById(conn.DestBlockID).GetBlock());
         }
-      openQueue.remove(first);
     }
   }
 
@@ -357,7 +378,7 @@ public class Schema extends Observable
     return result;
   }
 
-  protected EAddStatus AddConnection(Connection connection, boolean recalculate)
+  protected EAddStatus AddConnection(Connection connection, boolean recalculate, boolean noadd)
   {
     EAddStatus res = TryValidateConnection(connection);
     if (res != EAddStatus.Ok) return res;
@@ -368,32 +389,32 @@ public class Schema extends Observable
     dest.AddAllPrecedestor(source.GetPrecedestors());
     dest.AddPrecedestor(source.GetBlock().ID);
 
-    List<Connection> toremove = new ArrayList<Connection>();
-    GetConnections().stream()
-      .filter(c ->
-        c.SourceBlockID.equals(connection.SourceBlockID) && c.SourcePortNumber == connection.SourcePortNumber ||
-        c.DestBlockID.equals(connection.DestBlockID) && c.DestPortNumber == connection.DestPortNumber
-      )
-      .forEach(c -> toremove.add(c)
-    );
 
-    boolean isRemoved = false;
-    for (Connection conn : toremove)
+    if (!noadd)
     {
-      RemoveConnection(conn, false);
-      isRemoved = true;
+      List<Connection> toremove = new ArrayList<Connection>();
+      GetConnections().stream()
+        .filter(c ->
+          c.SourceBlockID.equals(connection.SourceBlockID) && c.SourcePortNumber == connection.SourcePortNumber ||
+          c.DestBlockID.equals(connection.DestBlockID) && c.DestPortNumber == connection.DestPortNumber
+        )
+        .forEach(c -> toremove.add(c)
+      );
+
+      for (Connection conn : toremove)
+        RemoveConnection(conn, false);
+
+      if (!_connections.add(connection))
+        return EAddStatus.OtherError;
     }
 
-    if (!_connections.add(connection))
-      return EAddStatus.OtherError;
-
-    if (isRemoved && recalculate)
+    if (recalculate)
        CalculateSchemaConnections();
 
-    System.err.printf("\n");
-    for (Connection conn : GetConnections())
-      System.err.printf("\t%s (%d) -> %s (%d)\n", conn.SourceBlockID.toString(), conn.SourcePortNumber, conn.DestBlockID.toString(), conn.DestPortNumber);
-    System.err.printf("\n");
+    // System.err.printf("\n");
+    // for (Connection conn : GetConnections())
+    //   System.err.printf("\t%s (%d) -> %s (%d)\n", conn.SourceBlockID.toString(), conn.SourcePortNumber, conn.DestBlockID.toString(), conn.DestPortNumber);
+    // System.err.printf("\n");
     return EAddStatus.Ok;
   }
 
@@ -403,6 +424,5 @@ public class Schema extends Observable
     _connections.remove(connection);
     if(recalculate)
       CalculateSchemaConnections();
-    notifyObservers();
   }
 }

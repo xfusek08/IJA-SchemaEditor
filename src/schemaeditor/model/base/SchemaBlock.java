@@ -44,6 +44,10 @@ class SchemaBlock
   public void AddPrecedestor(UUID ID)
   {
     _precedestors.add(ID);
+    // System.err.printf("\n\nPrecedestors of %s\n", _block.ID);
+    // for (UUID prec : GetPrecedestors())
+    //   System.err.printf("\t%s\n", prec);
+    // System.err.printf("\n");
   }
 
   /**
