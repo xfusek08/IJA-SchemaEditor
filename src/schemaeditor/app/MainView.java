@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.io.File;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +32,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.*;
 import schemaeditor.app.BlockView;
 import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Connection;
@@ -41,6 +43,8 @@ import schemaeditor.model.blocks.arithmetics.*;
 import schemaeditor.model.blocks.complex.*;
 import schemaeditor.model.blocks.conversion.*;
 import schemaeditor.model.blocks.logic.*;
+import schemaeditor.model.safemanager.*;
+import javax.xml.bind.JAXBException;
 
 public class MainView extends AnchorPane implements Observer
 {
@@ -89,6 +93,39 @@ public class MainView extends AnchorPane implements Observer
   private void initialize()
   {
     CreateHandlers();
+  }
+
+  @FXML
+  private void SaveAsFile(ActionEvent event) throws JAXBException, IOException
+  {
+    final Stage stage = new Stage();
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Save File");
+    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+    fileChooser.getExtensionFilters().add(filter);
+    File file = fileChooser.showSaveDialog(stage);
+    if (file != null) 
+    {
+      SchemaXMLLoader loader = new SchemaXMLLoader();
+      loader.SaveSchema(_schema, file.toString());
+    }  
+  }
+
+  @FXML
+  private void LoadFile(ActionEvent event) throws JAXBException, IOException
+  {
+    final Stage stage = new Stage();
+    SchemaXMLLoader loader = new SchemaXMLLoader();
+    Schema lSchema = new Schema();
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Load File");
+    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+    fileChooser.getExtensionFilters().add(filter);
+    File file = fileChooser.showOpenDialog(stage);
+    if (file != null) 
+      lSchema = loader.LoadSchema(file.toString());
+    System.err.printf("Block :%d \n", lSchema.GetBlocks().size());
+    System.err.printf("Cons :%d \n", lSchema.GetConnections().size()); 
   }
 
   @FXML

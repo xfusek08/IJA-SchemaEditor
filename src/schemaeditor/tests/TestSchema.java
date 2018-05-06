@@ -104,8 +104,8 @@ public class TestSchema
     loader.SaveSchema(_schema, "./save.xml");
 
     Schema lSchema = loader.LoadSchema("./save.xml");
-    assertEquals(3, lSchema._blocks.size());
-    assertEquals(2, lSchema._connections.size());
+    assertEquals(3, lSchema.GetBlocks().size());
+    assertEquals(2, lSchema.GetConnections().size());
   }
 
 }
