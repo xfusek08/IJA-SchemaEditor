@@ -10,9 +10,11 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.io.File;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -45,6 +47,8 @@ import schemaeditor.model.blocks.conversion.*;
 import schemaeditor.model.blocks.logic.*;
 import schemaeditor.model.safemanager.*;
 import javax.xml.bind.JAXBException;
+
+import org.omg.PortableServer._ServantActivatorStub;
 
 public class MainView extends AnchorPane implements Observer
 {
@@ -99,7 +103,7 @@ public class MainView extends AnchorPane implements Observer
   @FXML
   private void SaveFile(ActionEvent event) throws JAXBException, IOException
   {
-    if (_filePath != null) 
+    if (_filePath != null)
     {
       SchemaXMLLoader loader = new SchemaXMLLoader();
       loader.SaveSchema(_schema, _filePath);
@@ -107,7 +111,7 @@ public class MainView extends AnchorPane implements Observer
     else
     {
       SaveAsFile(event);
-    }  
+    }
   }
 
   @FXML
@@ -119,12 +123,12 @@ public class MainView extends AnchorPane implements Observer
     FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
     fileChooser.getExtensionFilters().add(filter);
     File file = fileChooser.showSaveDialog(stage);
-    if (file != null) 
+    if (file != null)
     {
       SchemaXMLLoader loader = new SchemaXMLLoader();
       loader.SaveSchema(_schema, file.toString());
       _filePath = file.toString();
-    }  
+    }
   }
 
   @FXML
@@ -138,10 +142,15 @@ public class MainView extends AnchorPane implements Observer
     FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
     fileChooser.getExtensionFilters().add(filter);
     File file = fileChooser.showOpenDialog(stage);
-    if (file != null) 
+    if (file != null)
+    {
       lSchema = loader.LoadSchema(file.toString());
-    System.err.printf("Block :%d \n", lSchema.GetBlocks().size());
-    System.err.printf("Cons :%d \n", lSchema.GetConnections().size()); 
+      _filePath = file.toString();
+      System.err.printf("Block :%d \n", lSchema.GetBlocks().size());
+      System.err.printf("Cons :%d \n", lSchema.GetConnections().size());
+      LoadSchema(lSchema);
+    }
+    // TODO: chyba ...
   }
 
   @FXML
@@ -206,6 +215,23 @@ public class MainView extends AnchorPane implements Observer
       _schema.StepCalculation();
   }
 
+  @FXML
+  private void NewSchema(ActionEvent event)
+  {
+    _filePath = null;
+    LoadSchema(new Schema());
+  }
+
+  @FXML
+  private void ExitApp(ActionEvent event)
+  {
+    System.exit(0);
+  }
+
+
+  /**
+   * Update of observer to be notify when schema has changed.
+   */
   public void update(Observable obs, Object obj)
   {
     UpdateSchemaStats();
@@ -225,14 +251,80 @@ public class MainView extends AnchorPane implements Observer
    * Register connection view to display collection
    * @param conn connection view to be added
    */
-  protected void AddDisplConn(ConnectionView conn)
+  protected void AddDisplayConn(ConnectionView conn)
   {
     SchemaPane.getChildren().add(conn);
     _displayConns.add(conn);
   }
 
   /**
-   * @param blockView
+   * Loads schema to screen from model
+   * @param schema Schema to be loaded
+   */
+  protected void LoadSchema(Schema schema)
+  {
+    if (_schema != null)
+      _schema.deleteObserver(this);
+
+    while(_displayConns.size() != 0)
+      RemoveDisplConn(_displayConns.get(0));
+
+    List<BlockView> blocksViews = new ArrayList<BlockView>();
+    for (Node n : SchemaPane.getChildren())
+      if (n instanceof BlockView)
+        blocksViews.add((BlockView)n);
+
+    for (BlockView b : blocksViews)
+      RemoveBlockView(b);
+    blocksViews.clear();
+
+    _schema = schema;
+
+    for (Block block : _schema.GetBlocks())
+    {
+      System.err.printf("block: %s ports: %d\n", block.ID, block.InputPorts.size() + block.OutputPorts.size());
+      BlockView newBlockView = new BlockView(block);
+      SchemaPane.getChildren().add(newBlockView);
+      blocksViews.add(newBlockView);
+      SetEventsOfBlocksAndConnection(newBlockView);
+    }
+
+    for (Connection conn : _schema.GetConnections())
+    {
+      PortView startPort = null;
+      PortView endPort = null;
+
+      for (BlockView bv : blocksViews)
+      {
+        if (bv.GetBlock().ID.equals(conn.SourceBlockID))
+          startPort = bv.GetOutputPortViewByIndex(conn.SourcePortNumber);
+        else if (bv.GetBlock().ID.equals(conn.DestBlockID))
+          endPort = bv.GetInputPortViewByIndex(conn.SourcePortNumber);
+      }
+
+      if (startPort == null || endPort == null)
+      {
+        // TODO: chyba ... vypsat ??
+        continue;
+      }
+
+      ConnectionView newConnView = new ConnectionView(
+        SchemaPane.sceneToLocal(startPort.GetTip()),
+        SchemaPane.sceneToLocal(endPort.GetTip()),
+        true
+      );
+
+      AddDisplayConn(newConnView);
+      RegisterConnOnPort(startPort, newConnView, true);
+      RegisterConnOnPort(endPort, newConnView, false);
+    }
+    _schema.addObserver(this);
+    UpdateSchemaStats();
+  }
+
+  /**
+   * Removes block view from screen and from model.
+   * @param blockView block view to be removed
   */
   public void RemoveBlockView(BlockView blockView)
   {
@@ -363,12 +455,12 @@ public class MainView extends AnchorPane implements Observer
         portValues.add(input, 1, row);
         row++;
         input.setOnMouseClicked(new EventHandler<MouseEvent>() {
-          @Override public void handle(MouseEvent envent) {
+          @Override public void handle(MouseEvent event) {
             input.selectAll();
           }
         });
         input.setOnAction(new EventHandler<ActionEvent>() {
-          @Override public void handle(ActionEvent envent)
+          @Override public void handle(ActionEvent event)
           {
             Double val;
             try {
@@ -554,11 +646,12 @@ public class MainView extends AnchorPane implements Observer
           );
 
           dragConnection.SetPort(pw.IsOutput(), blockView.GetBlock().ID, pw.GetPortNum());
-          AddDisplConn(dragConnection);
+          AddDisplayConn(dragConnection);
 
           Connection toremove = RegisterConnOnPort(pw, dragConnection, true);
           if (toremove != null)
             _schema.RemoveConnection(toremove);
+
           ClipboardContent content = new ClipboardContent();
           content.putString(blockView.GetBlock().ID.toString());
           startDragAndDrop(TransferMode.ANY).setContent(content);

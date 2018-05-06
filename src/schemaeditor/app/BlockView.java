@@ -155,6 +155,35 @@ public class BlockView extends AnchorPane implements Observer
     return res;
   }
 
+  /**
+   * Gets input port View on index
+   * @param index index of input port
+   */
+  public PortView GetInputPortViewByIndex(int index)
+  {
+    for (PortView pv : GetAllPorts())
+    {
+      if (!pv.IsOutput() && pv.GetPortNum() == index)
+        return pv;
+    }
+    return null;
+  }
+
+  /**
+   * Gets output port View on index
+   * @param index index of output port
+   */
+  public PortView GetOutputPortViewByIndex(int index)
+  {
+    for (PortView pv : GetAllPorts())
+    {
+      if (pv.IsOutput() && pv.GetPortNum() == index)
+        return pv;
+    }
+    return null;
+  }
+
+
   protected void MakeDragEvents()
   {
     DragOverHandler = new EventHandler<DragEvent>() {

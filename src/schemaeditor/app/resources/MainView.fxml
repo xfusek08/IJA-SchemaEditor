@@ -231,19 +231,13 @@
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open…" onAction="#LoadFile"/>
-                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <MenuItem mnemonicParsing="false" onAction="#NewSchema" text="New" />
+                        <MenuItem mnemonicParsing="false" onAction="#LoadFile" text="Open…" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Save" onAction="#SaveFile"/>
-                        <MenuItem mnemonicParsing="false" text="Save As…" onAction="#SaveAsFile"/>
+                        <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#SaveAsFile" text="Save As…" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Quit" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Edit">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Clear" />
+                        <MenuItem mnemonicParsing="false" onAction="#ExitApp" text="Quit" />
                      </items>
                   </Menu>
                </menus>

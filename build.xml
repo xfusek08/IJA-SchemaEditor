@@ -71,10 +71,19 @@
 
   <target name="doc" depends="clean">
     <mkdir dir="${location_doc}"/>
-    <javadoc sourcepath="${location_src}" destdir="${location_doc}"/>
+    <javadoc sourcepath="${location_src}" destdir="${location_doc}">
+       <fileset dir="${location_src}">
+          <include name="**" />
+          <exclude name="**/Test*.java"/>
+       </fileset>
+    </javadoc>
   </target>
 
-  <target name="run" depends="build-test">
+  <target name="run" depends="build, jar">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
+
+  <target name="run-test" depends="build-test">
     <junit printsummary="on" haltonfailure="no" fork="true">
         <classpath>
           <path refid="classpath.test"/>
@@ -84,9 +93,5 @@
             <fileset dir="${location_build}" includes="**/Test*.class" />
         </batchtest>
     </junit>
-  </target>
-
-  <target name="start" depends="build, jar">
-    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
   </target>
 </project>
