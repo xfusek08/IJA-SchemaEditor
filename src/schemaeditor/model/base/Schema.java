@@ -60,7 +60,7 @@ public class Schema extends Observable
   {
     List<Connection> toRemove = new ArrayList<Connection>();
     for (Connection conn : GetConnections())
-      if (conn.DestBlockID == block.ID || conn.SourceBlockID == block.ID)
+      if (conn.DestBlockID.equals(block.ID) || conn.SourceBlockID.equals(block.ID))
         toRemove.add(conn);
     for (Connection conn : toRemove)
       RemoveConnection(conn, false);
@@ -110,9 +110,9 @@ public class Schema extends Observable
       return EAddStatus.InDestPortNotfoud;
     for (SchemaBlock schemaBlock : _blocks)
     {
-      if(schemaBlock._block.ID == connection.SourceBlockID)
+      if(schemaBlock._block.ID.equals(connection.SourceBlockID))
         out = schemaBlock._block.OutputPorts.get(connection.SourcePortNumber);
-      else if(schemaBlock._block.ID == connection.DestBlockID)
+      else if(schemaBlock._block.ID.equals(connection.DestBlockID))
         in = schemaBlock._block.InputPorts.get(connection.DestPortNumber);
     }
     if(out == null)
@@ -122,13 +122,11 @@ public class Schema extends Observable
     if(!in.Compatible(out) || !out.Compatible(out))
       return EAddStatus.PortsIncopatible;
     for (SchemaBlock schemaBlock : _blocks)
-      if(schemaBlock._block.ID == connection.SourceBlockID)
+      if(schemaBlock._block.ID.equals(connection.SourceBlockID))
         prec = schemaBlock;
     for (UUID ID : prec.GetPrecedestors())
-    {
-      if(ID == connection.DestBlockID)
+      if(ID.equals(connection.DestBlockID))
         return EAddStatus.ConnectionCuseesCycles;
-    }
     return EAddStatus.Ok;
   }
 
@@ -236,9 +234,9 @@ public class Schema extends Observable
     for(SchemaBlock schemaBlock : _blocks)
       if(schemaBlock.GetBlock().GetStatus().getState() == EState.Finished)
         for(Connection conn : _connections)
-          if(conn.SourceBlockID == schemaBlock.GetBlock().ID)
+          if(conn.SourceBlockID.equals(schemaBlock.GetBlock().ID))
             for(SchemaBlock sBlock : _blocks)
-              if(sBlock.GetBlock().ID == conn.DestBlockID && sBlock.GetBlock().GetStatus().getState() == EState.Ready)
+              if(sBlock.GetBlock().ID.equals(conn.DestBlockID) && sBlock.GetBlock().GetStatus().getState() == EState.Ready)
               {
                 if(sBlock.GetBlock().isExecutable())
                 {
@@ -262,7 +260,7 @@ public class Schema extends Observable
   {
     Set<Connection> conns = new HashSet<Connection>();
     for(Connection conn : _connections)
-      if(conn.SourceBlockID == sBlock.GetBlock().ID)
+      if(conn.SourceBlockID.equals(sBlock.GetBlock().ID))
         conns.add(conn);
     return conns;
   }
@@ -309,7 +307,7 @@ public class Schema extends Observable
       Block first = openQueue.poll();
       // System.err.printf("Check of %s\n", first.ID);
       for(Connection conn : GetConnections())
-        if(conn.SourceBlockID == first.ID)
+        if(conn.SourceBlockID.equals(first.ID))
         {
           // System.err.printf("adding %s\n", GetSchemaBlockById(conn.DestBlockID).GetBlock().ID);
           AddConnection(conn, false, true);
@@ -320,7 +318,7 @@ public class Schema extends Observable
 
   private SchemaBlock GetSchemaBlockById(UUID id)
   {
-    Optional<SchemaBlock> opt  = _blocks.stream().filter(sb -> sb.GetBlock().ID == id).findFirst();
+    Optional<SchemaBlock> opt  = _blocks.stream().filter(sb -> sb.GetBlock().ID.equals(id)).findFirst();
     if (opt.isPresent())
       return opt.get();
     return null;
@@ -338,7 +336,7 @@ public class Schema extends Observable
       {
         boolean connected = false;
         for (Connection conn : _connections)
-          if (connected = (conn.DestBlockID == block.GetBlock().ID && conn.DestPortNumber == portnum))
+          if (connected = (conn.DestBlockID.equals(block.GetBlock().ID) && conn.DestPortNumber == portnum))
             break;
         if (!connected)
         {
@@ -366,7 +364,7 @@ public class Schema extends Observable
       {
         boolean connected = false;
         for (Connection conn : _connections)
-          if (connected = (conn.SourceBlockID == block.GetBlock().ID && conn.SourcePortNumber == portnum))
+          if (connected = (conn.SourceBlockID.equals(block.GetBlock().ID) && conn.SourcePortNumber == portnum))
             break;
         if (!connected)
           outPortList.add(port);
