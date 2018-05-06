@@ -1,3 +1,9 @@
+/**
+ * @file:     MainView.java
+ * @package:  schemaeditor.app
+ * @author    Petr Fusek
+ * @date      29.04.2018
+ */
 package schemaeditor.app;
 
 import java.io.IOException;
@@ -50,6 +56,9 @@ import javax.xml.bind.JAXBException;
 
 import org.omg.PortableServer._ServantActivatorStub;
 
+/**
+ * Class representing main view
+ */
 public class MainView extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;
@@ -345,7 +354,7 @@ public class MainView extends AnchorPane implements Observer
 
   /**
    * Registers connection view on port view.
-   * @param PortView  Port where connection will be attached.
+   * @param port  Port where connection will be attached.
    * @param conn      Connection to be attached.
    * @param isStart   True if port is connected to start point of connection curve, false if is on end. This is used to orient shape of curve.
    * @return instance of removed connection null if no connection was rewritten.

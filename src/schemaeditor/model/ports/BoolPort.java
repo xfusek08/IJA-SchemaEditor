@@ -4,6 +4,7 @@
  * @author    Jaromir Franek
  * @date      08.04.2018
  */
+
 package schemaeditor.model.ports;
 
 import schemaeditor.model.base.Port;

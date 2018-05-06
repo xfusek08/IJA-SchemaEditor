@@ -1,3 +1,10 @@
+/**
+ * @file:     BlockInfoBoard.java
+ * @package:  schemaeditor.app
+ * @author    Petr Fusek
+ * @date      29.04.2018
+ */
+
 package schemaeditor.app;
 
 import java.io.IOException;
@@ -23,6 +30,10 @@ import schemaeditor.model.base.Connection;
 import schemaeditor.model.base.Port;
 import schemaeditor.model.base.enums.EState;
 
+
+/**
+ * Class representing info board of every block
+ */
 public class BlockInfoBoard extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;

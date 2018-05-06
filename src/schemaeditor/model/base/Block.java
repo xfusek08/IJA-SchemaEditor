@@ -4,6 +4,7 @@
  * @author    Jaromir Franek
  * @date      08.04.2018
  */
+
 package schemaeditor.model.base;
 
 import schemaeditor.model.base.enums.EState;
@@ -24,7 +25,11 @@ public abstract class Block extends Observable implements Observer
   public double X;
   public double Y;
 
-  /** Constructor */
+  /** 
+   * Constructor 
+   * @param ID block id
+   * @param ID name of block
+   * */
   public Block(UUID ID, String name)
   {
     this._status = new BlockStatus();
@@ -45,16 +50,30 @@ public abstract class Block extends Observable implements Observer
   /** Calculated values in ports */
   public abstract void Calculate();
 
+  /**
+   * Get output value
+   * @param number index of port
+   * @return data of port on index
+   */
   public HashMap<String, Double> getOutPortVal(int number)
   {
     return OutputPorts.get(number).GetData();
   }
 
+  /**
+   * Set input value
+   * @param number index of port
+   * @param value to be set
+   */
   public void setInPortVal(int number, HashMap<String, Double> value)
   {
     InputPorts.get(number).SetData(value);
   }
 
+  /**
+   * Check if block is executable
+   * @return true if all ports have not NaN value
+   */
   public boolean isExecutable()
   {
     for(Port port : InputPorts)
@@ -87,6 +106,11 @@ public abstract class Block extends Observable implements Observer
     return this._status;
   }
 
+  /**
+   * Update object a notify observers
+   * @param obs observer to be notified
+   * @param obj to be updated
+   */
   public void update(Observable obs, Object obj)
   {
     setChanged();

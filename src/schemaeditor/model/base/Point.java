@@ -13,7 +13,11 @@ public class Point {
   public int X;
   public int Y;
 
-  /** Constructor */
+  /** 
+   * Constructor 
+   * @param x x co-ordinates
+   * @param y y co-ordinates
+   * */
   public Point(int x, int y)
   {
     X = x;

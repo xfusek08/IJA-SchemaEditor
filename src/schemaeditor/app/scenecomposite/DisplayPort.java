@@ -1,3 +1,10 @@
+/**
+ * @file:     DisplayPort.java
+ * @package:  schemaeditor.app.scenecomposite
+ * @author    Petr Fusek
+ * @date      1.05.2018
+ */
+
 package schemaeditor.app.scenecomposite;
 
 import javafx.event.EventHandler;
@@ -8,6 +15,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.input.MouseEvent;
 import schemaeditor.model.base.Port;
 
+/**
+ * Class representing displayed port in schema
+ */
 class DisplayPort extends SceneItem
 {
   public static final double LENGHT = 20;

@@ -4,6 +4,7 @@
  * @author    Petr Fusek
  * @date      08.04.2018
  */
+
 package schemaeditor.model.base;
 
 import java.util.Arrays;
@@ -19,7 +20,13 @@ public class Connection
   public UUID DestBlockID;
   public UUID SourceBlockID;
 
-  /** Constructor */
+   /**
+   * Constructor
+   * @param sourceBlockID id of source block
+   * @param source source port number
+   * @param destBlockID id of destination block
+   * @param dest destination port number
+   */
   public Connection(UUID sourceBlockID, int source,  UUID destBlockID, int dest)
   {
     DestPortNumber = dest;

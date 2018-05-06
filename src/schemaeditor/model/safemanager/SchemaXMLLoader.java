@@ -4,6 +4,7 @@
  * @author    Petr Fusek
  * @date      04.04.2018
  */
+
 package schemaeditor.model.safemanager;
 
 import schemaeditor.model.safemanager.*;
@@ -26,7 +27,7 @@ public class SchemaXMLLoader implements ISchemaLoader
   /**
    * Loads and returns schema from XML file.
    *
-   * @param filename Name of xml file where schema is stored
+   * @param fileName Name of xml file where schema is stored
    */
   public Schema LoadSchema(String fileName) throws JAXBException, IOException
   {
@@ -52,7 +53,7 @@ public class SchemaXMLLoader implements ISchemaLoader
   /**
    * Saves schema into a XML file.
    *
-   * @param filename Name of xml file where schema will be stored
+   * @param fileName Name of xml file where schema will be stored
    */
   public void SaveSchema(Schema schema, String fileName) throws JAXBException, IOException
   {

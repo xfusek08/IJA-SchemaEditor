@@ -20,7 +20,10 @@ class SchemaBlock
   protected Set<Integer> _freeOutPorts;
   protected Block _block;
 
-  /** Constructor */
+  /** 
+   * Constructor 
+   * @param block block held in schemaBlock
+   */
   public SchemaBlock(Block block)
   {
     _block = block;
@@ -40,18 +43,16 @@ class SchemaBlock
 
   /**
    * Add precedestor to precedestors
+   * @param ID ID of precedestor
    */
   public void AddPrecedestor(UUID ID)
   {
     _precedestors.add(ID);
-    // System.err.printf("\n\nPrecedestors of %s\n", _block.ID);
-    // for (UUID prec : GetPrecedestors())
-    //   System.err.printf("\t%s\n", prec);
-    // System.err.printf("\n");
   }
 
   /**
    * Add all precedestor to precedestors
+   * @param IDs set of all predecestors ID to be added
    */
   public void AddAllPrecedestor(Set<UUID> IDs)
   {

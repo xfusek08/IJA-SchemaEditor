@@ -17,8 +17,7 @@ import java.util.stream.Stream;
 /**
  * Class for object reprezenting one Schema
  *
- * Schema is composed from Blocks and connections
- * @TODO: Schema should be implementing observable object to notify view of changes inside structure
+ * Schema is composed from Blocks and connectionsa
  */
 public class Schema extends Observable
 {
@@ -34,7 +33,11 @@ public class Schema extends Observable
     _isCalculating = false;
   }
 
-  /** Adds block instance into schema */
+  /**
+   * Adds block instance into schema
+   * @param block block object to be add to schema
+   * @return added block
+   */
   public Block AddBlock(Block block)
   {
     SchemaBlock newSBlock = new SchemaBlock(block);
@@ -45,17 +48,28 @@ public class Schema extends Observable
     return block;
   }
 
+  /**
+   * Check if schema is calculating
+   * @return added block
+   */
   public boolean isCalculating()
   {
     return _isCalculating;
   }
 
+  /**
+   * Check if schema has changed
+   * @return true
+   */
   @Override
   public boolean hasChanged() {
     return true;
   }
 
-  /** Removes block instance from schema */
+  /**
+   * Removes block instance from schema
+   * @param block block to be removed from list
+   */
   public void RemoveBlock(Block block)
   {
     List<Connection> toRemove = new ArrayList<Connection>();
@@ -83,7 +97,10 @@ public class Schema extends Observable
     return res;
   }
 
-  /** Removes block instance from schema */
+  /** 
+   * Removes block instance from schema 
+   * @param connection connectiont to be removed from list
+   */
   public void RemoveConnection(Connection connection)
   {
     RemoveConnection(connection, true);
@@ -95,7 +112,6 @@ public class Schema extends Observable
    * Tries to determine if connection is valid
    * @param connection concection instance which will be validated in schema
    * @return EAddStatus result of attepmt
-   * @note this method does not adds connection to schema.Use AddConnection after this method.
    */
   public EAddStatus TryValidateConnection(Connection connection)
   {
@@ -132,7 +148,10 @@ public class Schema extends Observable
 
   // Iterators of collections
 
-  /** Get Block list iterator */
+  /** 
+   * Get Block list iterator 
+   * @return list of blocks
+   */
   public List<Block> GetBlocks()
   {
     List<Block> list = new ArrayList<Block>();
@@ -141,13 +160,19 @@ public class Schema extends Observable
     return list;
   }
 
-  /** Get Block list iterator */
+  /** 
+   * Get Block list iterator 
+   * @return connection list
+  */
   public Set<Connection> GetConnections()
   {
     return _connections;
   }
 
-  /** Gets list of input (unconnected) ports of schema. */
+  /** 
+   * Gets list of input (unconnected) ports of schema. 
+   * @return list of all input ports
+   */
   public List<Port> GetInputPorts()
   {
     Dictionary<SchemaBlock, List<Port>> inputdict = GetInputSchemaBlocksWithInputPorts();
@@ -158,7 +183,10 @@ public class Schema extends Observable
     return inPortList;
   }
 
-  /** Gets list of output (unconnected) ports of schema. */
+  /** 
+   * Gets list of output (unconnected) ports of schema. 
+   * @return list of all output ports
+   */
   public List<Port> GetOutPorts()
   {
     Dictionary<SchemaBlock, List<Port>> outputdict = GetOutpuSchemaBlocksWithOutpuPorts();
@@ -169,6 +197,10 @@ public class Schema extends Observable
     return outPortList;
   }
 
+  /** 
+   * Gets list of block with unconnected input ports of schema. 
+   * @return list of all input blocks
+   */
   public Set<Block> GetInBlocks()
   {
     Dictionary<SchemaBlock, List<Port>> inputdict = GetInputSchemaBlocksWithInputPorts();
@@ -179,6 +211,10 @@ public class Schema extends Observable
     return res;
   }
 
+  /** 
+   * Gets list of block with unconnected output ports of schema. 
+   * @return list of all output blocks
+   */
   public Set<Block> GetOutBlocks()
   {
     Dictionary<SchemaBlock, List<Port>> inputdict = GetOutpuSchemaBlocksWithOutpuPorts();
@@ -189,7 +225,10 @@ public class Schema extends Observable
     return res;
   }
 
-  /** Runs calculation */
+  /** 
+   * Runs calculation
+   * @return true of run succesfully 
+   */
   public boolean RunCalculation()
   {
     _isCalculating = true;
@@ -207,7 +246,9 @@ public class Schema extends Observable
     return true;
   }
 
-  /** Starts debug calculation and prepares it to stepping */
+  /** 
+   * Starts debug calculation and prepares it to stepping 
+   */
   public void StartCalculation()
   {
     _isCalculating = true;
@@ -223,12 +264,12 @@ public class Schema extends Observable
       sendVal(connect);
   }
 
-  /** Execute one level of calculation */
+  /** 
+   * Execute one level of calculation 
+   * @return true if block calculated
+   */
   public boolean StepCalculation()
   {
-    //najdu vsechny bloky ktery maji stav finished
-    //na kazdy blok zavolam calculate
-
     boolean calculated = false;
     Set<Connection> conns = new HashSet<Connection>();
     for(SchemaBlock schemaBlock : _blocks)
@@ -250,12 +291,21 @@ public class Schema extends Observable
     return calculated;
   }
 
+  /** 
+   * Send value to connected port
+   * @param conn connection to send value by
+   */
   private void sendVal(Connection conn)
   {
     HashMap<String, Double> value = GetSchemaBlockById(conn.SourceBlockID).GetBlock().getOutPortVal(conn.SourcePortNumber);
     GetSchemaBlockById(conn.DestBlockID).GetBlock().setInPortVal(conn.DestPortNumber, value);
   }
 
+  /** 
+   * Find connections to next block
+   * @param sBlock block to used in connection
+   * @return list of connections leading to next block
+   */
   private Set<Connection> getConsToNextBlocks(SchemaBlock sBlock)
   {
     Set<Connection> conns = new HashSet<Connection>();
@@ -283,7 +333,6 @@ public class Schema extends Observable
    */
   protected void CalculateSchemaConnections()
   {
-    // System.err.printf("Recalculate call:\n");
     _blocks.stream().forEach(sb -> sb.Clean());
     Queue<Block> openQueue = new LinkedList<Block>();
 
@@ -296,26 +345,27 @@ public class Schema extends Observable
       Block block = sblock.GetBlock();
       if (block.InputPorts.size() == ports.size())
       {
-        // System.err.printf("\t inblock: %s %d %d\n", block.ID, block.InputPorts.size(), ports.size());
         openQueue.add(block);
       }
     }
 
-    //Nahrani prvnich blocku do fronty
     while(!openQueue.isEmpty())
     {
       Block first = openQueue.poll();
-      // System.err.printf("Check of %s\n", first.ID);
       for(Connection conn : GetConnections())
         if(conn.SourceBlockID.equals(first.ID))
         {
-          // System.err.printf("adding %s\n", GetSchemaBlockById(conn.DestBlockID).GetBlock().ID);
           AddConnection(conn, false, true);
           openQueue.add(GetSchemaBlockById(conn.DestBlockID).GetBlock());
         }
     }
   }
 
+  /** 
+   * Find schema block in list
+   * @param id ID of block
+   * @return block if found, null if not
+   */
   private SchemaBlock GetSchemaBlockById(UUID id)
   {
     Optional<SchemaBlock> opt  = _blocks.stream().filter(sb -> sb.GetBlock().ID.equals(id)).findFirst();
@@ -324,6 +374,10 @@ public class Schema extends Observable
     return null;
   }
 
+  /** 
+   * Get dictionary of input block and its input ports
+   * @return dictionary of block and ports
+   */
   protected Dictionary<SchemaBlock, List<Port>> GetInputSchemaBlocksWithInputPorts()
   {
     Dictionary<SchemaBlock, List<Port>> result = new Hashtable<SchemaBlock, List<Port>>();
@@ -353,6 +407,10 @@ public class Schema extends Observable
     return result;
   }
 
+  /** 
+   * Get dictionary of input block and its input ports
+   * @return dictionary of block and ports
+   */
   protected Dictionary<SchemaBlock, List<Port>> GetOutpuSchemaBlocksWithOutpuPorts()
   {
     Dictionary<SchemaBlock, List<Port>> result = new Hashtable<SchemaBlock, List<Port>>();
@@ -376,6 +434,13 @@ public class Schema extends Observable
     return result;
   }
 
+  /** 
+   * Add connection to block
+   * @param connection connection to be add
+   * @param recalculate value to determine if recalculate schema
+   * @param noadd value to determine if add to schema
+   * @return status of operation
+   */
   protected EAddStatus AddConnection(Connection connection, boolean recalculate, boolean noadd)
   {
     EAddStatus res = TryValidateConnection(connection);
@@ -409,14 +474,14 @@ public class Schema extends Observable
     if (recalculate)
        CalculateSchemaConnections();
 
-    // System.err.printf("\n");
-    // for (Connection conn : GetConnections())
-    //   System.err.printf("\t%s (%d) -> %s (%d)\n", conn.SourceBlockID.toString(), conn.SourcePortNumber, conn.DestBlockID.toString(), conn.DestPortNumber);
-    // System.err.printf("\n");
     return EAddStatus.Ok;
   }
 
-  /** Removes block instance from schema */
+  /** 
+   * Removes block instance from schema 
+   * @param connection connection to be removed
+   * @param recalculate value to determine if recalculate schema
+   */
   protected void RemoveConnection(Connection connection, boolean recalculate)
   {
     _connections.remove(connection);

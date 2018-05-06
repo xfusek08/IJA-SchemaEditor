@@ -1,9 +1,19 @@
+/**
+ * @file:     DisplaySchema.java
+ * @package:  schemaeditor.app.scenecomposite
+ * @author    Petr Fusek
+ * @date      1.05.2018
+ */
+
 package schemaeditor.app.scenecomposite;
 
 import javafx.scene.Group;
 import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Schema;
 
+/**
+ * Class representing display schema
+ */
 public class DisplaySchema extends SceneItem
 {
   protected Schema _schema;

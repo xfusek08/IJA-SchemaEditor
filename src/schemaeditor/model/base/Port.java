@@ -30,7 +30,11 @@ public abstract class Port extends Observable
     _undefinedValues = new ArrayList<String>();
   }
 
-  /** Define value of port */
+  /**
+   * Define value of port 
+   * @param valueName Name of data type
+   * @param defaultValue value of data
+   */
   protected void DefineValue(String valueName, double defaultValue)
   {
     _data.put(valueName, defaultValue);
@@ -38,7 +42,7 @@ public abstract class Port extends Observable
 
   /**
    * Check if ports are compative
-   * @param data Data from another port
+   * @param other other port
    * @return true if the data are of same type
    */
   public boolean Compatible(Port other)
@@ -53,11 +57,19 @@ public abstract class Port extends Observable
     return true;
   }
 
+  /**
+   * Get port data
+   * @return Hash map of port data
+   */
   public HashMap<String, Double> GetData()
   {
     return new HashMap<String, Double>(_data);
   }
 
+  /**
+   * Set port data
+   * @param data new value of data to be set
+   */
   public void SetData(HashMap<String, Double> data)
   {
     this._data = data;
@@ -131,6 +143,10 @@ public abstract class Port extends Observable
     return true;
   }
 
+  /**
+   * Get value as string
+   * @return string representation of port value
+   */
   public String GetValueAsString()
   {
     String res = "";
@@ -140,6 +156,10 @@ public abstract class Port extends Observable
     return res;
   }
 
+  /**
+   * Set input value of port
+   * @param number input value of port
+   */
   public void SetInputNumber(int number)
   {
     _inputNumber = number;
@@ -148,6 +168,9 @@ public abstract class Port extends Observable
     notifyObservers();
   }
 
+  /**
+   * Unset input value of port
+   */
   public void UnsetInput()
   {
     _isInput = false;
@@ -155,11 +178,19 @@ public abstract class Port extends Observable
     notifyObservers();
   }
 
+  /**
+   * Get isInput status
+   * @return _isInput value
+   */
   public boolean IsInput()
   {
     return _isInput;
   }
 
+  /**
+   * Get Input number
+   * @return input number
+   */
   public int GetInputNumber()
   {
     return _inputNumber;

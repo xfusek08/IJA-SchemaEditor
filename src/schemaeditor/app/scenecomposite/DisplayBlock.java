@@ -1,3 +1,10 @@
+/**
+ * @file:     DisplayBlock.java
+ * @package:  schemaeditor.app.scenecomposite
+ * @author    Petr Fusek
+ * @date      01.05.2018
+ */
+
 package schemaeditor.app.scenecomposite;
 
 import javafx.event.EventHandler;
@@ -9,6 +16,10 @@ import javafx.scene.text.Font;
 import schemaeditor.model.base.Block;
 import javafx.scene.input.MouseEvent;
 
+
+/**
+ * Class representing displayed block in schema
+ */
 public class DisplayBlock extends SceneItem
 {
   static final int HEIGTH = 100;

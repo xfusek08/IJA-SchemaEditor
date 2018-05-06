@@ -1,3 +1,10 @@
+/**
+ * @file:     SceneItem.java
+ * @package:  schemaeditor.app.scenecomposite
+ * @author    Petr Fusek
+ * @date      1.05.2018
+ */
+
 package schemaeditor.app.scenecomposite;
 
 import java.util.ArrayList;
@@ -7,6 +14,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.shape.Shape;
 
+/**
+ * Class representing scene item
+ */
 public abstract class SceneItem
 {
   protected double _xOffset = 0;

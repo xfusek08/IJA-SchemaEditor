@@ -1,3 +1,9 @@
+/**
+ * @file:     ConnectionView.java
+ * @package:  schemaeditor.app
+ * @author    Petr Fusek
+ * @date      29.04.2018
+ */
 package schemaeditor.app;
 
 import java.io.IOException;
@@ -15,6 +21,9 @@ import jdk.nashorn.internal.ir.SetSplitState;
 import schemaeditor.model.base.Connection;
 import schemaeditor.model.base.Port;
 
+/**
+ * Class representing connection in schema
+ */
 public class ConnectionView extends Pane
 {
   @FXML Pane root_pane;

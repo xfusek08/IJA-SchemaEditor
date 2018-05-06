@@ -4,6 +4,7 @@
  * @author    Jaromir Franek
  * @date      23.04.2018
  */
+
 package schemaeditor.model.safemanager;
 
 import schemaeditor.model.safemanager.SavePort;
@@ -37,76 +38,136 @@ public class SaveBlock
   public double X;
   public double Y;
 
+  /** 
+   * Set save metod
+   * @param _status blockStatus
+  */
   public void setStatus(BlockStatus _status)
   {
     this._status = _status;
   }
 
+  /** 
+   * Get save metod
+   * @return blockStatus
+  */
   public BlockStatus getStatus()
   {
     return _status;
   }
 
+  /** 
+   * Set save metod
+   * @param ID block ID
+  */
   public void setID(UUID ID)
   {
     this.ID = ID;
   }
 
+  /** 
+   * Get save metod
+   * @return block ID
+  */
   public UUID getID()
   {
     return ID;
   }
 
+  /** 
+   * Set save metod
+   * @param InputPorts Input ports
+  */
   public void setInputPorts(List<SavePort> InputPorts)
   {
     this.InputPorts = InputPorts;
   }
 
+  /** 
+   * Get save metod
+   * @return Input ports
+  */
   public List<SavePort> getInputPorts()
   {
     return InputPorts;
   }
 
+  /** 
+   * Set save metod
+   * @param OutputPorts Output ports
+  */
   public void setOutputPorts(List<SavePort> OutputPorts)
   {
     this.OutputPorts = OutputPorts;
   }
 
+  /** 
+   * Get save metod
+   * @return Output ports
+  */
   public List<SavePort> getOutputPorts()
   {
     return OutputPorts;
   }
 
+  /** 
+   * Set save metod
+   * @param DisplayName Name of block
+  */
   public void setDisplayName(String DisplayName)
   {
     this.DisplayName = DisplayName;
   }
 
+  /** 
+   * Get save metod
+   * @return Name of block
+  */
   public String getDisplayName()
   {
     return DisplayName;
   }
 
+  /** 
+   * Set save metod
+   * @param X co-ordinate x
+  */
   public void setX(double X)
   {
     this.X = X;
   }
 
+  /** 
+   * Set save metod
+   * @param Y co-ordinate y
+  */
   public void setY(double Y)
   {
     this.Y = Y;
   }
 
+  /** 
+   * Get save metod
+   * @return co-ordinate x
+  */
   public double getX()
   {
     return this.X;
   }
 
+  /** 
+   * Get save metod
+   * @return co-ordinate x
+  */
   public double getY()
   {
     return this.Y;
   }
 
+  /** 
+   * Set save metod
+   * @param _block block to be saved
+  */
   public void setFromSchema(Block _block)
   {
     SavePort sPort = new SavePort();
@@ -127,6 +188,10 @@ public class SaveBlock
     this.Y = _block.Y;
   }
 
+  /** 
+   * Get save metod
+   * @return block that was saved
+  */
   public Block getFromSave()
   {
     Block block;

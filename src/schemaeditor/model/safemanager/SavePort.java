@@ -4,6 +4,7 @@
  * @author    Jaromir Franek
  * @date      19.04.2018
  */
+
 package schemaeditor.model.safemanager;
 
 import java.util.ArrayList;
@@ -33,36 +34,64 @@ public class SavePort
   @XmlElement
   private List<String> _undefinedValues;
 
+  /** 
+   * Set save metod
+   * @param type port type
+  */
   public void setType(String type) 
   {
     this.type = type;
   }
 
+  /** 
+   * Get save metod
+   * @return port type
+  */
   public String getType() 
   {
     return type;
   }
 
+  /** 
+   * Set save metod
+   * @param _data port data
+  */
   public void setData(HashMap<String, Double> _data) 
   {
     this._data = _data;
   }
 
+  /** 
+   * Get save metod
+   * @return port data
+  */
   public HashMap<String, Double> getData() 
   {
     return _data;
   }
 
+  /** 
+   * Set save metod
+   * @param _undefinedValues undefined values
+  */
   public void setVal(List<String> _undefinedValues) 
   {
     this._undefinedValues = _undefinedValues;
   }
 
+  /** 
+   * Get save metod
+   * @return undefined values
+  */
   public List<String> getVal() 
   {
     return _undefinedValues;
   }
 
+  /** 
+   * Set save metod
+   * @param port port to be set
+  */
   public void setFromSchema(Port port)
   {
     this.type = port.type;
@@ -70,6 +99,10 @@ public class SavePort
     this._undefinedValues = port.GetUndefinedValues();
   }
 
+  /** 
+   * Get save metod
+   * @return port
+  */
   public Port getFromSave()
   {
     Port port;

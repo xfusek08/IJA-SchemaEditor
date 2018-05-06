@@ -1,3 +1,9 @@
+/**
+ * @file:     BlockView.java
+ * @package:  schemaeditor.app
+ * @author    Petr Fusek
+ * @date      29.04.2018
+ */
 package schemaeditor.app;
 
 import java.awt.Point;
@@ -33,6 +39,9 @@ import javafx.scene.text.Text;
 import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Port;
 
+/**
+ * Class representing block view
+ */
 public class BlockView extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;
