@@ -234,7 +234,7 @@ public class Schema extends Observable
     for(SchemaBlock schemaBlock : _blocks)
       if(schemaBlock.GetBlock().GetStatus().getState() == EState.Finished)
         for(Connection conn : _connections)
-          if(conn.SourceBlockID == schemaBlock.GetBlock().ID)
+          if(conn.SourceBlockID.equals(schemaBlock.GetBlock().ID))
             for(SchemaBlock sBlock : _blocks)
               if(sBlock.GetBlock().ID.equals(conn.DestBlockID) && sBlock.GetBlock().GetStatus().getState() == EState.Ready)
               {
