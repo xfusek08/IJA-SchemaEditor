@@ -111,9 +111,7 @@ public class PortView extends AnchorPane implements Observer
 
   public Point2D GetTip()
   {
-    if (_isOutput)
-      return PortLine.localToScene(PortLine.getEndX(), PortLine.getEndY());
-    return PortLine.localToScene(PortLine.getStartY(), PortLine.getStartX());
+    return Aura.localToScene(Aura.getCenterX(), Aura.getCenterY());
   }
 
   public void SetHover()

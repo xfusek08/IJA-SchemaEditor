@@ -25,12 +25,12 @@ public class ConnectionView extends Pane
   protected boolean _fromOut;
   protected Connection _connection;
 
-  public ConnectionView(Point2D start, Point2D end, boolean fromOut)
+  public ConnectionView(Connection conn, Point2D start, Point2D end, boolean fromOut)
   {
     _start = start;
     _end = end;
     _fromOut = fromOut;
-    _connection = new Connection();
+    _connection = conn;
     // System.err.print(getClass().getResource("resources/ConnectionView.fxml"));
     // System.err.print("\n");
     FXMLLoader fxmlLoader = new FXMLLoader(

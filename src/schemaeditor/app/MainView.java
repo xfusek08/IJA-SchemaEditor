@@ -280,12 +280,14 @@ public class MainView extends AnchorPane implements Observer
 
     for (Block block : _schema.GetBlocks())
     {
-      System.err.printf("block: %s ports: %d\n", block.ID, block.InputPorts.size() + block.OutputPorts.size());
+
       BlockView newBlockView = new BlockView(block);
       SchemaPane.getChildren().add(newBlockView);
       blocksViews.add(newBlockView);
       SetEventsOfBlocksAndConnection(newBlockView);
     }
+
+    List<Connection> invalidConns = new ArrayList<Connection>();
 
     for (Connection conn : _schema.GetConnections())
     {
@@ -297,16 +299,19 @@ public class MainView extends AnchorPane implements Observer
         if (bv.GetBlock().ID.equals(conn.SourceBlockID))
           startPort = bv.GetOutputPortViewByIndex(conn.SourcePortNumber);
         else if (bv.GetBlock().ID.equals(conn.DestBlockID))
-          endPort = bv.GetInputPortViewByIndex(conn.SourcePortNumber);
+          endPort = bv.GetInputPortViewByIndex(conn.DestPortNumber);
       }
 
       if (startPort == null || endPort == null)
       {
         // TODO: chyba ... vypsat ??
+        System.err.printf("Cannot create connection ... port not found\n");
+        invalidConns.add(conn);
         continue;
       }
 
       ConnectionView newConnView = new ConnectionView(
+        conn,
         SchemaPane.sceneToLocal(startPort.GetTip()),
         SchemaPane.sceneToLocal(endPort.GetTip()),
         true
@@ -316,6 +321,8 @@ public class MainView extends AnchorPane implements Observer
       RegisterConnOnPort(startPort, newConnView, true);
       RegisterConnOnPort(endPort, newConnView, false);
     }
+    for(Connection c : invalidConns)
+      _schema.RemoveConnection(c);
     _schema.addObserver(this);
     UpdateSchemaStats();
   }
@@ -328,7 +335,7 @@ public class MainView extends AnchorPane implements Observer
   {
     List<ConnectionView> toremove = new ArrayList<ConnectionView>();
     for (ConnectionView conn : _displayConns)
-      if (conn.GetConnection().DestBlockID == blockView.GetBlock().ID || conn.GetConnection().SourceBlockID == blockView.GetBlock().ID)
+      if (conn.GetConnection().DestBlockID.equals(blockView.GetBlock().ID) || conn.GetConnection().SourceBlockID.equals(blockView.GetBlock().ID))
         toremove.add(conn);
     for (ConnectionView conn : toremove)
       RemoveDisplConn(conn);
@@ -638,6 +645,7 @@ public class MainView extends AnchorPane implements Observer
           setOnDragExited(connectionDragExitedHandler);
 
           dragConnection = new ConnectionView(
+            new Connection(),
             SchemaPane.sceneToLocal(pw.GetTip()),
             SchemaPane.sceneToLocal(event.getSceneX(), event.getSceneY()),
             pw.IsOutput()

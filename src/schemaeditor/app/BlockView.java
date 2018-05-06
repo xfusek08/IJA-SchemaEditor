@@ -1,5 +1,6 @@
 package schemaeditor.app;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class BlockView extends AnchorPane implements Observer
   {
     _block = block;
     _block.addObserver(this);
+    _dragOffset = new Point2D(0,0);
 
     // System.err.print(getClass().getResource("resources/BlockView.fxml"));
     // System.err.print("\n");
