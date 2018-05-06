@@ -71,15 +71,25 @@
 
   <target name="doc" depends="clean">
     <mkdir dir="${location_doc}"/>
-    <javadoc sourcepath="${location_src}" destdir="${location_doc}">
-       <fileset dir="${location_src}">
-          <include name="**" />
-          <exclude name="**/Test*.java"/>
-       </fileset>
+    <javadoc
+        sourcepath="${location_src}"
+        destdir="${location_doc}"
+        excludepackagenames="tests"
+        use="true"
+        doctitle="IJA-SchemaEditor">
+
+      <fileset dir="${location_src}" defaultexcludes="yes">
+         <include name="**/*.java"/>
+         <exclude name="tests/**"/>
+      </fileset>
     </javadoc>
   </target>
 
-  <target name="run" depends="build, jar">
+  <target name="run">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
+
+  <target name="runc" depends="build, jar">
     <java jar="${location_dist}/${project_name}.jar" fork="true"/>
   </target>
 

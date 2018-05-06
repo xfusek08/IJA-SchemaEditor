@@ -1,3 +1,9 @@
+/**
+ * @file:     PortView.java
+ * @package:  schemaeditor.app
+ * @author    Petr Fusek
+ * @date      06.05.2018
+ */
 package schemaeditor.app;
 
 import java.io.IOException;
@@ -25,6 +31,9 @@ import schemaeditor.model.base.Block;
 import schemaeditor.model.base.Port;
 import schemaeditor.model.blocks.arithmetics.*;
 
+/**
+ * Controller class from port model.
+ */
 public class PortView extends AnchorPane implements Observer
 {
   @FXML AnchorPane root_pane;
@@ -38,6 +47,12 @@ public class PortView extends AnchorPane implements Observer
   protected boolean _isConnectedEnd;
   protected Label _inputNumLabel;
 
+  /**
+   * Constructor
+   * @param port      port to be observed
+   * @param isOutput  flag if fort is output, false - port is input
+   * @param portNum   Number of port on block. (index in bloks port array)
+  */
   public PortView(Port port, boolean isOutput, int portNum)
   {
     _port = port;

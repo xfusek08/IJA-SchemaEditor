@@ -1,3 +1,11 @@
+/**
+ * Main entry point to application
+ * @file:     SchemaEditor.java
+ * @package:  schemaeditor.app
+ * @author    Petr Fusek
+ * @date      06.05.2018
+ */
+
 package schemaeditor.app;
 
 
@@ -20,8 +28,7 @@ import schemaeditor.model.blocks.arithmetics.*;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Main class testing javafx
- * @author Petr Fusek
+ * Main class entry method
  */
 public class SchemaEditor extends Application
 {
