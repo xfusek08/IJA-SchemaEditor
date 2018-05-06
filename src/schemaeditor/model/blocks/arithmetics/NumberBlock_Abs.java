@@ -18,7 +18,10 @@ public class NumberBlock_Abs extends Block
 {
   public static final String NAME = "Abs";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param ID ID of block
+  */
   public NumberBlock_Abs(UUID ID)
   {
     super(ID, NAME);
@@ -45,6 +48,6 @@ public class NumberBlock_Abs extends Block
     if(value < 0)
       value = -value;
     OutputPorts.get(0).SetValueByName("number", value);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

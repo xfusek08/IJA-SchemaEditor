@@ -16,12 +16,15 @@ import java.util.*;
  */
 public class ConversionBlock_Equal extends Block
 {
-  public static final String NAME = "Equal";
+  public static final String NAME = "Equals";
 
-  /** Constructor */
-  public ConversionBlock_Equal(UUID ID)
+  /**
+   * Constructor
+   * @param id id of block
+   */
+  public ConversionBlock_Equal(UUID id)
   {
-    super(ID, NAME);
+    super(id, NAME);
   }
 
   /** Constructor */
@@ -48,6 +51,6 @@ public class ConversionBlock_Equal extends Block
       OutputPorts.get(0).SetValueByName("bool", 1.0);
     else
       OutputPorts.get(0).SetValueByName("bool", 0.0);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

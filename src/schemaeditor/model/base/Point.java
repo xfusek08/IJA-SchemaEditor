@@ -9,11 +9,15 @@ package schemaeditor.model.base;
 /**
  * Simple datastructure of new point on the schema grid (board).
  */
-class Point {
+public class Point {
   public int X;
   public int Y;
 
-  /** Constructor */
+  /** 
+   * Constructor 
+   * @param x x co-ordinates
+   * @param y y co-ordinates
+   * */
   public Point(int x, int y)
   {
     X = x;

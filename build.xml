@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="IJA-ShemaEditor" default="compile" basedir=".">
+<project name="IJA-ShemaEditor" default="compile" basedir="."
+    xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
   <description>Project for seminar of java. Schema block editor.</description>
 
-  <property name="project_name" value="SchemaEditor"/>
+  <property name="project_name" value="IJASchemaEditor"/>
   <property name="home_class" value="schemaeditor.app.SchemaEditor"/>
 
   <property name="location_src" location="src"/>
@@ -36,25 +38,65 @@
   </target>
 
   <target name="build-test" depends="clean" description="Compiles project into build">
+    <fxml-compiler sourcedir="src" destdir="${location_src}/genetaged"/>
     <javac includeantruntime="false" srcdir="${location_src}" destdir="${location_build}">
       <classpath refid="classpath.test"/>
     </javac>
   </target>
 
   <target name="jar" depends="clean, build" description="Creates jar">
-    <jar jarfile="${location_dist}/${project_name}.jar" basedir="${location_build}" >
-		  <manifest>
-		    <attribute name="Main-Class" value="${home_class}" />
-		  </manifest>
-	  </jar>
+    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+      uri="javafx:com.sun.javafx.tools.ant"
+      classpath="${location_lib}/ant-javafx.jar"/>
+
+    <fx:application
+      id="projid"
+      name="${project_name}"
+      mainClass="${home_class}"/>
+
+    <fx:resources id="appRes">
+      <fx:fileset dir="${location_dist}" includes="${project_name}.jar"/>
+    </fx:resources>
+
+    <fx:jar destfile="${location_dist}/${project_name}.jar">
+      <fx:application refid="projid"/>
+      <fx:resources refid="appRes"/>
+      <fileset dir="${location_build}"/>
+      <fileset dir="${location_src}/">
+        <include name="**/*.fxml" />
+        <include name="**/*.css" />
+      </fileset>
+    </fx:jar>
   </target>
 
   <target name="doc" depends="clean">
     <mkdir dir="${location_doc}"/>
-    <javadoc sourcepath="${location_src}" destdir="${location_doc}"/>
+    <javadoc
+        encoding="UTF-8"
+        author="true"
+        version="true"
+        destdir="${location_doc}"
+        excludepackagenames="tests"
+        use="true"
+        windowtitle="IJA-SchemaEditor"
+        doctitle="IJA-SchemaEditor">
+
+      <packageset dir="src" defaultexcludes="yes">
+        <include name="schemaeditor/app/**"/>
+        <include name="schemaeditor/model/**"/>
+      </packageset>
+    </javadoc>
   </target>
 
-  <target name="run" depends="build-test">
+  <target name="run">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
+
+  <target name="runc" depends="build, jar">
+    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
+  </target>
+
+  <target name="run-test" depends="build-test">
     <junit printsummary="on" haltonfailure="no" fork="true">
         <classpath>
           <path refid="classpath.test"/>
@@ -64,9 +106,5 @@
             <fileset dir="${location_build}" includes="**/Test*.class" />
         </batchtest>
     </junit>
-  </target>
-
-  <target name="start">
-    <java jar="${location_dist}/${project_name}.jar" fork="true"/>
   </target>
 </project>

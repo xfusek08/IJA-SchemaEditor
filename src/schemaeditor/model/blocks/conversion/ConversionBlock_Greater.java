@@ -18,10 +18,13 @@ public class ConversionBlock_Greater extends Block
 {
   public static final String NAME = "Greater";
 
-  /** Constructor */
-  public ConversionBlock_Greater(UUID ID)
+  /**
+   * Constructor
+   * @param id id of block
+   */
+  public ConversionBlock_Greater(UUID id)
   {
-    super(ID, NAME);
+    super(id, NAME);
   }
 
   /** Constructor */
@@ -35,7 +38,7 @@ public class ConversionBlock_Greater extends Block
   {
     InputPorts.add(new NumberPort());
     InputPorts.add(new NumberPort());
-  
+
     OutputPorts.add(new BoolPort());
   }
 
@@ -48,6 +51,6 @@ public class ConversionBlock_Greater extends Block
       OutputPorts.get(0).SetValueByName("bool", 1.0);
     else
       OutputPorts.get(0).SetValueByName("bool", 0.0);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

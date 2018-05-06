@@ -18,7 +18,10 @@ public class NumberBlock_Mul extends Block
 {
   public static final String NAME = "Mul";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param ID ID of block
+  */
   public NumberBlock_Mul(UUID ID)
   {
     super(ID, NAME);
@@ -46,6 +49,6 @@ public class NumberBlock_Mul extends Block
     double value2 = InputPorts.get(1).GetValueByName("number");
     double result = value1 * value2;
     OutputPorts.get(0).SetValueByName("number", result);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

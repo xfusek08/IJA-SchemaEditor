@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root fx:id="root_pane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <AnchorPane fx:id="SchemaPane" maxHeight="-1.0" maxWidth="-1.0" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <GridPane layoutY="75.0" prefHeight="35.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="70.0" prefWidth="73.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="37.0" minWidth="27.0" prefWidth="34.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Blocks:" />
+                              <Label fx:id="BlockNumber" text="0" GridPane.columnIndex="1" />
+                              <Label text="Connections:" GridPane.rowIndex="1" />
+                              <Label fx:id="ConnNumber" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <HBox layoutX="94.0" layoutY="96.0" style="-fx-alignment: center;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="RunActionbt" mnemonicParsing="false" onAction="#RunAction" text="Run" />
+                        <Button fx:id="ResetActionbt" mnemonicParsing="false" onAction="#ResetAction" text="Reset" />
+                        <Button fx:id="StepActionbt" mnemonicParsing="false" onAction="#StepAction" text="Step" />
+                     </children>
+                  </HBox>
+                  <VBox style="-fx-border-color: black black transparent transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                     <children>
+                        <Label text="Input ports:" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding></Label>
+                        <Separator />
+                        <GridPane fx:id="InputTable">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children></AnchorPane>
+         </center>
+         <left>
+            <Accordion fx:id="BlockSelectMenu" prefWidth="170.0" style="-fx-border-color: transparent rgba(0,0,0,0.2) transparent transparent; -fx-border-width: 0 2px 0 0; -fx-background-color: rgba(0,0,0,0.03);" BorderPane.alignment="CENTER">
+               <panes>
+                  <TitledPane text="Arithmetic blocks">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <VBox layoutX="-0.4" prefHeight="180.0" prefWidth="157.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_add" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Addition" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_sub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Substraction" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_mul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Multiplication" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_div" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Division" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_abs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Absolute" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane text="Complex blocks">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="180.0" prefWidth="157.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_CplAdd" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex addition" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplSub" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex substraction" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplMul" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex multiplication" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplDiv" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex division" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplAbs" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complex absolute" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_CplCom" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Complementary value" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane text="Logic blocks">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="-1.4000000000000004" prefHeight="180.0" prefWidth="178.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_and" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="AND" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_or" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="OR" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_not" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="NOT" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_xor" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="XOR" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_xnor" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="XNOR" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane text="Conversion blocks">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="180.0" prefWidth="178.0">
+                                 <children>
+                                    <HBox fx:id="AddBlockBt_booltonum" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Bool to number" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_equals" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Equals" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_greater" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Greater" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="AddBlockBt_less" onMouseClicked="#AddBlock" prefHeight="30.0" styleClass="BlockSelectItem" stylesheets="@styles.css">
+                                       <children>
+                                          <Label text="Less" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                  </TitledPane>
+               </panes>
+            </Accordion>
+         </left>
+         <top>
+            <MenuBar fx:id="MainMenuBar" BorderPane.alignment="CENTER">
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#NewSchema" text="New" />
+                        <MenuItem mnemonicParsing="false" onAction="#LoadFile" text="Open…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#SaveAsFile" text="Save As…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#ExitApp" text="Quit" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </top>
+      </BorderPane>
+   </children>
+</fx:root>

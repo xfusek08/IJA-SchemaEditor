@@ -16,9 +16,12 @@ import java.util.UUID;
  */
 public class CplexBlock_Complement extends Block
 {
-  public static final String NAME = "Complementary value";
+  public static final String NAME = "Complex Complement";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Complement(UUID id)
   {
     super(id, NAME);
@@ -44,6 +47,6 @@ public class CplexBlock_Complement extends Block
     double valueI = InputPorts.get(0).GetValueByName("imaginary");
     OutputPorts.get(0).SetValueByName("real", valueR);
     OutputPorts.get(0).SetValueByName("imaginary", -valueI);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

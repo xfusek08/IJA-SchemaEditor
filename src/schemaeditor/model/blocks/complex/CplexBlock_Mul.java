@@ -16,9 +16,12 @@ import java.util.UUID;
  */
 public class CplexBlock_Mul extends Block
 {
-  public static final String NAME = "Complex multiplication";
+  public static final String NAME = "Complex Mul";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Mul(UUID id)
   {
     super(id, NAME);
@@ -50,6 +53,6 @@ public class CplexBlock_Mul extends Block
     double resultI = valueR1 * valueI2 + valueR2 * valueI1;
     OutputPorts.get(0).SetValueByName("real", resultR);
     OutputPorts.get(0).SetValueByName("imaginary", resultI);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

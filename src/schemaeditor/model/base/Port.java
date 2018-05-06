@@ -9,15 +9,19 @@ package schemaeditor.model.base;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 import java.util.Set;
 
 /**
  * Class representing one port
  */
-public abstract class Port
+public abstract class Port extends Observable
 {
+  public String type;
   public HashMap<String, Double> _data;
   protected List<String> _undefinedValues;
+  protected boolean _isInput;
+  protected int _inputNumber;
 
   /** Constructor */
   public Port()
@@ -26,31 +30,53 @@ public abstract class Port
     _undefinedValues = new ArrayList<String>();
   }
 
-  /** Define value of port */
+  /**
+   * Define value of port 
+   * @param valueName Name of data type
+   * @param defaultValue value of data
+   */
   protected void DefineValue(String valueName, double defaultValue)
   {
     _data.put(valueName, defaultValue);
   }
 
   /**
-   * Check if ports are compative 
-   * @param data Data from another port
-   * @return true if the data are of same type 
+   * Check if ports are compative
+   * @param other other port
+   * @return true if the data are of same type
    */
-  public boolean Compatible(HashMap data)
+  public boolean Compatible(Port other)
   {
-    List dataKeys = new ArrayList(data.keySet());
-    List _dataKeys = new ArrayList(_data.keySet());
+    List dataKeys = new ArrayList(_data.keySet());
+    List _dataKeys = new ArrayList(other._data.keySet());
     if(dataKeys.size() != _dataKeys.size())
       return false;
     for(int i = 0; i < dataKeys.size(); i++)
-      if(dataKeys.get(i) != _dataKeys.get(i))
+      if(!dataKeys.get(i).equals(_dataKeys.get(i)))
         return false;
     return true;
   }
 
   /**
-   * Return list of value names 
+   * Get port data
+   * @return Hash map of port data
+   */
+  public HashMap<String, Double> GetData()
+  {
+    return new HashMap<String, Double>(_data);
+  }
+
+  /**
+   * Set port data
+   * @param data new value of data to be set
+   */
+  public void SetData(HashMap<String, Double> data)
+  {
+    this._data = data;
+  }
+
+  /**
+   * Return list of value names
    * @return Set of names
    */
   public Set<String> GetValuesNames()
@@ -59,9 +85,27 @@ public abstract class Port
   }
 
   /**
-   * Return value by name of type 
+   * Return list of undefined values
+   * @return List of undefinedValues
+   */
+  public List<String> GetUndefinedValues()
+  {
+    return _undefinedValues;
+  }
+
+  /**
+   * Set list of undefined values
+   * @param  _undefinedValues list of undefined values
+   */
+  public void SetUndefinedValues(List<String> _undefinedValues)
+  {
+    this._undefinedValues = _undefinedValues;
+  }
+
+  /**
+   * Return value by name of type
    * @param valueName name of searched value
-   * @return value selected by name of type 
+   * @return value selected by name of type
    */
   public double GetValueByName(String valueName)
   {
@@ -69,9 +113,9 @@ public abstract class Port
   }
 
   /**
-   * Set value by name of type 
+   * Set value by name of type
    * @param valueName name of searched value
-   * @param value value to be set 
+   * @param value value to be set
    */
   public void SetValueByName(String valueName, Double value)
   {
@@ -98,5 +142,58 @@ public abstract class Port
     if(_undefinedValues.size() > 0 || _data.size() == 0)
       return false;
     return true;
+  }
+
+  /**
+   * Get value as string
+   * @return string representation of port value
+   */
+  public String GetValueAsString()
+  {
+    String res = "";
+    for(String s : GetValuesNames())
+      if (s != "")
+        res = res + "\"" + s + "\": " + String.valueOf(GetValueByName(s) + "\n");
+    return res;
+  }
+
+  /**
+   * Set input value of port
+   * @param number input value of port
+   */
+  public void SetInputNumber(int number)
+  {
+    _inputNumber = number;
+    _isInput = true;
+    setChanged();
+    notifyObservers();
+  }
+
+  /**
+   * Unset input value of port
+   */
+  public void UnsetInput()
+  {
+    _isInput = false;
+    setChanged();
+    notifyObservers();
+  }
+
+  /**
+   * Get isInput status
+   * @return _isInput value
+   */
+  public boolean IsInput()
+  {
+    return _isInput;
+  }
+
+  /**
+   * Get Input number
+   * @return input number
+   */
+  public int GetInputNumber()
+  {
+    return _inputNumber;
   }
 }

@@ -16,9 +16,12 @@ import java.util.UUID;
  */
 public class CplexBlock_Abs extends Block
 {
-  public static final String NAME = "Absolute value";
+  public static final String NAME = "Complex Abs";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param id ID of block
+  */
   public CplexBlock_Abs(UUID id)
   {
     super(id, NAME);
@@ -44,6 +47,6 @@ public class CplexBlock_Abs extends Block
     double value2 = InputPorts.get(0).GetValueByName("imaginary");
     double result = Math.sqrt((value1 * value1) + (value2 * value2));
     OutputPorts.get(0).SetValueByName("number", result);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }

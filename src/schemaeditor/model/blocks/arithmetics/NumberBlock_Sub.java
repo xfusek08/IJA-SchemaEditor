@@ -18,7 +18,10 @@ public class NumberBlock_Sub extends Block
 {
   public static final String NAME = "Sub";
 
-  /** Constructor */
+  /**
+   * Constructor
+   * @param ID ID of block
+  */
   public NumberBlock_Sub(UUID ID)
   {
     super(ID, NAME);
@@ -35,10 +38,10 @@ public class NumberBlock_Sub extends Block
   {
     InputPorts.add(new NumberPort());
     InputPorts.add(new NumberPort());
-  
+
     OutputPorts.add(new NumberPort());
   }
-  
+
   /** Calculated values in ports */
   public void Calculate()
   {
@@ -46,6 +49,6 @@ public class NumberBlock_Sub extends Block
     double value2 = InputPorts.get(1).GetValueByName("number");
     double result = value1 - value2;
     OutputPorts.get(0).SetValueByName("number", result);
-    _status.State = EState.Finished;
+    _status.setState(EState.Finished);
   }
 }
